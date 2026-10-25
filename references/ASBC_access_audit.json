@@ -1,0 +1,26 @@
+[
+  {
+    "method": 9,
+    "url": "https://www.asbcnet.org/getContentAsset/d9fb3f89-0112-4f9f-9c60-d965ce892a35/141d77fc-2e06-49eb-b14c-2ff58f5ce730/SensoryAnalysis-9.pdf?language=en-US",
+    "http_status": 401,
+    "content_type": "text/html; charset=utf-8",
+    "pdf_received": false,
+    "status": "fulltext_not_obtained_requires_authorized_access"
+  },
+  {
+    "method": 10,
+    "url": "https://www.asbcnet.org/getContentAsset/efe972b8-3273-4b7c-880e-335bcf623283/141d77fc-2e06-49eb-b14c-2ff58f5ce730/SensoryAnalysis-10.pdf?language=en-US",
+    "http_status": 401,
+    "content_type": "text/html; charset=utf-8",
+    "pdf_received": false,
+    "status": "fulltext_not_obtained_requires_authorized_access"
+  },
+  {
+    "method": 12,
+    "url": "https://www.asbcnet.org/getContentAsset/bac77f2f-a85c-4074-9573-405e176c0152/141d77fc-2e06-49eb-b14c-2ff58f5ce730/SensoryAnalysis-12.pdf?language=en-US",
+    "http_status": 401,
+    "content_type": "text/html; charset=utf-8",
+    "pdf_received": false,
+    "status": "fulltext_not_obtained_requires_authorized_access"
+  }
+]

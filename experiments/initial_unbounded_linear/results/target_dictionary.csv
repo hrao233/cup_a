@@ -1,0 +1,52 @@
+﻿target,Category_Paper,CleanName_PaperLong,CleanName_PanelFeedback,DataType,scope
+A_malt_all,Aroma,Malt aroma,Malt aroma - overall,numeric,core_aroma_flavour
+A_malt_grain,Aroma,Malt aroma - grain,Malt aroma - grain,categorical,core_aroma_flavour
+A_malt_bread,Aroma,Malt aroma - bread,Malt aroma - bread,categorical,core_aroma_flavour
+A_malt_cara,Aroma,Malt aroma - caramel,Malt aroma - caramel,categorical,core_aroma_flavour
+A_malt_burn,Aroma,Malt aroma - smoked,Malt aroma - smoked,categorical,core_aroma_flavour
+A_hops_all,Aroma,Hops aroma,Hops aroma - overall,numeric,core_aroma_flavour
+A_hops_citrus,Aroma,Hops aroma - citrus,Hops aroma - citrus,categorical,core_aroma_flavour
+A_hops_tropical,Aroma,Hops aroma - tropical fruit,Hops aroma - tropical fruit,categorical,core_aroma_flavour
+A_hops_noble,Aroma,Hops aroma - grassy,Hops aroma - grassy,categorical,core_aroma_flavour
+A_hops_woody,Aroma,Hops aroma - woody,Hops aroma - woody,categorical,core_aroma_flavour
+A_esters_all,Aroma,Esters aroma,Esters aroma - overall,numeric,core_aroma_flavour
+A_esters_ethac,Aroma,Esters aroma - nail polish,Esters aroma - nail polish,categorical,core_aroma_flavour
+A_esters_isoaa,Aroma,Esters aroma - banana,Esters aroma - banana,categorical,core_aroma_flavour
+A_esters_flower,Aroma,Esters aroma - floral,Esters aroma - floral,categorical,core_aroma_flavour
+A_esters_fruity,Aroma,Esters aroma - fruity,Esters aroma - fruity,categorical,core_aroma_flavour
+F_malt_all,Taste,Malt taste,Malt taste - overall,numeric,core_aroma_flavour
+F_malt_grain,Taste,Malt taste - grain,Malt taste - grain,categorical,core_aroma_flavour
+F_malt_bread,Taste,Malt taste - bread,Malt taste - bread,categorical,core_aroma_flavour
+F_malt_cara,Taste,Malt taste - caramel,Malt taste - caramel,categorical,core_aroma_flavour
+F_malt_burn,Taste,Malt taste - smoked,Malt taste - smoked,categorical,core_aroma_flavour
+F_hops_all,Taste,Hops taste,Hops taste - overall,numeric,core_aroma_flavour
+F_hops_citrus,Taste,Hops taste - citrus,Hops taste - citrus,categorical,core_aroma_flavour
+F_hops_tropical,Taste,Hops taste - tropical fruit,Hops taste - tropical fruit,categorical,core_aroma_flavour
+F_hops_noble,Taste,Hops taste - grassy,Hops taste - grassy,categorical,core_aroma_flavour
+F_hops_woody,Taste,Hops taste - woody,Hops taste - woody,categorical,core_aroma_flavour
+F_esters_all,Taste,Esters taste,Esters taste - overall,numeric,core_aroma_flavour
+F_esters_ethac,Taste,Esters taste - nail polish,Esters taste - nail polish,categorical,core_aroma_flavour
+F_esters_isoaa,Taste,Esters taste - banana,Esters taste - banana,categorical,core_aroma_flavour
+F_esters_flower,Taste,Esters taste - floral,Esters taste - floral,categorical,core_aroma_flavour
+F_esters_fruity,Taste,Esters taste - fruity,Esters taste - fruity,categorical,core_aroma_flavour
+acidity,Taste,Acidity,Acidity,numeric,additional
+bitternes,Taste,Bitterness,Bitterness,numeric,additional
+sweetness,Taste,Sweetness,Sweetness,numeric,additional
+X4vg,Taste,4-vinyl guaiacol,4-vinyl guaiacol,numeric,additional
+diacetyl,Taste,Diacetyl,Diacetyl,numeric,additional
+dms,Taste,Dimethyl sulfide,Dimethyl sulfide,numeric,additional
+metallic,Taste,Metallic,Metallic,numeric,additional
+stale_hops,Taste,Stale hops,Stale hops,numeric,additional
+t2n,Taste,Aging aroma - cardboard,Trans-2-nonenal,numeric,additional
+orange,Taste,Hops taste - citrus,Orange,numeric,additional
+coriander,Taste,Coriander,Coriander,numeric,additional
+clove,Taste,Clove,Clove,numeric,additional
+lactic,Taste,Lactic acid,Lactic acid,numeric,additional
+acetic,Taste,Acetic acid,Acetic acid,numeric,additional
+barnyard,Taste,Barnyard,Barnyard,numeric,additional
+alcohol,Palate,Alcohol,Alcohol,numeric,additional
+aftertaste,Palate,Aftertaste,Aftertaste,numeric,additional
+body,Palate,Body fullness,Body,numeric,additional
+co2,Palate,Carbonation,Carbonation,numeric,additional
+overall,Overall,Overall appreciation,"Overall appreciation_x000D_
+(Trained panel)",numeric,additional

@@ -1,0 +1,83 @@
+{
+  "review_date": "2026-10-25",
+  "fulltexts_reviewed": 3,
+  "documents": [
+    {
+      "document": "GB/T 39501-2020",
+      "file": "GB_T_39501_2020_download.pdf",
+      "pdf_pages": 16,
+      "review_status": "full_scan_visually_checked",
+      "source": "https://www.kqqw.com/gb/275254.html",
+      "official_metadata": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=3D0E2CA5A3926EC46859143BEE59D81B",
+      "bytes": 2079171,
+      "sha256": "9a70613c27e8f9649a838943ad63d1855718a49f81bb1641ba2657d62c4abc97"
+    },
+    {
+      "document": "GB/T 29604-2013",
+      "file": "GB_T_29604_2013.pdf",
+      "pdf_pages": 5,
+      "review_status": "full_scan_visually_checked",
+      "source": "https://www.cfsn.cn/zcwk/detail/2163/7853.html",
+      "official_metadata": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=389EA3A792A4453EADFB56ABD14272FF",
+      "bytes": 196421,
+      "sha256": "6e44f3f1c37be45bfc59611b61db339c22e907a1dcd71d4426ad6adbe1fea2ad"
+    },
+    {
+      "document": "DIN EN ISO 13299:2016-09",
+      "file": "DIN_EN_ISO_13299_2016.pdf",
+      "pdf_pages": 50,
+      "review_status": "full_english_adopted_version_checked",
+      "source": "https://www.normsplash.com/FreeDownload/154188731/DIN-EN-ISO-13299-2016-en.PDF",
+      "official_metadata": "https://www.dinmedia.de/en/standard/din-en-iso-13299/253488647",
+      "bytes": 2454321,
+      "sha256": "8ccadf00648cc0040e36c38e77d9562e7ffc900718101bc6f15c851c908e4726"
+    },
+    {
+      "document": "ISO 4121:2003 English copy 1",
+      "file": "ISO_4121_2003.pdf",
+      "pdf_pages": 3,
+      "review_status": "frontmatter_only_not_fulltext",
+      "source": "https://img.antpedia.com/standard/pdf/X04/1705/ISO%204121-2003.pdf",
+      "official_metadata": "https://www.iso.org/standard/33817.html",
+      "bytes": 138003,
+      "sha256": "9952d707a8a20568d64d80d95ad4f9d4486764ea5beee5ce14be169c33b9ac64"
+    },
+    {
+      "document": "ISO 4121:2003 English copy 2",
+      "file": "ISO_4121_sample_normsplash.pdf",
+      "pdf_pages": 4,
+      "review_status": "frontmatter_only_not_fulltext",
+      "source": "https://www.normsplash.com/Samples/ISO/186863792/ISO-4121-2003-en.pdf",
+      "official_metadata": "https://www.iso.org/standard/33817.html",
+      "bytes": 108362,
+      "sha256": "4a4d20d62baf5f94e902b1685c611d9bce7c069c057fa96ea44d544a6f968d71"
+    }
+  ],
+  "restricted_asbc_methods": [
+    {
+      "method": 9,
+      "url": "https://www.asbcnet.org/getContentAsset/d9fb3f89-0112-4f9f-9c60-d965ce892a35/141d77fc-2e06-49eb-b14c-2ff58f5ce730/SensoryAnalysis-9.pdf?language=en-US",
+      "http_status": 401,
+      "content_type": "text/html; charset=utf-8",
+      "pdf_received": false,
+      "status": "fulltext_not_obtained_requires_authorized_access"
+    },
+    {
+      "method": 10,
+      "url": "https://www.asbcnet.org/getContentAsset/efe972b8-3273-4b7c-880e-335bcf623283/141d77fc-2e06-49eb-b14c-2ff58f5ce730/SensoryAnalysis-10.pdf?language=en-US",
+      "http_status": 401,
+      "content_type": "text/html; charset=utf-8",
+      "pdf_received": false,
+      "status": "fulltext_not_obtained_requires_authorized_access"
+    },
+    {
+      "method": 12,
+      "url": "https://www.asbcnet.org/getContentAsset/bac77f2f-a85c-4074-9573-405e176c0152/141d77fc-2e06-49eb-b14c-2ff58f5ce730/SensoryAnalysis-12.pdf?language=en-US",
+      "http_status": 401,
+      "content_type": "text/html; charset=utf-8",
+      "pdf_received": false,
+      "status": "fulltext_not_obtained_requires_authorized_access"
+    }
+  ],
+  "confirmation": "Chinese cover/version, all substantive sections and final pages visually checked; English version text and annexes checked; official metadata cross-checked. Full-text copies were publicly linked and acquired without login or paid purchase."
+}

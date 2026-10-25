@@ -1,0 +1,30 @@
+{
+  "source": "https://zenodo.org/records/10653704",
+  "workbook": "Supplemental Files and Figure source files.xlsx",
+  "checked_sheets": {
+    "Supplementary File S1": {
+      "shape": [
+        250,
+        234
+      ],
+      "numeric_columns_compared": 231,
+      "max_abs_difference": 8.881784197001252e-16,
+      "same_missing_mask": true,
+      "join_key": "beer",
+      "beer_id_note": "excluded from numeric equality check because local CSV may round scientific notation"
+    },
+    "Supplementary File S4": {
+      "shape": [
+        250,
+        53
+      ],
+      "numeric_columns_compared": 50,
+      "max_abs_difference": 1.1102230246251565e-16,
+      "same_missing_mask": true,
+      "join_key": "beer",
+      "beer_id_note": "excluded from numeric equality check because local CSV may round scientific notation"
+    }
+  },
+  "raw_panelist_scores": "referenced by original QC script; not present among downloaded public supplementary files",
+  "note": "external copies are for provenance checks, not extra training observations"
+}

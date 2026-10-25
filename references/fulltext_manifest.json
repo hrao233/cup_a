@@ -1,0 +1,44 @@
+[
+  {
+    "document": "GB_T_29604_2013",
+    "url": "https://cfsn-2024upload.oss-cn-beijing.aliyuncs.com/files/20260313/2026031316585069178.pdf",
+    "authority": "https://www.cfsn.cn/zcwk/detail/2163/7853.html",
+    "http_status": 403,
+    "status": "not_obtained",
+    "error": "HTTPError: 403 Client Error: Forbidden for url: https://cfsn-2024upload.oss-cn-beijing.aliyuncs.com/files/20260313/2026031316585069178.pdf"
+  },
+  {
+    "document": "ISO_4121_2003",
+    "url": "https://img.antpedia.com/standard/pdf/X04/1705/ISO%204121-2003.pdf",
+    "authority": "https://www.iso.org/standard/33817.html",
+    "http_status": 200,
+    "status": "downloaded",
+    "bytes": 138003,
+    "sha256": "9952d707a8a20568d64d80d95ad4f9d4486764ea5beee5ce14be169c33b9ac64",
+    "pdf_pages": 3,
+    "extracted_characters": 5329,
+    "contains_preview_marker": false
+  },
+  {
+    "document": "ISO_13299_2016",
+    "url": "https://standards.isodoc.my/iso/ISO%2013299-2016%20PDF.pdf",
+    "authority": "https://www.iso.org/standard/58042.html",
+    "status": "not_obtained",
+    "error": "SSLError: HTTPSConnectionPool(host='standards.isodoc.my', port=443): Max retries exceeded with url: /iso/ISO%2013299-2016%20PDF.pdf (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1032)')))"
+  },
+  {
+    "document": "Meilgaard_1979_Beer_flavour_terminology",
+    "url": "https://www.brassageamateur.com/wiki/images/2/25/J_Institute_Brewing_-_January%E2%80%90February_1979_-_Meilgaard_-_BEER_FLAVOUR_TERMINOLOGY1.pdf",
+    "authority": "https://doi.org/10.1002/j.2050-0416.1979.tb06826.x",
+    "http_status": 403,
+    "status": "not_obtained",
+    "error": "HTTPError: 403 Client Error: Forbidden for url: https://www.brassageamateur.com/wiki/images/2/25/J_Institute_Brewing_-_January%E2%80%90February_1979_-_Meilgaard_-_BEER_FLAVOUR_TERMINOLOGY1.pdf"
+  },
+  {
+    "document": "Schreurs_2024_Beer_flavor_ML",
+    "url": "https://bio.kuleuven.be/eeb/tw/schreurs-etal-natcomm-2024.pdf",
+    "authority": "https://doi.org/10.1038/s41467-024-46346-0",
+    "status": "not_obtained",
+    "error": "SSLError: HTTPSConnectionPool(host='bio.kuleuven.be', port=443): Max retries exceeded with url: /eeb/tw/schreurs-etal-natcomm-2024.pdf (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1032)')))"
+  }
+]
