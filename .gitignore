@@ -3,15 +3,13 @@ __pycache__/
 # Local runtime tools; the standalone workflow installs only declared Python packages.
 /.tools/
 
-# Legacy serialized estimators are superseded by output/question1_model.joblib.
-/models/
+# Full copies and scans of standards remain local; research notes stay tracked.
+/问题一/问题分析/参考资料/fulltexts/
 
-# Full copies and scans of standards remain local; references and audit notes are tracked.
-/references/fulltexts/
-
-# Downloaded source bundle is not needed to run this project.
-/external_sources/
+# Downloaded sources and local historical model pickles are not required by the main workflow.
+/问题一/问题分析/研究来源材料/
+/问题一/问题结果/历史模型/
 
 # Temporary prediction smoke-test outputs are reproducible and machine-specific.
-/results/inference_smoke/
-/results/seven_point/inference_check/
+/问题一/问题结果/历史完整实验/inference_smoke/
+/问题一/问题结果/历史完整实验/seven_point/inference_check/

@@ -1,40 +1,41 @@
-# A题第一问：从化学特征预测啤酒感官属性
+# MathorCup A题项目
 
-仓库包含可独立运行的单文件程序、完整结果表、图表，以及可直接用于新样本预测的模型。
+仓库按赛题三问整理，每一问都有“问题分析、代码、问题结果”入口。已完成的第一问材料放在 `问题一/`；第二、三问目录已建好，相关内容会在求解后补入。
 
-## 运行
-
-需要 Python 及 `requirements.txt` 中的依赖。训练需要原始附件目录，至少包含 `1.csv`、`4.csv`、`3.xlsx`、`8.xlsx`：
-
-```powershell
-python -m pip install -r requirements.txt
-python question1.py --data-dir "附件目录" --output output_rebuilt
+```text
+问题一/
+  问题分析/              问题拆解、结果讨论、评分依据、参考资料
+  代码/                  question1.py、依赖、历史模块
+  问题结果/
+    数据表格/             连续预测、指标、七点评分
+    绘图/                 结果图表
+    模型/                 统一预测模型
+    元数据/               审计、验证协议和汇总信息
+    历史实验/             早期基线
+    历史完整实验/         原始完整五折结果
+问题二/
+  问题分析/  代码/  问题结果/数据表格/  问题结果/绘图/
+问题三/
+  问题分析/  代码/  问题结果/数据表格/  问题结果/绘图/
 ```
 
-完整训练会运行外层 5 折、内层 3 折交叉验证，并重新生成评分、报告、图表和模型。结果写入指定目录。仓库内已提供此前完整实验的结果；`output/verification.json` 记录了单文件整合时的核对范围。
+## 第一问
 
-不重新训练，直接预测新样本：
+从赛题附件目录运行完整训练：
 
 ```powershell
-python question1.py --predict "新样本.csv"
+python -m pip install -r "问题一/代码/requirements.txt"
+python "问题一/代码/question1.py" --data-dir "附件文件夹"
 ```
 
-预测结果默认写入 `new_predictions`。输入特征名称及数值表示应与 `1.csv` 一致。
+需要 `1.csv`、`4.csv`、`3.xlsx` 和 `8.xlsx`。默认结果写入 `问题一/问题结果`，其中表格、图、模型和元数据各自归档在对应子目录。五折全流程会重新训练模型。
 
-## 当前结果
+使用仓库中的模型预测新样本：
 
-- 250 个样本，231 个化学/理化特征，50 个感官预测目标。
-- 五折外层验证的 50 项宏平均 R² 为 **0.2448**；30 项核心香气/风味宏平均 R² 为 **0.2010**。
-- `output/seven_point/oof_core_aroma_flavour_grades_0_6.csv`：30 项核心属性的估计七点评分。
-- `output/seven_point/oof_estimated_intensity_grades_0_6.csv`：49 项强度属性的估计七点评分，排除总体喜好度。
-- `output/seven_point/scorecard_beer_1_to_12_estimated_grades.csv`：题目中 12 款啤酒的评分。
-- `output/第一问结果.md`：方法、结果及限制；`output/figures`：图表。
-- `output/question1_model.joblib`：已训练模型，可供预测及后续建模使用。
+```powershell
+python "问题一/代码/question1.py" --predict "新样本.csv"
+```
 
-七点评分借鉴 QDP 和已有研究的七点量表形式。具体参照锚点属于经验假设，尚未通过人工强度评分校准；附件中的标准化标签无法唯一还原为原始人工 0—6 分，因此不报告原始等级准确率。
+估计的七点强度等级使用经验参照锚点，尚未经过人工感官校准；不能解释为原始人工评分的恢复。现有结果及验证范围见[第一问分析](问题一/问题分析/README.md)和[结果目录说明](问题一/问题结果/README.md)。
 
-## 数据与验证说明
-
-原始比赛附件没有放入仓库。模型训练时的插补、特征裁剪和标准化只在训练折中拟合。`output/verification.json` 明确记录：历史完整五折实验结果被复用来核对整合文件；整合版独立重训了第一折，并核对评分、模型序列化及新样本预测。
-
-参考研究：Schreurs 等，2024，[*Predicting and improving complex beer flavor through machine learning*](https://doi.org/10.1038/s41467-024-46346-0)。
+原始比赛附件、全文标准扫描件、本地工具环境和旧版序列化模型不纳入仓库；必要的研究笔记、实验记录及当前统一模型保留。

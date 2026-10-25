@@ -1,8 +1,8 @@
 """A题第一问：单文件完整程序。
 
-训练与输出：python question1.py
-指定附件：  python question1.py --data-dir "附件文件夹"
-新样本预测：python question1.py --predict "新样本.csv"
+训练与输出：python "问题一/代码/question1.py"
+指定附件：  python "问题一/代码/question1.py" --data-dir "附件文件夹"
+新样本预测：python "问题一/代码/question1.py" --predict "新样本.csv"
 
 包含：数据审计、训练折内预处理、5×3嵌套交叉验证、多模型比较、
 缺失压力实验、独立区间实验、QDP七点估计评分、图表、报告及模型保存。
@@ -48,14 +48,19 @@ from sklearn.preprocessing import StandardScaler
 # whether executed as a script or imported for question 2/3.
 sys.modules.setdefault('question1', sys.modules[__name__])
 ROOT = Path(__file__).resolve().parent
+if ROOT.name == '代码' and ROOT.parent.name == '问题一':
+    ROOT = ROOT.parent.parent
 WORKSPACE = ROOT.parent
 DATA_DIR = None
 META = ['beer', 'beer_id', 'tasting_category_fine']
 SEED = 20261024
-OUT = ROOT / 'output'
-MODEL_DIR = OUT / '_models'
-SCORE_OUT = OUT / 'seven_point'
-FIG = OUT / 'figures'
+QUESTION_DIR = ROOT / '问题一'
+OUT = QUESTION_DIR / '问题结果'
+TABLES = OUT / '数据表格'
+INFO = OUT / '元数据'
+MODEL_DIR = OUT / '模型'
+SCORE_OUT = TABLES / '七点评分'
+FIG = OUT / '绘图'
 
 # Data processing and estimator definitions follow below.
 
@@ -162,7 +167,8 @@ def load_data(out=None):
         scales.to_csv(out / 'feature_scales.csv', index=False, encoding='utf-8-sig')
         pd.DataFrame({'feature': features, 'missing_count': np.isnan(X).sum(axis=0),
                       'missing_fraction': np.isnan(X).mean(axis=0)}).to_csv(out / 'missingness.csv', index=False, encoding='utf-8-sig')
-        (out / 'audit.json').write_text(json.dumps(audit, ensure_ascii=False, indent=2), encoding='utf-8')
+        INFO.mkdir(parents=True, exist_ok=True)
+        (INFO / 'audit.json').write_text(json.dumps(audit, ensure_ascii=False, indent=2), encoding='utf-8')
     return chem[META].copy(), X, Y, features, targets, mapping, audit
 
 
@@ -378,7 +384,7 @@ class SevenPointIntensityScale:
 # ---------- Training, evaluation and output ----------
 
 def csv(frame, name):
-    frame.to_csv(OUT / name, index=False, encoding='utf-8-sig')
+    frame.to_csv(TABLES / name, index=False, encoding='utf-8-sig')
 
 def score(y, p):
     return {'macro_r2': float(r2_score(y, p, multioutput='uniform_average')),
@@ -387,9 +393,13 @@ def score(y, p):
 
 def train():
     OUT.mkdir(parents=True, exist_ok=True)
-    MODEL_DIR.mkdir(exist_ok=True)
+    TABLES.mkdir(parents=True, exist_ok=True)
+    INFO.mkdir(parents=True, exist_ok=True)
+    FIG.mkdir(parents=True, exist_ok=True)
+    SCORE_OUT.mkdir(parents=True, exist_ok=True)
+    MODEL_DIR.mkdir(parents=True, exist_ok=True)
     started = time.time()
-    meta, X, Y, features, targets, mapping, audit = load_data(OUT)
+    meta, X, Y, features, targets, mapping, audit = load_data(TABLES)
     n, q = Y.shape
     core = np.array([t.startswith(('A_', 'F_')) for t in targets])
     folds = list(KFold(n_splits=5, shuffle=True, random_state=SEED).split(X))
@@ -398,7 +408,7 @@ def train():
         assert not set(tr) & set(te)
         test_count[te] += 1
     assert (test_count == 1).all()
-    (OUT / 'protocol.json').write_text(json.dumps({
+    (INFO / 'protocol.json').write_text(json.dumps({
         'seed': SEED, 'outer_splits': 5, 'inner_splits': 3,
         'target_count': 50, 'primary_core_target_count': 30,
         'model_selection': 'minimum inner-fold OOF MSE independently per target',
@@ -495,7 +505,7 @@ def train():
     csv(pd.concat([meta,pd.Series(fold_labels,name='outer_fold'),pd.DataFrame(grades,columns=targets)],axis=1),'oof_relative_grades_0_6.csv')
     csv(pd.concat([meta,pd.DataFrame(zgrades,columns=targets)],axis=1),'oof_alternative_grades_0_6.csv')
     csv(pd.concat([meta,pd.DataFrame(Y,columns=targets)],axis=1),'reference_targets_provided_scale.csv')
-    np.savez_compressed(OUT/'evaluation_arrays.npz',y=Y,prediction=oof,baseline=baseline,grades=grades,fold=fold_labels)
+    np.savez_compressed(INFO/'evaluation_arrays.npz',y=Y,prediction=oof,baseline=baseline,grades=grades,fold=fold_labels)
 
     # Sample bootstrap summarizes empirical uncertainty of the completed nested OOF
     # predictions. This does not include variability from retraining the whole procedure.
@@ -552,7 +562,7 @@ def train():
         assert hashlib.sha256((attachment_dir()/entry['file']).read_bytes()).hexdigest()==entry['sha256']
     result['elapsed_seconds']=round(time.time()-started,2)
     result['verification']='passed: nested fold isolation, finite predictions, grade bounds, serialization, unchanged source hashes'
-    (OUT/'summary.json').write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf-8')
+    (INFO/'summary.json').write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf-8')
     print(json.dumps(result,ensure_ascii=False,indent=2),flush=True)
 
 # ---------- Seven-point intensity mapping and sensitivity ----------
@@ -563,8 +573,8 @@ def save(frame,name):
 def calibrate():
     SCORE_OUT.mkdir(parents=True,exist_ok=True)
     meta,X,Y,features,all_targets,mapping,audit=load_data()
-    base=json.loads((OUT/'protocol.json').read_text(encoding='utf-8'))
-    arrays=np.load(OUT/'evaluation_arrays.npz')
+    base=json.loads((INFO/'protocol.json').read_text(encoding='utf-8'))
+    arrays=np.load(INFO/'evaluation_arrays.npz')
     np.testing.assert_allclose(arrays['y'],Y,rtol=0,atol=0)
     # Overall appreciation is not a perceptual-intensity attribute.
     keep=np.array([t!='overall' for t in all_targets])
@@ -620,7 +630,7 @@ def calibrate():
     card=pd.concat([card,card_grades],axis=1)
     card['order']=card.beer.astype(int)
     save(card.sort_values('order').drop(columns='order'),'scorecard_beer_1_to_12_estimated_grades.csv')
-    metrics=pd.read_csv(OUT/'per_target_metrics.csv',header=0).set_index('target')
+    metrics=pd.read_csv(TABLES/'per_target_metrics.csv',header=0).set_index('target')
     sensitivity=[]
     for j,name in enumerate(targets):
         sensitivity.append({'target':name,'scope':'core_aroma_flavour' if core[j] else 'additional_intensity',
@@ -670,22 +680,22 @@ def calibrate():
         'grade_frequency':{str(k):int(np.sum(grades==k)) for k in range(7)},
         'original_grade_accuracy':'not measurable without original labels; no proxy accuracy is claimed',
         'continuous_model_retrained':False,
-        'continuous_oof_macro_r2':float(json.loads((OUT/'summary.json').read_text(encoding='utf-8'))['macro_r2']),
+        'continuous_oof_macro_r2':float(json.loads((INFO/'summary.json').read_text(encoding='utf-8'))['macro_r2']),
         'verification':'passed: outer-training anchor isolation, ordinal monotonicity, endpoint/bounds and serialization checks'}
-    (SCORE_OUT/'summary.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2),encoding='utf-8')
+    (INFO/'seven_point_summary.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2),encoding='utf-8')
     print(json.dumps(summary,ensure_ascii=False,indent=2),flush=True)
 
 # ---------- Figures ----------
 
 def plot_results():
-    summary=json.loads((OUT/'summary.json').read_text(encoding='utf-8'))
-    audit=json.loads((OUT/'audit.json').read_text(encoding='utf-8'))
-    metrics=pd.read_csv(OUT/'per_target_metrics.csv',header=0)
-    compare=pd.read_csv(OUT/'model_comparison.csv',header=0)
-    stress=pd.read_csv(OUT/'missingness_stress_summary.csv',header=0)
-    interval=pd.read_csv(OUT/'split_conformal_metrics.csv',header=0)
+    summary=json.loads((INFO/'summary.json').read_text(encoding='utf-8'))
+    audit=json.loads((INFO/'audit.json').read_text(encoding='utf-8'))
+    metrics=pd.read_csv(TABLES/'per_target_metrics.csv',header=0)
+    compare=pd.read_csv(TABLES/'model_comparison.csv',header=0)
+    stress=pd.read_csv(TABLES/'missingness_stress_summary.csv',header=0)
+    interval=pd.read_csv(TABLES/'split_conformal_metrics.csv',header=0)
     target_names=metrics.set_index('target').CleanName_PanelFeedback.to_dict()
-    arrays=np.load(OUT/'evaluation_arrays.npz')
+    arrays=np.load(INFO/'evaluation_arrays.npz')
     y,pred=arrays['y'],arrays['prediction']
     FIG.mkdir(exist_ok=True)
     installed={f.name for f in font_manager.fontManager.ttflist}
@@ -730,8 +740,8 @@ def plot_results():
 
 def write_report():
     """Write the current results without depending on old reports or downloads."""
-    summary = json.loads((OUT/'summary.json').read_text(encoding='utf-8'))
-    scoring = json.loads((SCORE_OUT/'summary.json').read_text(encoding='utf-8'))
+    summary = json.loads((INFO/'summary.json').read_text(encoding='utf-8'))
+    scoring = json.loads((INFO/'seven_point_summary.json').read_text(encoding='utf-8'))
     origin = ('本目录复用此前已完成的完整实验结果和模型，用于单文件整合核对；'
               '整合版独立重训了第一折，四项指标与旧版一致。当前并未重新训练全部五折。'
               if summary.get('result_origin') == 'previous_complete_experiment'
@@ -770,21 +780,21 @@ R²的自助区间基于固定的外层预测，不包含整套模型重新训�
 
 ## 结果文件
 
-- `seven_point/oof_core_aroma_flavour_grades_0_6.csv`：250×30核心评分表。
-- `seven_point/oof_estimated_intensity_grades_0_6.csv`：250×49扩展强度评分表。
-- `seven_point/scorecard_beer_1_to_12_estimated_grades.csv`：题目12款啤酒评分。
-- `seven_point/reference_candidates_and_assumptions.csv`：候选参照及假设。
-- `oof_predictions_continuous.csv`：50项连续感官属性的外层预测。
-- `per_target_metrics.csv`、`model_comparison.csv`：逐属性及模型比较。
-- `missingness_stress_summary.csv`：缺失压力实验。
-- `question1_model.joblib`：主模型、七点映射及独立区间模型的统一文件。
-- `audit.json`：输入核对与原始文件哈希。
+-- `数据表格/七点评分/oof_core_aroma_flavour_grades_0_6.csv`：250×30核心评分表。
+- `数据表格/七点评分/oof_estimated_intensity_grades_0_6.csv`：250×49扩展强度评分表。
+- `数据表格/七点评分/scorecard_beer_1_to_12_estimated_grades.csv`：题目12款啤酒评分。
+- `数据表格/七点评分/reference_candidates_and_assumptions.csv`：候选参照及假设。
+- `数据表格/oof_predictions_continuous.csv`：50项连续感官属性的外层预测。
+- `数据表格/per_target_metrics.csv`、`model_comparison.csv`：逐属性及模型比较。
+- `数据表格/missingness_stress_summary.csv`：缺失压力实验。
+- `模型/question1_model.joblib`：主模型、七点映射及独立区间模型的统一文件。
+- `元数据/audit.json`：输入核对与原始文件哈希。
 
 相对分位数等级文件仅保留作历史方案对照，当前使用上述七点强度表。
 
-![结果概览](figures/question1_overview.png)
+![结果概览](绘图/question1_overview.png)
 """
-    (OUT/'第一问结果.md').write_text(report, encoding='utf-8')
+    (OUT/'结果说明.md').write_text(report, encoding='utf-8')
 
 
 def combine_models():
@@ -794,7 +804,7 @@ def combine_models():
     bundle['intervals'] = joblib.load(MODEL_DIR/'split_conformal.joblib')
     bundle['grade_notice'] = bundle['scoring']['notice']
     bundle['format_version'] = 1
-    target = OUT/'question1_model.joblib'
+    target = MODEL_DIR/'question1_model.joblib'
     joblib.dump(bundle, target, compress=3)
     restored = joblib.load(target)
     _, X, *_ = load_data()
@@ -855,23 +865,27 @@ def predict_file(source, model_path, output):
 
 
 def main():
-    global DATA_DIR, OUT, MODEL_DIR, SCORE_OUT, FIG
+    global DATA_DIR, OUT, TABLES, INFO, MODEL_DIR, SCORE_OUT, FIG
     parser = argparse.ArgumentParser(description='A题第一问：单文件训练、验证、七点评分与预测')
     parser.add_argument('--data-dir',type=Path,help='原始附件目录；默认自动寻找')
-    parser.add_argument('--output',type=Path,help='输出目录；训练默认output，预测默认new_predictions')
+    parser.add_argument('--output',type=Path,help='结果目录；默认问题一/问题结果')
     parser.add_argument('--predict',type=Path,metavar='CSV',help='预测新样本；不重新训练')
-    parser.add_argument('--model',type=Path,default=ROOT/'output'/'question1_model.joblib',help='预测使用的统一模型文件')
+    parser.add_argument('--model',type=Path,help='预测使用的统一模型文件；默认读取问题一/问题结果/模型')
     args = parser.parse_args()
-    OUT = (args.output or ROOT/('new_predictions' if args.predict else 'output')).resolve()
+    default_output = QUESTION_DIR/'问题结果'/'新样本预测' if args.predict else QUESTION_DIR/'问题结果'
+    OUT = (args.output or default_output).resolve()
+    TABLES, INFO, MODEL_DIR = OUT/'数据表格', OUT/'元数据', OUT/'模型'
+    SCORE_OUT, FIG = TABLES/'七点评分', OUT/'绘图'
     if (OUT/'3.xlsx').exists() or (OUT/'8.xlsx').exists():
         raise ValueError('输出目录不能是原始附件目录。')
     if args.predict:
-        predict_file(args.predict,args.model.resolve(),OUT)
+        default_model = QUESTION_DIR/'问题结果'/'模型'/'question1_model.joblib'
+        model_path = (args.model or default_model).resolve()
+        predict_file(args.predict,model_path,OUT)
         return
     DATA_DIR = args.data_dir.resolve() if args.data_dir else None
     if DATA_DIR is not None and not all((DATA_DIR/f).is_file() for f in ['1.csv','4.csv','3.xlsx','8.xlsx']):
         raise ValueError('附件目录需要包含1.csv、4.csv、3.xlsx和8.xlsx。')
-    MODEL_DIR, SCORE_OUT, FIG = OUT/'_models', OUT/'seven_point', OUT/'figures'
     started = time.time()
     train()
     calibrate()
@@ -882,7 +896,7 @@ def main():
                     'fold_isolation_and_source_hashes':'passed',
                     'grade_monotonicity_and_bounds':'passed',
                     'elapsed_seconds':round(time.time()-started,2)}
-    (OUT/'verification.json').write_text(json.dumps(verification,ensure_ascii=False,indent=2),encoding='utf-8')
+    (INFO/'verification.json').write_text(json.dumps(verification,ensure_ascii=False,indent=2),encoding='utf-8')
     print(f'全部完成：{OUT}，总耗时{verification["elapsed_seconds"]}秒',flush=True)
 
 
