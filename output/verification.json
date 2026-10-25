@@ -1,0 +1,12 @@
+{
+  "single_source_file": true,
+  "model_and_scoring_definitions_identical": true,
+  "independent_fold_1_matches_previous_results": true,
+  "all_five_folds_retrained": false,
+  "seven_point_grades_and_sensitivity_match_previous_results": true,
+  "unified_model_serialization": "passed",
+  "remaining_results_origin": "previous complete experiment",
+  "isolated_cli_prediction": "passed with missing feature column",
+  "prediction_matches_legacy_model": true,
+  "new_sample_grades_match_legacy_scale": true
+}
