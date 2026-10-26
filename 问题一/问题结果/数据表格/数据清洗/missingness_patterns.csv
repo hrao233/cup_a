@@ -1,0 +1,15 @@
+﻿missing_features,samples
+,187
+amyl.acetate,26
+aroma_hops_sum,11
+methylpyrazine,7
+X2.3.butanedione,6
+X3.methylbutanal,3
+methylpyrazine;aroma_hops_sum,2
+X2.3.butanedione;X3.methylbutanal;methylpyrazine,2
+X3.methylbutanal;ethyl.nicotinate,1
+X2.3.butanedione;X3.methylbutanal,1
+methylpyrazine;furfural,1
+ethyl.isobutyrate,1
+amyl.acetate;ethyl.nicotinate,1
+phenylacetaldehyde,1

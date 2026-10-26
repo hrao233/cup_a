@@ -1,0 +1,199 @@
+﻿feature,style,style_missing,style_total,others_missing,others_total,p_value,bh_adjusted_p,decision
+X2.3.butanedione,Amber,0,12,9,238,1.0,1.0,no association detected; does not establish MCAR
+X2.3.butanedione,Blond,0,31,9,219,0.6066443911815842,1.0,no association detected; does not establish MCAR
+X2.3.butanedione,Brett/cofermented,0,6,9,244,1.0,1.0,no association detected; does not establish MCAR
+X2.3.butanedione,Brown,1,12,8,238,0.3624648998308342,1.0,no association detected; does not establish MCAR
+X2.3.butanedione,Brut,0,4,9,246,1.0,1.0,no association detected; does not establish MCAR
+X2.3.butanedione,Christmas,0,9,9,241,1.0,1.0,no association detected; does not establish MCAR
+X2.3.butanedione,Dubbel,0,10,9,240,1.0,1.0,no association detected; does not establish MCAR
+X2.3.butanedione,Faro,0,3,9,247,1.0,1.0,no association detected; does not establish MCAR
+X2.3.butanedione,Flanders old brown,0,5,9,245,1.0,1.0,no association detected; does not establish MCAR
+X2.3.butanedione,Fruitbeer,1,8,8,242,0.2573880565889678,1.0,no association detected; does not establish MCAR
+X2.3.butanedione,Hoppy,0,17,9,233,1.0,1.0,no association detected; does not establish MCAR
+X2.3.butanedione,Kriek,0,10,9,240,1.0,1.0,no association detected; does not establish MCAR
+X2.3.butanedione,Lambic,0,11,9,239,1.0,1.0,no association detected; does not establish MCAR
+X2.3.butanedione,Low/No alcohol,1,8,8,242,0.2573880565889678,1.0,no association detected; does not establish MCAR
+X2.3.butanedione,Pils/Lager,2,11,7,239,0.05359696310291523,1.0,no association detected; does not establish MCAR
+X2.3.butanedione,Saison,0,10,9,240,1.0,1.0,no association detected; does not establish MCAR
+X2.3.butanedione,Scotch,0,5,9,245,1.0,1.0,no association detected; does not establish MCAR
+X2.3.butanedione,Stout/Porter,0,13,9,237,1.0,1.0,no association detected; does not establish MCAR
+X2.3.butanedione,Strong ale,0,18,9,232,1.0,1.0,no association detected; does not establish MCAR
+X2.3.butanedione,Tripel,1,28,8,222,1.0,1.0,no association detected; does not establish MCAR
+X2.3.butanedione,West Flanders ale,2,7,7,243,0.02208581068982589,1.0,no association detected; does not establish MCAR
+X2.3.butanedione,Wheat,1,12,8,238,0.3624648998308342,1.0,no association detected; does not establish MCAR
+X3.methylbutanal,Amber,0,12,7,238,1.0,1.0,no association detected; does not establish MCAR
+X3.methylbutanal,Blond,0,31,7,219,0.6015745673634356,1.0,no association detected; does not establish MCAR
+X3.methylbutanal,Brett/cofermented,0,6,7,244,1.0,1.0,no association detected; does not establish MCAR
+X3.methylbutanal,Brown,1,12,6,238,0.29435555993698537,1.0,no association detected; does not establish MCAR
+X3.methylbutanal,Brut,0,4,7,246,1.0,1.0,no association detected; does not establish MCAR
+X3.methylbutanal,Christmas,0,9,7,241,1.0,1.0,no association detected; does not establish MCAR
+X3.methylbutanal,Dubbel,0,10,7,240,1.0,1.0,no association detected; does not establish MCAR
+X3.methylbutanal,Faro,0,3,7,247,1.0,1.0,no association detected; does not establish MCAR
+X3.methylbutanal,Flanders old brown,1,5,6,245,0.13338794127637685,1.0,no association detected; does not establish MCAR
+X3.methylbutanal,Fruitbeer,0,8,7,242,1.0,1.0,no association detected; does not establish MCAR
+X3.methylbutanal,Hoppy,0,17,7,233,1.0,1.0,no association detected; does not establish MCAR
+X3.methylbutanal,Kriek,0,10,7,240,1.0,1.0,no association detected; does not establish MCAR
+X3.methylbutanal,Lambic,0,11,7,239,1.0,1.0,no association detected; does not establish MCAR
+X3.methylbutanal,Low/No alcohol,1,8,6,242,0.20585492009039555,1.0,no association detected; does not establish MCAR
+X3.methylbutanal,Pils/Lager,1,11,6,239,0.27306456390060124,1.0,no association detected; does not establish MCAR
+X3.methylbutanal,Saison,0,10,7,240,1.0,1.0,no association detected; does not establish MCAR
+X3.methylbutanal,Scotch,0,5,7,245,1.0,1.0,no association detected; does not establish MCAR
+X3.methylbutanal,Stout/Porter,0,13,7,237,1.0,1.0,no association detected; does not establish MCAR
+X3.methylbutanal,Strong ale,1,18,6,232,0.41121949893673604,1.0,no association detected; does not establish MCAR
+X3.methylbutanal,Tripel,1,28,6,222,0.5692720890446249,1.0,no association detected; does not establish MCAR
+X3.methylbutanal,West Flanders ale,0,7,7,243,1.0,1.0,no association detected; does not establish MCAR
+X3.methylbutanal,Wheat,1,12,6,238,0.29435555993698537,1.0,no association detected; does not establish MCAR
+ethyl.isobutyrate,Amber,0,12,1,238,1.0,1.0,no association detected; does not establish MCAR
+ethyl.isobutyrate,Blond,0,31,1,219,1.0,1.0,no association detected; does not establish MCAR
+ethyl.isobutyrate,Brett/cofermented,0,6,1,244,1.0,1.0,no association detected; does not establish MCAR
+ethyl.isobutyrate,Brown,0,12,1,238,1.0,1.0,no association detected; does not establish MCAR
+ethyl.isobutyrate,Brut,0,4,1,246,1.0,1.0,no association detected; does not establish MCAR
+ethyl.isobutyrate,Christmas,0,9,1,241,1.0,1.0,no association detected; does not establish MCAR
+ethyl.isobutyrate,Dubbel,0,10,1,240,1.0,1.0,no association detected; does not establish MCAR
+ethyl.isobutyrate,Faro,0,3,1,247,1.0,1.0,no association detected; does not establish MCAR
+ethyl.isobutyrate,Flanders old brown,0,5,1,245,1.0,1.0,no association detected; does not establish MCAR
+ethyl.isobutyrate,Fruitbeer,1,8,0,242,0.032,1.0,no association detected; does not establish MCAR
+ethyl.isobutyrate,Hoppy,0,17,1,233,1.0,1.0,no association detected; does not establish MCAR
+ethyl.isobutyrate,Kriek,0,10,1,240,1.0,1.0,no association detected; does not establish MCAR
+ethyl.isobutyrate,Lambic,0,11,1,239,1.0,1.0,no association detected; does not establish MCAR
+ethyl.isobutyrate,Low/No alcohol,0,8,1,242,1.0,1.0,no association detected; does not establish MCAR
+ethyl.isobutyrate,Pils/Lager,0,11,1,239,1.0,1.0,no association detected; does not establish MCAR
+ethyl.isobutyrate,Saison,0,10,1,240,1.0,1.0,no association detected; does not establish MCAR
+ethyl.isobutyrate,Scotch,0,5,1,245,1.0,1.0,no association detected; does not establish MCAR
+ethyl.isobutyrate,Stout/Porter,0,13,1,237,1.0,1.0,no association detected; does not establish MCAR
+ethyl.isobutyrate,Strong ale,0,18,1,232,1.0,1.0,no association detected; does not establish MCAR
+ethyl.isobutyrate,Tripel,0,28,1,222,1.0,1.0,no association detected; does not establish MCAR
+ethyl.isobutyrate,West Flanders ale,0,7,1,243,1.0,1.0,no association detected; does not establish MCAR
+ethyl.isobutyrate,Wheat,0,12,1,238,1.0,1.0,no association detected; does not establish MCAR
+methylpyrazine,Amber,0,12,12,238,1.0,1.0,no association detected; does not establish MCAR
+methylpyrazine,Blond,3,31,9,219,0.1748033013453313,1.0,no association detected; does not establish MCAR
+methylpyrazine,Brett/cofermented,0,6,12,244,1.0,1.0,no association detected; does not establish MCAR
+methylpyrazine,Brown,0,12,12,238,1.0,1.0,no association detected; does not establish MCAR
+methylpyrazine,Brut,0,4,12,246,1.0,1.0,no association detected; does not establish MCAR
+methylpyrazine,Christmas,0,9,12,241,1.0,1.0,no association detected; does not establish MCAR
+methylpyrazine,Dubbel,0,10,12,240,1.0,1.0,no association detected; does not establish MCAR
+methylpyrazine,Faro,0,3,12,247,1.0,1.0,no association detected; does not establish MCAR
+methylpyrazine,Flanders old brown,0,5,12,245,1.0,1.0,no association detected; does not establish MCAR
+methylpyrazine,Fruitbeer,0,8,12,242,1.0,1.0,no association detected; does not establish MCAR
+methylpyrazine,Hoppy,2,17,10,233,0.19200901800716313,1.0,no association detected; does not establish MCAR
+methylpyrazine,Kriek,0,10,12,240,1.0,1.0,no association detected; does not establish MCAR
+methylpyrazine,Lambic,0,11,12,239,1.0,1.0,no association detected; does not establish MCAR
+methylpyrazine,Low/No alcohol,0,8,12,242,1.0,1.0,no association detected; does not establish MCAR
+methylpyrazine,Pils/Lager,1,11,11,239,0.42449891683899565,1.0,no association detected; does not establish MCAR
+methylpyrazine,Saison,1,10,11,240,0.3942093861463113,1.0,no association detected; does not establish MCAR
+methylpyrazine,Scotch,0,5,12,245,1.0,1.0,no association detected; does not establish MCAR
+methylpyrazine,Stout/Porter,0,13,12,237,1.0,1.0,no association detected; does not establish MCAR
+methylpyrazine,Strong ale,1,18,11,232,0.6006200652991945,1.0,no association detected; does not establish MCAR
+methylpyrazine,Tripel,2,28,10,222,0.6301188791924139,1.0,no association detected; does not establish MCAR
+methylpyrazine,West Flanders ale,1,7,11,243,0.29435555993698537,1.0,no association detected; does not establish MCAR
+methylpyrazine,Wheat,1,12,11,238,0.45339436871318833,1.0,no association detected; does not establish MCAR
+furfural,Amber,0,12,1,238,1.0,1.0,no association detected; does not establish MCAR
+furfural,Blond,0,31,1,219,1.0,1.0,no association detected; does not establish MCAR
+furfural,Brett/cofermented,0,6,1,244,1.0,1.0,no association detected; does not establish MCAR
+furfural,Brown,0,12,1,238,1.0,1.0,no association detected; does not establish MCAR
+furfural,Brut,0,4,1,246,1.0,1.0,no association detected; does not establish MCAR
+furfural,Christmas,0,9,1,241,1.0,1.0,no association detected; does not establish MCAR
+furfural,Dubbel,0,10,1,240,1.0,1.0,no association detected; does not establish MCAR
+furfural,Faro,0,3,1,247,1.0,1.0,no association detected; does not establish MCAR
+furfural,Flanders old brown,0,5,1,245,1.0,1.0,no association detected; does not establish MCAR
+furfural,Fruitbeer,0,8,1,242,1.0,1.0,no association detected; does not establish MCAR
+furfural,Hoppy,0,17,1,233,1.0,1.0,no association detected; does not establish MCAR
+furfural,Kriek,0,10,1,240,1.0,1.0,no association detected; does not establish MCAR
+furfural,Lambic,0,11,1,239,1.0,1.0,no association detected; does not establish MCAR
+furfural,Low/No alcohol,0,8,1,242,1.0,1.0,no association detected; does not establish MCAR
+furfural,Pils/Lager,0,11,1,239,1.0,1.0,no association detected; does not establish MCAR
+furfural,Saison,1,10,0,240,0.04,1.0,no association detected; does not establish MCAR
+furfural,Scotch,0,5,1,245,1.0,1.0,no association detected; does not establish MCAR
+furfural,Stout/Porter,0,13,1,237,1.0,1.0,no association detected; does not establish MCAR
+furfural,Strong ale,0,18,1,232,1.0,1.0,no association detected; does not establish MCAR
+furfural,Tripel,0,28,1,222,1.0,1.0,no association detected; does not establish MCAR
+furfural,West Flanders ale,0,7,1,243,1.0,1.0,no association detected; does not establish MCAR
+furfural,Wheat,0,12,1,238,1.0,1.0,no association detected; does not establish MCAR
+amyl.acetate,Amber,1,12,26,238,1.0,1.0,no association detected; does not establish MCAR
+amyl.acetate,Blond,6,31,21,219,0.11941409095573255,1.0,no association detected; does not establish MCAR
+amyl.acetate,Brett/cofermented,0,6,27,244,1.0,1.0,no association detected; does not establish MCAR
+amyl.acetate,Brown,0,12,27,238,0.37294260428596604,1.0,no association detected; does not establish MCAR
+amyl.acetate,Brut,0,4,27,246,1.0,1.0,no association detected; does not establish MCAR
+amyl.acetate,Christmas,1,9,26,241,1.0,1.0,no association detected; does not establish MCAR
+amyl.acetate,Dubbel,4,10,23,240,0.014552250193845602,1.0,no association detected; does not establish MCAR
+amyl.acetate,Faro,0,3,27,247,1.0,1.0,no association detected; does not establish MCAR
+amyl.acetate,Flanders old brown,0,5,27,245,1.0,1.0,no association detected; does not establish MCAR
+amyl.acetate,Fruitbeer,2,8,25,242,0.20944589182676016,1.0,no association detected; does not establish MCAR
+amyl.acetate,Hoppy,0,17,27,233,0.22965667280312407,1.0,no association detected; does not establish MCAR
+amyl.acetate,Kriek,3,10,24,240,0.0806328248885499,1.0,no association detected; does not establish MCAR
+amyl.acetate,Lambic,2,11,25,239,0.33735585757747627,1.0,no association detected; does not establish MCAR
+amyl.acetate,Low/No alcohol,0,8,27,242,1.0,1.0,no association detected; does not establish MCAR
+amyl.acetate,Pils/Lager,0,11,27,239,0.6141072347068832,1.0,no association detected; does not establish MCAR
+amyl.acetate,Saison,2,10,25,240,0.2947338868993919,1.0,no association detected; does not establish MCAR
+amyl.acetate,Scotch,0,5,27,245,1.0,1.0,no association detected; does not establish MCAR
+amyl.acetate,Stout/Porter,1,13,26,237,1.0,1.0,no association detected; does not establish MCAR
+amyl.acetate,Strong ale,1,18,26,232,0.7022232964227475,1.0,no association detected; does not establish MCAR
+amyl.acetate,Tripel,3,28,24,222,1.0,1.0,no association detected; does not establish MCAR
+amyl.acetate,West Flanders ale,0,7,27,243,1.0,1.0,no association detected; does not establish MCAR
+amyl.acetate,Wheat,1,12,26,238,1.0,1.0,no association detected; does not establish MCAR
+phenylacetaldehyde,Amber,0,12,1,238,1.0,1.0,no association detected; does not establish MCAR
+phenylacetaldehyde,Blond,0,31,1,219,1.0,1.0,no association detected; does not establish MCAR
+phenylacetaldehyde,Brett/cofermented,0,6,1,244,1.0,1.0,no association detected; does not establish MCAR
+phenylacetaldehyde,Brown,0,12,1,238,1.0,1.0,no association detected; does not establish MCAR
+phenylacetaldehyde,Brut,0,4,1,246,1.0,1.0,no association detected; does not establish MCAR
+phenylacetaldehyde,Christmas,0,9,1,241,1.0,1.0,no association detected; does not establish MCAR
+phenylacetaldehyde,Dubbel,0,10,1,240,1.0,1.0,no association detected; does not establish MCAR
+phenylacetaldehyde,Faro,0,3,1,247,1.0,1.0,no association detected; does not establish MCAR
+phenylacetaldehyde,Flanders old brown,0,5,1,245,1.0,1.0,no association detected; does not establish MCAR
+phenylacetaldehyde,Fruitbeer,0,8,1,242,1.0,1.0,no association detected; does not establish MCAR
+phenylacetaldehyde,Hoppy,0,17,1,233,1.0,1.0,no association detected; does not establish MCAR
+phenylacetaldehyde,Kriek,1,10,0,240,0.04,1.0,no association detected; does not establish MCAR
+phenylacetaldehyde,Lambic,0,11,1,239,1.0,1.0,no association detected; does not establish MCAR
+phenylacetaldehyde,Low/No alcohol,0,8,1,242,1.0,1.0,no association detected; does not establish MCAR
+phenylacetaldehyde,Pils/Lager,0,11,1,239,1.0,1.0,no association detected; does not establish MCAR
+phenylacetaldehyde,Saison,0,10,1,240,1.0,1.0,no association detected; does not establish MCAR
+phenylacetaldehyde,Scotch,0,5,1,245,1.0,1.0,no association detected; does not establish MCAR
+phenylacetaldehyde,Stout/Porter,0,13,1,237,1.0,1.0,no association detected; does not establish MCAR
+phenylacetaldehyde,Strong ale,0,18,1,232,1.0,1.0,no association detected; does not establish MCAR
+phenylacetaldehyde,Tripel,0,28,1,222,1.0,1.0,no association detected; does not establish MCAR
+phenylacetaldehyde,West Flanders ale,0,7,1,243,1.0,1.0,no association detected; does not establish MCAR
+phenylacetaldehyde,Wheat,0,12,1,238,1.0,1.0,no association detected; does not establish MCAR
+ethyl.nicotinate,Amber,0,12,2,238,1.0,1.0,no association detected; does not establish MCAR
+ethyl.nicotinate,Blond,0,31,2,219,1.0,1.0,no association detected; does not establish MCAR
+ethyl.nicotinate,Brett/cofermented,0,6,2,244,1.0,1.0,no association detected; does not establish MCAR
+ethyl.nicotinate,Brown,0,12,2,238,1.0,1.0,no association detected; does not establish MCAR
+ethyl.nicotinate,Brut,0,4,2,246,1.0,1.0,no association detected; does not establish MCAR
+ethyl.nicotinate,Christmas,0,9,2,241,1.0,1.0,no association detected; does not establish MCAR
+ethyl.nicotinate,Dubbel,0,10,2,240,1.0,1.0,no association detected; does not establish MCAR
+ethyl.nicotinate,Faro,0,3,2,247,1.0,1.0,no association detected; does not establish MCAR
+ethyl.nicotinate,Flanders old brown,0,5,2,245,1.0,1.0,no association detected; does not establish MCAR
+ethyl.nicotinate,Fruitbeer,0,8,2,242,1.0,1.0,no association detected; does not establish MCAR
+ethyl.nicotinate,Hoppy,0,17,2,233,1.0,1.0,no association detected; does not establish MCAR
+ethyl.nicotinate,Kriek,0,10,2,240,1.0,1.0,no association detected; does not establish MCAR
+ethyl.nicotinate,Lambic,0,11,2,239,1.0,1.0,no association detected; does not establish MCAR
+ethyl.nicotinate,Low/No alcohol,1,8,1,242,0.0631004016064257,1.0,no association detected; does not establish MCAR
+ethyl.nicotinate,Pils/Lager,0,11,2,239,1.0,1.0,no association detected; does not establish MCAR
+ethyl.nicotinate,Saison,1,10,1,240,0.07855421686746988,1.0,no association detected; does not establish MCAR
+ethyl.nicotinate,Scotch,0,5,2,245,1.0,1.0,no association detected; does not establish MCAR
+ethyl.nicotinate,Stout/Porter,0,13,2,237,1.0,1.0,no association detected; does not establish MCAR
+ethyl.nicotinate,Strong ale,0,18,2,232,1.0,1.0,no association detected; does not establish MCAR
+ethyl.nicotinate,Tripel,0,28,2,222,1.0,1.0,no association detected; does not establish MCAR
+ethyl.nicotinate,West Flanders ale,0,7,2,243,1.0,1.0,no association detected; does not establish MCAR
+ethyl.nicotinate,Wheat,0,12,2,238,1.0,1.0,no association detected; does not establish MCAR
+aroma_hops_sum,Amber,1,12,12,238,0.48095431650916215,1.0,no association detected; does not establish MCAR
+aroma_hops_sum,Blond,2,31,11,219,0.6673447217544423,1.0,no association detected; does not establish MCAR
+aroma_hops_sum,Brett/cofermented,0,6,13,244,1.0,1.0,no association detected; does not establish MCAR
+aroma_hops_sum,Brown,0,12,13,238,1.0,1.0,no association detected; does not establish MCAR
+aroma_hops_sum,Brut,0,4,13,246,1.0,1.0,no association detected; does not establish MCAR
+aroma_hops_sum,Christmas,0,9,13,241,1.0,1.0,no association detected; does not establish MCAR
+aroma_hops_sum,Dubbel,0,10,13,240,1.0,1.0,no association detected; does not establish MCAR
+aroma_hops_sum,Faro,1,3,12,247,0.1485930820054411,1.0,no association detected; does not establish MCAR
+aroma_hops_sum,Flanders old brown,0,5,13,245,1.0,1.0,no association detected; does not establish MCAR
+aroma_hops_sum,Fruitbeer,0,8,13,242,1.0,1.0,no association detected; does not establish MCAR
+aroma_hops_sum,Hoppy,6,17,7,233,5.037692697083153e-05,0.009974631540224642,association detected; missingness not assumed random
+aroma_hops_sum,Kriek,0,10,13,240,1.0,1.0,no association detected; does not establish MCAR
+aroma_hops_sum,Lambic,0,11,13,239,1.0,1.0,no association detected; does not establish MCAR
+aroma_hops_sum,Low/No alcohol,0,8,13,242,1.0,1.0,no association detected; does not establish MCAR
+aroma_hops_sum,Pils/Lager,0,11,13,239,1.0,1.0,no association detected; does not establish MCAR
+aroma_hops_sum,Saison,1,10,12,240,0.419662773283021,1.0,no association detected; does not establish MCAR
+aroma_hops_sum,Scotch,0,5,13,245,1.0,1.0,no association detected; does not establish MCAR
+aroma_hops_sum,Stout/Porter,0,13,13,237,1.0,1.0,no association detected; does not establish MCAR
+aroma_hops_sum,Strong ale,0,18,13,232,0.6073323331092919,1.0,no association detected; does not establish MCAR
+aroma_hops_sum,Tripel,0,28,13,222,0.37200505784454285,1.0,no association detected; does not establish MCAR
+aroma_hops_sum,West Flanders ale,0,7,13,243,1.0,1.0,no association detected; does not establish MCAR
+aroma_hops_sum,Wheat,2,12,11,238,0.12267499516150401,1.0,no association detected; does not establish MCAR

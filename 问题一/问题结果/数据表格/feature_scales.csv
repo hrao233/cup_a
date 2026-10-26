@@ -1,232 +1,232 @@
-﻿feature,representation,checked_pairs,median_log10_error,median_raw_error
-acetaldehyde,log10,249,2.455244896282238e-10,3.497039108
-CS2,log10,41,2.1846946474113338e-10,0.928171493
-DES,log10,221,2.223660144906603e-10,0.870714225
-DMS,log10,249,3.024778205684697e-10,23.075020698
-ethyl_2.methyl_butyrate,log10,165,2.9044144866929855e-10,2.051462713
-ethyl_acetate,log10,250,2.67367461503909e-10,26.2159506
-ethyl_decanoate,log10,249,2.520397224259341e-10,1.05808056
-ethyl_hexanoate,log10,249,2.511064689514342e-10,0.8683366079999999
-ethyl_isovalerate,log10,167,2.8090108017408966e-10,2.0595099930000003
-ethyl_octanoate,log10,250,2.3018208866742995e-10,0.851823902
-ethyl_propionate,log10,240,2.798993259389704e-10,1.223770185
-H2S,log10,240,2.5977731077375665e-10,7.86156002365
-isoamyl_alcohol,log10,248,2.390002640240141e-10,38.968631078
-isobutanol,log10,245,2.591782344296689e-10,10.066241399
-isobutyl_acetate,log10,242,2.5747465270953285e-10,1.2076628055
-isopentyl_acetate,log10,249,2.520926800642087e-10,1.8451559629999998
-MeSH,log10,250,2.3749011091034333e-10,0.933387933
-octyl_acetate,log10,140,2.416259414772526e-10,2.137631343
-phenethyl_acetate,log10,249,2.7817770309468415e-10,0.908320716
-phenethyl_alcohol,log10,250,2.5293594996256274e-10,7.7676278955
-X4VG,log10,82,2.5759988586671057e-10,1.0376317555
-SO2.mg.L.,log10,249,2.2465629356815953e-10,1.7382461389999997
-acetic_acid.g.L.,log10,248,2.31369368108858e-10,0.955880017
-ammonia.mg.L.,log10,244,2.750599747969318e-10,9.007176041000001
-color.EBC.,log10,250,2.926345832321431e-10,16.964336140500002
-betaglucan.mg.L.,log10,238,2.642253082996149e-10,112.7682125515
-lactic_acid.mg.L.,log10,250,2.6477042780470583e-10,136.358553057
-glycerol,log10,250,2.485727734757859e-10,2.1413860165
-iron,log10,247,2.8570723564769196e-10,1.1357574910000001
-pH,log10,250,1.672610938641128e-10,3.5162872169999995
-protein.g.L.,log10,250,2.8964458609337385e-10,6.6249483875
-bitterness,log10,248,2.2819196532353203e-10,16.915281630500004
-GFS,log10,244,2.9041176408117764e-10,1.22490196
-ethanol..v.v.,log10,249,2.600233361960136e-10,6.337969202
-CO2.PSI.,log10,211,2.3271273796865444e-10,2.102059991
-unfermentables,log10,249,2.734918957969512e-10,29.272013669000003
-kcalperc,log10,250,2.7339108754631525e-10,54.757341449
-X1.propanol,provided_scale_unresolved,0,,
-X2.3.butanedione,raw,241,1.054698159403099,0.0
-X3.methylbutanal,raw,242,1.1124925079832804,4.999999858590343e-10
-propylene.glycol,provided_scale_unresolved,0,,
-propyl.acetate,provided_scale_unresolved,0,,
-n.pentanol,provided_scale_unresolved,0,,
-X2.methyl.1.butanol,provided_scale_unresolved,0,,
-isopentyl.formate,provided_scale_unresolved,0,,
-ethyl.isobutyrate,raw,246,1.4137532361832212,0.0
-X3.methyl.2.butenal,provided_scale_unresolved,0,,
-X2.methyltetrahydrofuran.3.one,raw,250,1.3942883483674255,4.999999997368221e-10
-ethyl.butyrate,raw,249,1.2350492590556013,0.0
-butyl.acetate,provided_scale_unresolved,0,,
-methylpyrazine,raw,238,3.53954167945399,4.999999997368221e-10
-furfural,raw,248,2.0820888862304434,0.0
-ethyl.lactate,provided_scale_unresolved,0,,
-X3Z.hexenol,raw,250,1.647115437838771,0.0
-n.hexanol,raw,250,0.8760479984481011,0.0
-styrene,raw,250,1.4399965922483773,0.0
-X2.furanmethanol,provided_scale_unresolved,0,,
-X3.methyl.2.hexanol,provided_scale_unresolved,0,,
-X3.furanmethanol,provided_scale_unresolved,0,,
-X2.acetylfuran,provided_scale_unresolved,0,,
-X2.6.dimethyl.pyrazine,provided_scale_unresolved,0,,
-amyl.acetate,raw,223,2.6399789573668353,4.999999997368221e-10
-ethyl.tiglate,provided_scale_unresolved,0,,
-benzaldehyde,raw,247,2.272337732835663,0.0
-X5.methylfurfural,raw,249,3.2296905779967875,0.0
-n.heptanol,provided_scale_unresolved,0,,
-X1.octen.3.ol,provided_scale_unresolved,0,,
-X3.methylthio.propanol,provided_scale_unresolved,0,,
-isomaltol,provided_scale_unresolved,0,,
-X6.methyl.5.hepten.2.one,provided_scale_unresolved,0,,
-X2.pentyl.furan,provided_scale_unresolved,0,,
-ethyl.hex..3E..enoate,provided_scale_unresolved,0,,
-alpha.phellandrene,provided_scale_unresolved,0,,
-dehydroxy.cis.linalool.oxide,provided_scale_unresolved,0,,
-hexyl.acetate,raw,250,1.3130301779273896,0.0
-isopentyl.butanoate,provided_scale_unresolved,0,,
-X2.ethyl.1.hexanol,provided_scale_unresolved,0,,
-beta.phellandrene,provided_scale_unresolved,0,,
-limonene,provided_scale_unresolved,0,,
-eucalyptol,provided_scale_unresolved,0,,
-benzyl.alcohol,raw,246,2.536864352539717,0.0
-ethyl.hex..2E..enoate,provided_scale_unresolved,0,,
-phenylacetaldehyde,raw,248,1.9745023183938608,2.4999999292951713e-10
-X.E..beta.ocimene,raw,249,1.9772612313027333,4.999999997368221e-10
-prenyl.isobutyrate,provided_scale_unresolved,0,,
-ethyl.furoate,provided_scale_unresolved,0,,
-ortho.cresol,provided_scale_unresolved,0,,
-ethyl.5.methylhexanoate,provided_scale_unresolved,0,,
-X2.acetylpyrrole,provided_scale_unresolved,0,,
-isoamyl.lactate,provided_scale_unresolved,0,,
-n.octanol,provided_scale_unresolved,0,,
-cis.linalool.oxide,provided_scale_unresolved,0,,
-meta.cymenene,provided_scale_unresolved,0,,
-terpinolene,provided_scale_unresolved,0,,
-linalool,raw,247,1.0412207764539487,0.0
-nonan.2.ol,provided_scale_unresolved,0,,
-n.nonanal,provided_scale_unresolved,0,,
-X2.methyl.benzofuran,provided_scale_unresolved,0,,
-heptyl.acetate,provided_scale_unresolved,0,,
-X4.methyl.1.pentanol,provided_scale_unresolved,0,,
-neo.allo.ocimene,provided_scale_unresolved,0,,
-x.methyl.1.octanol,provided_scale_unresolved,0,,
-trans.dihydro.beta.terpineol,provided_scale_unresolved,0,,
-cis.beta.terpineol,provided_scale_unresolved,0,,
-y.methyl.1.octanol,provided_scale_unresolved,0,,
-camphor,provided_scale_unresolved,0,,
-isobutyl.hexanoate,provided_scale_unresolved,0,,
-nerol.oxide,provided_scale_unresolved,0,,
-X.E..2.nonenal,raw,249,1.9496857330545088,4.999999997368221e-10
-cis.dihydro.beta.terpineol,provided_scale_unresolved,0,,
-X4.ethyl.phenol,provided_scale_unresolved,0,,
-isoborneol,provided_scale_unresolved,0,,
-ethyl.benzoate,provided_scale_unresolved,0,,
-n.nonanol,provided_scale_unresolved,0,,
-terpinen.4.ol,provided_scale_unresolved,0,,
-diethyl.succinate,raw,247,1.1446320264807581,0.0
-vinyl.caprylate,provided_scale_unresolved,0,,
-X1.alpha.terpineol,raw,250,0.9015440072440783,0.0
-ethyl..E..linalool,provided_scale_unresolved,0,,
-ethyl.nicotinate,raw,248,1.950367143403139,4.999999997368221e-10
-citronellol,raw,250,0.9768547333975364,0.0
-nerol,provided_scale_unresolved,0,,
-hydroxy.methyl.furfural,provided_scale_unresolved,0,,
-E.ocimenone,provided_scale_unresolved,0,,
-cumin.aldehyde,provided_scale_unresolved,0,,
-ethyl.phenylacetate,provided_scale_unresolved,0,,
-isopentyl.hexanoate,provided_scale_unresolved,0,,
-geraniol,raw,246,1.089283040092363,0.0
-beta.cyclohomocitral,provided_scale_unresolved,0,,
-E.cinnamaldehyde,provided_scale_unresolved,0,,
-n.decanol,provided_scale_unresolved,0,,
-neryl.formate,provided_scale_unresolved,0,,
-X4.ethyl.guaiacol,provided_scale_unresolved,0,,
-X2.undecanone,provided_scale_unresolved,0,,
-trans.dihydro.alpha.terpinyl.acetate,provided_scale_unresolved,0,,
-terpinen.4.ol.acetate,provided_scale_unresolved,0,,
-X2.undecanol,provided_scale_unresolved,0,,
-delta.terpinyl.acetate,provided_scale_unresolved,0,,
-X.E.E..2.4.decadienal,raw,249,3.1126162207871135,0.0
-methyl.geranate,provided_scale_unresolved,0,,
-car.3.en.2.one,provided_scale_unresolved,0,,
-dimethoxy..E..citral,provided_scale_unresolved,0,,
-X2.butyloctanoate,provided_scale_unresolved,0,,
-X4.methoxysalicylaldehyde,provided_scale_unresolved,0,,
-ethyl.hydrocinnamate,provided_scale_unresolved,0,,
-eugenol,raw,250,2.833523307226289,0.0
-gamma.nonalactone,raw,250,0.8438237337051072,4.99999930347883e-10
-methyl.para.anisate,provided_scale_unresolved,0,,
-X.E..beta.damascenone,raw,250,0.8561028566953028,4.99999930347883e-10
-ethyl..9..decenoate,provided_scale_unresolved,0,,
-vanillin,provided_scale_unresolved,0,,
-geosmin,provided_scale_unresolved,0,,
-dodecanal,provided_scale_unresolved,0,,
-X4.8.alpha.epoxy.caryophyllane,provided_scale_unresolved,0,,
-E.caryophyllene,raw,250,3.0549032653283024,4.999999858590343e-10
-X.E..alpha.ionone,provided_scale_unresolved,0,,
-perillyl.acetate,provided_scale_unresolved,0,,
-beta.humulene,provided_scale_unresolved,0,,
-X2.phenyl.ethyl.butyrate,provided_scale_unresolved,0,,
-X.Z..beta.farnesene,provided_scale_unresolved,0,,
-pentyl.octanoate,provided_scale_unresolved,0,,
-X.E..beta.farnesene,provided_scale_unresolved,0,,
-X2.methylbutyl.octanoate,provided_scale_unresolved,0,,
-alpha.humulene,raw,250,1.9435131035191724,0.0
-neryl.propanoate,provided_scale_unresolved,0,,
-X9.epi..E..caryophyllene,provided_scale_unresolved,0,,
-ethyl..E..cinnamate,provided_scale_unresolved,0,,
-linalool.isovalerate,provided_scale_unresolved,0,,
-alpha.terpinyl.isobutanoate,provided_scale_unresolved,0,,
-n.dodecanol,provided_scale_unresolved,0,,
-germacrene.D,provided_scale_unresolved,0,,
-X.E..beta.ionone,provided_scale_unresolved,0,,
-valencene,provided_scale_unresolved,0,,
-neryl.isobutanoate,provided_scale_unresolved,0,,
-E.methyl.isoeugenol,provided_scale_unresolved,0,,
-X.Z..dihydro.apofarnesal,provided_scale_unresolved,0,,
-butylated.hydroxytoluene,provided_scale_unresolved,0,,
-X.E..dihydro.apofarnesal,provided_scale_unresolved,0,,
-Z.nerolidol,raw,250,2.013129621676831,0.0
-X.E..ortho.methoxy.cinnamaldehyde,provided_scale_unresolved,0,,
-alpha.calacorene,provided_scale_unresolved,0,,
-E.nerolidol,provided_scale_unresolved,0,,
-dihydroisocaryophyllene.epoxide,provided_scale_unresolved,0,,
-caryophyllene.alcohol,provided_scale_unresolved,0,,
-neryl.isovalerate,provided_scale_unresolved,0,,
-spathulenol,provided_scale_unresolved,0,,
-caryophyllene.oxide,provided_scale_unresolved,0,,
-humulene.epoxide.II,provided_scale_unresolved,0,,
-alloaromadendrene.epoxide,provided_scale_unresolved,0,,
-X1.10.di.epi.cubenol,provided_scale_unresolved,0,,
-isopropyl.laurate,provided_scale_unresolved,0,,
-caryophylla.4.12..8.13..dien.5.alpha.ol,provided_scale_unresolved,0,,
-gamma.eudesmol,provided_scale_unresolved,0,,
-alpha.muurolol,provided_scale_unresolved,0,,
-X1.2.dihydro.8.hydroxy..2E..linalool,provided_scale_unresolved,0,,
-tau.cadinol,provided_scale_unresolved,0,,
-selin.11.en.4.alpha.ol,provided_scale_unresolved,0,,
-alpha.eudesmol,provided_scale_unresolved,0,,
-X14.hydroxy.9.epi..E..caryophyllene,provided_scale_unresolved,0,,
-tau.muurolol,provided_scale_unresolved,0,,
-n.tetradecanol,provided_scale_unresolved,0,,
-foeniculin,provided_scale_unresolved,0,,
-cadalene,provided_scale_unresolved,0,,
-X2.3.dihydro.farnesol,provided_scale_unresolved,0,,
-X2E.6Z.farnesal,provided_scale_unresolved,0,,
-caryophyllene.acetate,provided_scale_unresolved,0,,
-X14.hydroxy.alpha.humulene,provided_scale_unresolved,0,,
-X2Z.6E.farnesal,provided_scale_unresolved,0,,
-X2Z.6Z.farnesol,provided_scale_unresolved,0,,
-X2Z.6E.farnesol,provided_scale_unresolved,0,,
-ambroxide,provided_scale_unresolved,0,,
-benzyl.benzoate,provided_scale_unresolved,0,,
-X2E.6E.methyl.farnesoate,provided_scale_unresolved,0,,
-ethyl.tetradecanoate,provided_scale_unresolved,0,,
-X2.ethylhexylsalicylate,provided_scale_unresolved,0,,
-isopropyl.tetradecanoate,provided_scale_unresolved,0,,
-ethyl.pentadecanoate,provided_scale_unresolved,0,,
-methyl.hexadecanoate,provided_scale_unresolved,0,,
-Z.Z.geranyl.linalool,provided_scale_unresolved,0,,
-ethyl.hexadecanoate,provided_scale_unresolved,0,,
-manool.oxide,provided_scale_unresolved,0,,
-X13.epi.manool.oxide,provided_scale_unresolved,0,,
-isopropyl.hexadecanoate,provided_scale_unresolved,0,,
-manool,provided_scale_unresolved,0,,
-ethyl.octadecanoate,provided_scale_unresolved,0,,
-ethyl.pentanoate,raw,250,1.6298505340291956,0.0
-X2.ethyl.3.methylpyrazine,raw,249,2.145826936500456,0.0
-esters_sum,provided_scale_unresolved,0,,
-aroma_hops_sum,provided_scale_unresolved,0,,
-acids_sum,provided_scale_unresolved,0,,
-sulfur_sum,provided_scale_unresolved,0,,
+﻿feature,chemical_name,measurement_kind,source_unit,interpretation_unit,representation,checked_pairs,median_log10_error,median_raw_error,calibrated_reference_available,positive_reference_transform_verified,sensory_threshold_median_not_lod,action
+acetaldehyde,Acetaldehyde,calibrated,mg/L,mg/L,log10,249,2.455244896282238e-10,3.497039108,True,True,50,preserve supplied values; impute only within training fold
+CS2,Carbon disulfide,calibrated,ug/L,ug/L,log10,41,2.1846946474113338e-10,0.928171493,True,True,50,preserve supplied values; impute only within training fold
+DES,Diethyl sulfide,calibrated,ug/L,ug/L,log10,221,2.223660144906603e-10,0.870714225,True,True,1.2,preserve supplied values; impute only within training fold
+DMS,Dimethyl sulfide,calibrated,ug/L,ug/L,log10,249,3.024778205684697e-10,23.075020698,True,True,19,preserve supplied values; impute only within training fold
+ethyl_2.methyl_butyrate,Ethyl 2-methylbutyrate,calibrated,mg/L,mg/L,log10,165,2.9044144866929855e-10,2.051462713,True,True,0.027,preserve supplied values; impute only within training fold
+ethyl_acetate,Ethyl acetate,calibrated,mg/L,mg/L,log10,250,2.67367461503909e-10,26.2159506,True,True,23,preserve supplied values; impute only within training fold
+ethyl_decanoate,Ethyl decanoate,calibrated,mg/L,mg/L,log10,249,2.520397224259341e-10,1.05808056,True,True,1.035,preserve supplied values; impute only within training fold
+ethyl_hexanoate,Ethyl hexanoate,calibrated,mg/L,mg/L,log10,249,2.511064689514342e-10,0.8683366079999999,True,True,0.225,preserve supplied values; impute only within training fold
+ethyl_isovalerate,Ethyl 3-methylbutyrate,calibrated,mg/L,mg/L,log10,167,2.8090108017408966e-10,2.0595099930000003,True,True,0.1,preserve supplied values; impute only within training fold
+ethyl_octanoate,Ethyl octanoate,calibrated,mg/L,mg/L,log10,250,2.3018208866742995e-10,0.851823902,True,True,0.75,preserve supplied values; impute only within training fold
+ethyl_propionate,Ethyl propionate,calibrated,mg/L,mg/L,log10,240,2.798993259389704e-10,1.223770185,True,True,10,preserve supplied values; impute only within training fold
+H2S,Hydrogen sulfide,calibrated,ug/L,ug/L,log10,240,2.5977731077375665e-10,7.86156002365,True,True,3.5,preserve supplied values; impute only within training fold
+isoamyl_alcohol,Isoamyl alcohol,calibrated,mg/L,mg/L,log10,248,2.390002640240141e-10,38.968631078,True,True,45,preserve supplied values; impute only within training fold
+isobutanol,Isobutanol,calibrated,mg/L,mg/L,log10,245,2.591782344296689e-10,10.066241399,True,True,100,preserve supplied values; impute only within training fold
+isobutyl_acetate,Isobutyl acetate,calibrated,mg/L,mg/L,log10,242,2.5747465270953285e-10,1.2076628055,True,True,1,preserve supplied values; impute only within training fold
+isopentyl_acetate,Isoamyl acetate,calibrated,mg/L,mg/L,log10,249,2.520926800642087e-10,1.8451559629999998,True,True,0.6,preserve supplied values; impute only within training fold
+MeSH,Methanethiol,calibrated,ug/L,ug/L,log10,250,2.3749011091034333e-10,0.933387933,True,True,NA,preserve supplied values; impute only within training fold
+octyl_acetate,Octyl acetate,calibrated,mg/L,mg/L,log10,140,2.416259414772526e-10,2.137631343,True,True,0.5,preserve supplied values; impute only within training fold
+phenethyl_acetate,Phenethyl acetate,calibrated,mg/L,mg/L,log10,249,2.7817770309468415e-10,0.908320716,True,True,1.29,preserve supplied values; impute only within training fold
+phenethyl_alcohol,Phenethyl alcohol,calibrated,mg/L,mg/L,log10,250,2.5293594996256274e-10,7.7676278955,True,True,32.5,preserve supplied values; impute only within training fold
+X4VG,4-vinylguaiacol,calibrated,mg/L,mg/L,log10,82,2.5759988586671057e-10,1.0376317555,True,True,0.2,preserve supplied values; impute only within training fold
+SO2.mg.L.,Sulfur dioxide,calibrated,mg/L,mg/L,log10,249,2.2465629356815953e-10,1.7382461389999997,True,True,11,preserve supplied values; impute only within training fold
+acetic_acid.g.L.,Acetic acid,calibrated,g/L,g/L,log10,248,2.31369368108858e-10,0.955880017,True,True,0.145,preserve supplied values; impute only within training fold
+ammonia.mg.L.,Ammonia,calibrated,mg/L,mg/L,log10,244,2.750599747969318e-10,9.007176041000001,True,True,2.6,preserve supplied values; impute only within training fold
+color.EBC.,Color,calibrated,EBC,EBC,log10,250,2.926345832321431e-10,16.964336140500002,True,True,NA,preserve supplied values; impute only within training fold
+betaglucan.mg.L.,Betaglucan,calibrated,mg/L,mg/L,log10,238,2.642253082996149e-10,112.7682125515,True,True,NA,preserve supplied values; impute only within training fold
+lactic_acid.mg.L.,Lactic acid,calibrated,mg/L,mg/L,log10,250,2.6477042780470583e-10,136.358553057,True,True,400,preserve supplied values; impute only within training fold
+glycerol,Glycerol,calibrated,g/L,g/L,log10,250,2.485727734757859e-10,2.1413860165,True,True,2,preserve supplied values; impute only within training fold
+iron,Iron,calibrated,mg/L,mg/L,log10,247,2.8570723564769196e-10,1.1357574910000001,True,True,0.1,preserve supplied values; impute only within training fold
+pH,pH,calibrated,pH,pH,log10,250,1.672610938641128e-10,3.5162872169999995,True,True,NA,preserve supplied values; impute only within training fold
+protein.g.L.,Protein,calibrated,g/L,g/L,log10,250,2.8964458609337385e-10,6.6249483875,True,True,0.846,preserve supplied values; impute only within training fold
+bitterness,Iso-alpha acids,calibrated,IBU,IBU,log10,248,2.2819196532353203e-10,16.915281630500004,True,True,5,preserve supplied values; impute only within training fold
+GFS,Sugars,calibrated,g/L,g/L,log10,244,2.9041176408117764e-10,1.22490196,True,True,2.9,preserve supplied values; impute only within training fold
+ethanol..v.v.,Ethanol,calibrated,v/v,v/v,log10,249,2.600233361960136e-10,6.337969202,True,True,1.737199,preserve supplied values; impute only within training fold
+CO2.PSI.,Carbon dioxide,calibrated,PSI,PSI,log10,211,2.3271273796865444e-10,2.102059991,True,True,NA,preserve supplied values; impute only within training fold
+unfermentables,Unfermentables,calibrated,,,log10,249,2.734918957969512e-10,29.272013669000003,True,True,NA,preserve supplied values; impute only within training fold
+kcalperc,Caloric value,calibrated,kcal%,kcal%,log10,250,2.7339108754631525e-10,54.757341449,True,True,NA,preserve supplied values; impute only within training fold
+X1.propanol,1-propanol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X2.3.butanedione,Diacetyl,calibrated,mg/L,mg/L,raw,241,1.054698159403099,0.0,True,False,0.09,preserve supplied values; impute only within training fold
+X3.methylbutanal,3-methylbutanal,calibrated,A.U.,A.U.,raw,242,1.1124925079832804,4.999999858590343e-10,True,False,NA,preserve supplied values; impute only within training fold
+propylene.glycol,Propylene glycol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+propyl.acetate,N-propyl acetate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+n.pentanol,N-pentanol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X2.methyl.1.butanol,2-methyl-1-butanol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+isopentyl.formate,Isopentyl formate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+ethyl.isobutyrate,Ethyl isobutyrate,calibrated,mg/L,mg/L,raw,246,1.4137532361832212,0.0,True,False,2.6,preserve supplied values; impute only within training fold
+X3.methyl.2.butenal,3-methyl-2-butenal,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X2.methyltetrahydrofuran.3.one,2-methyltetrahydrofuran-3-one,calibrated,mg/L,mg/L,raw,250,1.3942883483674255,4.999999997368221e-10,True,False,NA,preserve supplied values; impute only within training fold
+ethyl.butyrate,Ethyl butyrate,calibrated,mg/L,mg/L,raw,249,1.2350492590556013,0.0,True,False,0.45,preserve supplied values; impute only within training fold
+butyl.acetate,Butyl acetate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+methylpyrazine,Methylpyrazine,calibrated,mg/L,mg/L,raw,238,3.53954167945399,4.999999997368221e-10,True,False,1,preserve supplied values; impute only within training fold
+furfural,Furfural,calibrated,mg/L,mg/L,raw,248,2.0820888862304434,0.0,True,False,37.5,preserve supplied values; impute only within training fold
+ethyl.lactate,Ethyl lactate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X3Z.hexenol,Cis-3-hexenol,calibrated,mg/L,mg/L,raw,250,1.647115437838771,0.0,True,False,NA,preserve supplied values; impute only within training fold
+n.hexanol,N-hexanol,calibrated,mg/L,mg/L,raw,250,0.8760479984481011,0.0,True,False,NA,preserve supplied values; impute only within training fold
+styrene,Styrene,calibrated,mg/L,mg/L,raw,250,1.4399965922483773,0.0,True,False,NA,preserve supplied values; impute only within training fold
+X2.furanmethanol,Furfuryl alcohol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X3.methyl.2.hexanol,3-methyl-2-hexanol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X3.furanmethanol,3-furanmethanol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X2.acetylfuran,2-acetylfuran,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X2.6.dimethyl.pyrazine,"2,6-dimethylpyrazine",uncalibrated_signal,A.U.,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+amyl.acetate,Amyl acetate,calibrated,mg/L,mg/L,raw,223,2.6399789573668353,4.999999997368221e-10,True,False,NA,preserve supplied values; impute only within training fold
+ethyl.tiglate,Ethyl tiglate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+benzaldehyde,Benzaldehyde,calibrated,mg/L,mg/L,raw,247,2.272337732835663,0.0,True,False,NA,preserve supplied values; impute only within training fold
+X5.methylfurfural,5-methylfurfural,calibrated,mg/L,mg/L,raw,249,3.2296905779967875,0.0,True,False,NA,preserve supplied values; impute only within training fold
+n.heptanol,N-heptanol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X1.octen.3.ol,1-octen-3-ol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X3.methylthio.propanol,Methionol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+isomaltol,Isomaltol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X6.methyl.5.hepten.2.one,Methyl heptenone,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X2.pentyl.furan,2-pentyl furan,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+ethyl.hex..3E..enoate,Ethyl 3-hexanoate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+alpha.phellandrene,Î±-phellandrene,uncalibrated_signal,A.U.,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+dehydroxy.cis.linalool.oxide,Dehydroxy-cis-linalool oxide,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+hexyl.acetate,Hexyl acetate,calibrated,mg/L,mg/L,raw,250,1.3130301779273896,0.0,True,False,NA,preserve supplied values; impute only within training fold
+isopentyl.butanoate,Isopentyl butanoate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X2.ethyl.1.hexanol,2-ethyl-1-hexanol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+beta.phellandrene,Beta-phellandrene,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+limonene,Limonene,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+eucalyptol,Eucalyptol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+benzyl.alcohol,Benzyl alcohol,calibrated,mg/L,mg/L,raw,246,2.536864352539717,0.0,True,False,NA,preserve supplied values; impute only within training fold
+ethyl.hex..2E..enoate,Ethyl 2-hexenoate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+phenylacetaldehyde,Phenylacetaldehyde,calibrated,mg/L,mg/L,raw,248,1.9745023183938608,2.4999999292951713e-10,True,False,NA,preserve supplied values; impute only within training fold
+X.E..beta.ocimene,E-Î²-ocimene,calibrated,mg/L,mg/L,raw,249,1.9772612313027333,4.999999997368221e-10,True,False,NA,preserve supplied values; impute only within training fold
+prenyl.isobutyrate,Prenyl isobutyrate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+ethyl.furoate,Ethyl furoate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+ortho.cresol,O-cresol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+ethyl.5.methylhexanoate,Ethyl 5-methylhexanoate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X2.acetylpyrrole,2-acetylpyrrole,uncalibrated_signal,A.U.,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+isoamyl.lactate,Isoamyl lactate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+n.octanol,N-octanol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+cis.linalool.oxide,Cis-linalool oxide,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+meta.cymenene,Meta-cymenene,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+terpinolene,Terpinolene,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+linalool,Linalool,calibrated,mg/L,mg/L,raw,247,1.0412207764539487,0.0,True,False,0.0045,preserve supplied values; impute only within training fold
+nonan.2.ol,2-nonanol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+n.nonanal,N-nonanal,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X2.methyl.benzofuran,2-methyl-benzofuran,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+heptyl.acetate,Heptyl acetate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X4.methyl.1.pentanol,4-methyl-1-pentanol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+neo.allo.ocimene,Neo-allo-ocimene,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+x.methyl.1.octanol,X-methyl-1-octanol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+trans.dihydro.beta.terpineol,Trans-dihydro-Î²-terpineol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+cis.beta.terpineol,Cis-Î²-terpineol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+y.methyl.1.octanol,Y-methyl-1-octanol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+camphor,Camphor,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+isobutyl.hexanoate,Isobutyl hexanoate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+nerol.oxide,Nerol oxide,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X.E..2.nonenal,E-2-nonenal,calibrated,mg/L,mg/L,raw,249,1.9496857330545088,4.999999997368221e-10,True,False,NA,preserve supplied values; impute only within training fold
+cis.dihydro.beta.terpineol,Cis-dihydro-Î²-terpineol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X4.ethyl.phenol,4-ethyl-phenol,uncalibrated_signal,A.U.,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+isoborneol,Isoborneol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+ethyl.benzoate,Ethyl benzoate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+n.nonanol,N-nonanol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+terpinen.4.ol,Terpinen-4-ol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+diethyl.succinate,Diethyl succinate,calibrated,mg/L,mg/L,raw,247,1.1446320264807581,0.0,True,True,NA,preserve supplied values; impute only within training fold
+vinyl.caprylate,Vinyl caprylate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X1.alpha.terpineol,Alpha-terpineol,calibrated,mg/L,mg/L,raw,250,0.9015440072440783,0.0,True,False,1.5,preserve supplied values; impute only within training fold
+ethyl..E..linalool,Ethyl linalool,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+ethyl.nicotinate,Ethyl nicotinate,calibrated,mg/L,mg/L,raw,248,1.950367143403139,4.999999997368221e-10,True,False,6,preserve supplied values; impute only within training fold
+citronellol,Citronellol,calibrated,mg/L,mg/L,raw,250,0.9768547333975364,0.0,True,False,0.0245,preserve supplied values; impute only within training fold
+nerol,Nerol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+hydroxy.methyl.furfural,5-hydroxymethylfurfural,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+E.ocimenone,Ocimenone,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+cumin.aldehyde,Cumin aldehyde,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+ethyl.phenylacetate,Ethyl phenylacetate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+isopentyl.hexanoate,Isopentyl hexanoate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+geraniol,Geraniol,calibrated,mg/L,mg/L,raw,246,1.089283040092363,0.0,True,False,0.023,preserve supplied values; impute only within training fold
+beta.cyclohomocitral,Î²-cyclohomocitral,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+E.cinnamaldehyde,Cinnamaldehyde,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+n.decanol,N-decanol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+neryl.formate,Neryl formate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X4.ethyl.guaiacol,4-ethyl-guaiacol,uncalibrated_signal,A.U.,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X2.undecanone,2-undecanone,uncalibrated_signal,A.U.,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+trans.dihydro.alpha.terpinyl.acetate,Trans-dihydro-Î±-terpinyl acetate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+terpinen.4.ol.acetate,Terpinen-4-ol acetate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X2.undecanol,2-undecanol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+delta.terpinyl.acetate,Terpiryl acetate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X.E.E..2.4.decadienal,"E,E-2,4-decadienal",calibrated,mg/L,mg/L,raw,249,3.1126162207871135,0.0,True,False,NA,preserve supplied values; impute only within training fold
+methyl.geranate,Methyl geranate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+car.3.en.2.one,Car-3-en-2-one,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+dimethoxy..E..citral,Dimethoxy-E-citral,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X2.butyloctanoate,2-butyl octanoate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X4.methoxysalicylaldehyde,4-methoxysalicylaldehyde,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+ethyl.hydrocinnamate,Ethyl hydrocinnamate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+eugenol,Eugenol,calibrated,mg/L,mg/L,raw,250,2.833523307226289,0.0,True,False,NA,preserve supplied values; impute only within training fold
+gamma.nonalactone,Gamma-nonalactone,calibrated,mg/L,mg/L,raw,250,0.8438237337051072,4.99999930347883e-10,True,False,NA,preserve supplied values; impute only within training fold
+methyl.para.anisate,Methyl para-anisate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X.E..beta.damascenone,E-Î²-damascenone,calibrated,mg/L,mg/L,raw,250,0.8561028566953028,4.99999930347883e-10,True,False,NA,preserve supplied values; impute only within training fold
+ethyl..9..decenoate,Ethyl 9-decenoate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+vanillin,Vanillin,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+geosmin,Geosmin,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+dodecanal,Dodecanal,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X4.8.alpha.epoxy.caryophyllane,"4,8-Î±-epoxy-caryophyllane",uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+E.caryophyllene,Caryophyllene,calibrated,mg/L,mg/L,raw,250,3.0549032653283024,4.999999858590343e-10,True,False,0.23,preserve supplied values; impute only within training fold
+X.E..alpha.ionone,E-Î±-ionone,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+perillyl.acetate,Perillyl acetate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+beta.humulene,Î²-humulene,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X2.phenyl.ethyl.butyrate,2-phenyl ethyl butyrate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X.Z..beta.farnesene,Z-Î²-farnesene,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+pentyl.octanoate,Pentyl octanoate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X.E..beta.farnesene,E-Î²-farnesene,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X2.methylbutyl.octanoate,2-methylbutyl octanoate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+alpha.humulene,Alpha-humulene,calibrated,mg/L,mg/L,raw,250,1.9435131035191724,0.0,True,False,0.625,preserve supplied values; impute only within training fold
+neryl.propanoate,Neryl propanoate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X9.epi..E..caryophyllene,9-epi-E-caryophyllene,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+ethyl..E..cinnamate,Ethyl cinnamate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+linalool.isovalerate,Linalool isovalerate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+alpha.terpinyl.isobutanoate,Î±-terpinyl isobutanoate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+n.dodecanol,N-dodecanol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+germacrene.D,Germacrene D,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X.E..beta.ionone,E-Î²-ionone,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+valencene,Valencene,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+neryl.isobutanoate,Neryl isobutanoate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+E.methyl.isoeugenol,Methyl isoeugenol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X.Z..dihydro.apofarnesal,Z-dihydro-apofarnesal,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+butylated.hydroxytoluene,Butylated hydroxytoluene,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X.E..dihydro.apofarnesal,E-dihydro-apofarnesal,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+Z.nerolidol,Z-nerolidol,calibrated,mg/L,mg/L,raw,250,2.013129621676831,0.0,True,False,25,preserve supplied values; impute only within training fold
+X.E..ortho.methoxy.cinnamaldehyde,E-ortho-methoxy cinnamaldehyde,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+alpha.calacorene,Î±-calacorene,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+E.nerolidol,E-nerolidol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+dihydroisocaryophyllene.epoxide,Tobacarol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+caryophyllene.alcohol,Caryophyllene alcohol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+neryl.isovalerate,Neryl isovalerate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+spathulenol,Spathulenol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+caryophyllene.oxide,Caryophyllene oxide,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+humulene.epoxide.II,Humulene epoxide II,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+alloaromadendrene.epoxide,Allo-aromadendrene epoxide,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X1.10.di.epi.cubenol,Epicubenol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+isopropyl.laurate,Isopropyl laurate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+caryophylla.4.12..8.13..dien.5.alpha.ol,"Caryophylla-4,8-dien-5-ol",uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+gamma.eudesmol,Gamma-eudesmol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+alpha.muurolol,Î±-muurolol,uncalibrated_signal,A.U.,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X1.2.dihydro.8.hydroxy..2E..linalool,"1,2-dihydro-8-hydroxy-2E-linalool",uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+tau.cadinol,Tau-cadinol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+selin.11.en.4.alpha.ol,Kongol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+alpha.eudesmol,Î±-eudesmol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X14.hydroxy.9.epi..E..caryophyllene,14-hydroxy-9-epi-(E)-caryophyllene,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+tau.muurolol,Tau-muurolol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+n.tetradecanol,N-tetradecanol,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+foeniculin,Eoeniculin,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+cadalene,Cadalene,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X2.3.dihydro.farnesol,"2,3-dihydro-farnesol",uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X2E.6Z.farnesal,"E,Z-farnesal",uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+caryophyllene.acetate,Caryophyllene acetate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X14.hydroxy.alpha.humulene,14-hydroxy-Î±-humulene,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X2Z.6E.farnesal,"Z,E-farnesal",uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X2Z.6Z.farnesol,"Z,Z-farnesol",uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X2Z.6E.farnesol,"Z,E-farnesol",uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+ambroxide,Ambroxide,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+benzyl.benzoate,Benzyl benzoate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X2E.6E.methyl.farnesoate,"2E,6E-methyl farnesoate",uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+ethyl.tetradecanoate,Ethyl tetradecanoate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X2.ethylhexylsalicylate,2-ethylhexyl acrylate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+isopropyl.tetradecanoate,Isopropyl tetradecanoate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+ethyl.pentadecanoate,Ethyl pentadecanoate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+methyl.hexadecanoate,Methyl hexadecanoate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+Z.Z.geranyl.linalool,"Z,Z-geranyl linalool",uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+ethyl.hexadecanoate,Ethyl hexadecanoate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+manool.oxide,Manool oxide,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+X13.epi.manool.oxide,13-epi manool oxide,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+isopropyl.hexadecanoate,Isopropyl hexadecanoate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+manool,Manool,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+ethyl.octadecanoate,Ethyl octadecanoate,uncalibrated_signal,,supplied processed relative signal (A.U.),relative_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+ethyl.pentanoate,Ethyl pentanoate,calibrated,,,raw,250,1.6298505340291956,0.0,True,False,NA,preserve supplied values; impute only within training fold
+X2.ethyl.3.methylpyrazine,2-ethyl-3-methylpyrazine,calibrated,A.U.,A.U.,raw,249,2.145826936500456,0.0,True,False,NA,preserve supplied values; impute only within training fold
+esters_sum,Total ester compounds,aggregate_signal,,supplied processed relative signal (A.U.),aggregate_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+aroma_hops_sum,Total hop aroma compounds,aggregate_signal,,supplied processed relative signal (A.U.),aggregate_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+acids_sum,Total acids,aggregate_signal,,supplied processed relative signal (A.U.),aggregate_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold
+sulfur_sum,Total sulfur compounds,aggregate_signal,,supplied processed relative signal (A.U.),aggregate_signal_as_supplied,0,,,False,False,NA,preserve supplied values; impute only within training fold

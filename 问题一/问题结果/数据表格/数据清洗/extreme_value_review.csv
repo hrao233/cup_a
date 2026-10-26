@@ -1,0 +1,21 @@
+﻿dataset,beer,feature,value,iqr_flag,mad_6sigma_flag,robust_mad_score,decision,reference_status,matches_published_processed_source
+chemical,156,X2.methyltetrahydrofuran.3.one,12596.43287,True,True,266798.3779378142,retain supplied value; no source evidence that this is a recording error,matched_reference,True
+chemical,177,E.caryophyllene,40.92665991,True,True,37579.09842490061,retain supplied value; no source evidence that this is a recording error,matched_reference,True
+chemical,181,gamma.nonalactone,7256.135876,True,True,25551.0030228745,retain supplied value; no source evidence that this is a recording error,matched_reference,True
+chemical,151,X.E..beta.damascenone,5991.012523,True,True,18346.245883978074,retain supplied value; no source evidence that this is a recording error,matched_reference,True
+chemical,9,E.caryophyllene,9.837582658,True,True,9032.239124495034,retain supplied value; no source evidence that this is a recording error,matched_reference,True
+chemical,130,gamma.nonalactone,2505.767071,True,True,8822.56504215142,retain supplied value; no source evidence that this is a recording error,matched_reference,True
+chemical,67,gamma.nonalactone,2283.957876,True,True,8041.463297334028,retain supplied value; no source evidence that this is a recording error,matched_reference,True
+chemical,9,gamma.nonalactone,2274.379035,True,True,8007.731380050668,retain supplied value; no source evidence that this is a recording error,matched_reference,True
+chemical,5,gamma.nonalactone,2199.624386,True,True,7744.482659603747,retain supplied value; no source evidence that this is a recording error,matched_reference,True
+chemical,5,E.caryophyllene,5.770452958,True,True,5297.687006357412,retain supplied value; no source evidence that this is a recording error,matched_reference,True
+chemical,247,E.caryophyllene,5.394685936,True,True,4952.64722856612,retain supplied value; no source evidence that this is a recording error,matched_reference,True
+chemical,177,gamma.nonalactone,1393.445203,True,True,4905.520251049133,retain supplied value; no source evidence that this is a recording error,matched_reference,True
+chemical,34,E.caryophyllene,5.329454648,True,True,4892.750037490741,retain supplied value; no source evidence that this is a recording error,matched_reference,True
+chemical,181,E.caryophyllene,4.711648765,True,True,4325.463415439929,retain supplied value; no source evidence that this is a recording error,matched_reference,True
+chemical,177,eugenol,3.567575906,True,True,3113.8138552243677,retain supplied value; no source evidence that this is a recording error,matched_reference,True
+chemical,130,E.caryophyllene,3.23624777,True,True,2970.7090020314745,retain supplied value; no source evidence that this is a recording error,matched_reference,True
+chemical,32,E.caryophyllene,2.566764283,True,True,2355.9705602173344,retain supplied value; no source evidence that this is a recording error,matched_reference,True
+chemical,149,eugenol,2.3947035,True,True,2089.6960190706154,retain supplied value; no source evidence that this is a recording error,matched_reference,True
+chemical,177,methylpyrazine,0.896099334,True,True,2085.3224435857373,retain supplied value; no source evidence that this is a recording error,matched_reference,True
+chemical,67,E.caryophyllene,2.020891241,True,True,1854.7346824346994,retain supplied value; no source evidence that this is a recording error,matched_reference,True

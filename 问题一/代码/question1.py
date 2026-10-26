@@ -3,6 +3,7 @@
 训练与输出：python "问题一/代码/question1.py"
 指定附件：  python "问题一/代码/question1.py" --data-dir "附件文件夹"
 新样本预测：python "问题一/代码/question1.py" --predict "新样本.csv"
+仅数据清洗：python "问题一/代码/question1.py" --clean-only
 
 包含：数据审计、训练折内预处理、5×3嵌套交叉验证、多模型比较、
 缺失压力实验、独立区间实验、QDP七点估计评分、图表、报告及模型保存。
@@ -15,6 +16,7 @@ for _key in ('OMP_NUM_THREADS', 'OPENBLAS_NUM_THREADS', 'MKL_NUM_THREADS', 'NUME
     os.environ[_key] = '1'
 
 import argparse
+import csv as csvlib
 import hashlib
 import json
 import platform
@@ -31,7 +33,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib import font_manager
-from scipy.stats import spearmanr
+from scipy.stats import spearmanr, fisher_exact
 from sklearn.base import BaseEstimator, RegressorMixin
 from sklearn.compose import TransformedTargetRegressor
 from sklearn.cross_decomposition import PLSRegression
@@ -87,12 +89,60 @@ def sheet_frame(workbook, sheet):
 
 
 def read_csv_checked(path, expected_shape):
-    frame = pd.read_csv(path, header=0, dtype={c: 'string' for c in META})
+    with Path(path).open(encoding='utf-8-sig', newline='') as stream:
+        headers = [name.strip() for name in next(csvlib.reader(stream))]
+    if not all(headers) or len(headers) != len(set(headers)):
+        raise ValueError(f'{path.name}: empty or duplicate column names')
+    frame = pd.read_csv(path, header=0, names=headers, encoding='utf-8-sig', dtype={c: 'string' for c in META})
     assert frame.shape == expected_shape, (path.name, frame.shape, expected_shape)
-    assert not frame['beer'].isna().any()
+    for column in META:
+        frame[column] = frame[column].astype('string').str.strip()
+        if frame[column].isna().any() or frame[column].eq('').any():
+            raise ValueError(f'{path.name}: missing metadata in {column}')
     assert frame['beer'].is_unique
     # Beer IDs stored in rounded scientific notation are not valid join keys.
     return frame
+
+
+def feature_inventory(features, X, calibrated, thresholds):
+    """Separate verified transformations from uncalibrated supplied signals.
+
+    The paper's perception thresholds are NOT analytical detection limits.
+    Matching the median only identifies a dominant representation; every
+    calibration cell is compared separately in run_cleaning().
+    """
+    dictionary = thresholds.dropna(subset=['field_name_R']).set_index('field_name_R')
+    if not dictionary.index.is_unique or not set(features) <= set(dictionary.index):
+        raise ValueError('Chemical dictionary is ambiguous or incomplete')
+    rows = []
+    for j, name in enumerate(features):
+        source = dictionary.loc[name]
+        is_calibrated = name in calibrated.columns
+        aggregate = name in {'esters_sum', 'aroma_hops_sum', 'acids_sum', 'sulfur_sum'}
+        row = dict(feature=name, chemical_name=source.chemical_name,
+                   measurement_kind='calibrated' if is_calibrated else 'aggregate_signal' if aggregate else 'uncalibrated_signal',
+                   source_unit=source.unit,
+                   interpretation_unit=source.unit if is_calibrated else 'supplied processed relative signal (A.U.)',
+                   representation='aggregate_signal_as_supplied' if aggregate else 'relative_signal_as_supplied',
+                   checked_pairs=0, median_log10_error=np.nan, median_raw_error=np.nan,
+                   calibrated_reference_available=is_calibrated,
+                   positive_reference_transform_verified=False,
+                   sensory_threshold_median_not_lod=source.threshold_median,
+                   action='preserve supplied values; impute only within training fold')
+        if is_calibrated:
+            raw = pd.to_numeric(calibrated[name], errors='coerce').to_numpy(float)
+            provided = X[:,j]
+            keep = np.isfinite(raw) & np.isfinite(provided) & (raw > 0)
+            e_log = float(np.median(np.abs(np.log10(raw[keep])-provided[keep])))
+            e_raw = float(np.median(np.abs(raw[keep]-provided[keep])))
+            mode = 'log10' if e_log < 1e-7 else 'raw' if e_raw < 1e-7 else 'unresolved_calibration'
+            row.update(representation=mode, checked_pairs=int(keep.sum()),
+                       median_log10_error=e_log, median_raw_error=e_raw,
+                       positive_reference_transform_verified=bool(np.allclose(
+                           np.log10(raw[keep]) if mode == 'log10' else raw[keep],
+                           provided[keep], rtol=1e-7, atol=1e-7)))
+        rows.append(row)
+    return pd.DataFrame(rows)
 
 
 def load_data(out=None):
@@ -132,22 +182,11 @@ def load_data(out=None):
               for c in row if c.data_type == 'f']
     assert all(v == 0 for v in cached), 'Unexpected non-default scorecard entries: inspect before training'
 
+    thresholds = sheet_frame(wb8, 'Sensory thresholds')
     calibrated = sheet_frame(wb8, 'Calibrated chemical dataset')
     calibrated['beer'] = calibrated.beer.astype(str)
     calibrated = calibrated.set_index('beer').loc[chem.beer]
-    scales = []
-    for f in features:
-        item = {'feature': f, 'representation': 'provided_scale_unresolved', 'checked_pairs': 0}
-        if f in calibrated.columns:
-            raw = pd.to_numeric(calibrated[f], errors='coerce').to_numpy(float)
-            obs = chem[f].to_numpy(float)
-            keep = np.isfinite(raw) & np.isfinite(obs) & (raw > 0)
-            e_log = float(np.median(np.abs(np.log10(raw[keep]) - obs[keep])))
-            e_raw = float(np.median(np.abs(raw[keep] - obs[keep])))
-            item.update(checked_pairs=int(keep.sum()), median_log10_error=e_log, median_raw_error=e_raw,
-                        representation='log10' if e_log < 1e-7 else 'raw' if e_raw < 1e-7 else 'unresolved')
-        scales.append(item)
-    scales = pd.DataFrame(scales)
+    scales = feature_inventory(features, X, calibrated, thresholds)
     wb8.close(); wb3.close(); wb3_values.close()
 
     manifest = [{'file': p.name, 'bytes': p.stat().st_size, 'sha256': hashlib.sha256(p.read_bytes()).hexdigest()}
@@ -170,6 +209,356 @@ def load_data(out=None):
         INFO.mkdir(parents=True, exist_ok=True)
         (INFO / 'audit.json').write_text(json.dumps(audit, ensure_ascii=False, indent=2), encoding='utf-8')
     return chem[META].copy(), X, Y, features, targets, mapping, audit
+
+
+def run_cleaning():
+    """Audit and export model-ready source values, without global imputation.
+
+    Cleaning preserves the supplied predictor/target arrays. Missing-value
+    imputation and statistical clipping remain fitted inside each training fold.
+    """
+    for directory in [OUT, TABLES, INFO, FIG]:
+        directory.mkdir(parents=True, exist_ok=True)
+    destination = TABLES/'数据清洗'
+    destination.mkdir(exist_ok=True)
+
+    def export(frame, name):
+        frame.to_csv(destination/name, index=False, encoding='utf-8-sig')
+
+    meta, X, Y, features, targets, mapping, base_audit = load_data(TABLES)
+    source = attachment_dir()
+    chemistry = pd.DataFrame(X, columns=features)
+    sensory = pd.DataFrame(Y, columns=targets)
+    book = openpyxl.load_workbook(source/'8.xlsx', read_only=True, data_only=True)
+    reference = sheet_frame(book, 'Calibrated chemical dataset')
+    reference.beer = reference.beer.astype(str)
+    reference = reference.set_index('beer').loc[meta.beer]
+    thresholds = sheet_frame(book, 'Sensory thresholds')
+    inventory = feature_inventory(features, X, reference, thresholds)
+    book.close()
+    inventory.to_csv(TABLES/'feature_scales.csv', index=False, encoding='utf-8-sig')
+    # The precise IDs in the chemistry table are independently present in 8.xlsx.
+    if not np.array_equal(meta.beer_id.astype(str).to_numpy(), reference.beer_id.astype(str).to_numpy()):
+        raise ValueError('Chemistry IDs disagree with the independent reference table')
+    original_y = read_csv_checked(source/'4.csv', (250,53)).set_index('beer').loc[meta.beer]
+    repairs = []
+    for i in range(len(meta)):
+        if str(original_y.beer_id.iloc[i]) != str(meta.beer_id.iloc[i]):
+            repairs.append(dict(beer=meta.beer.iloc[i], field='beer_id',
+                original=original_y.beer_id.iloc[i], cleaned=meta.beer_id.iloc[i],
+                decision='use exact chemistry/reference ID after joining on beer; predictor values unchanged'))
+    export(pd.DataFrame(repairs, columns=['beer','field','original','cleaned','decision']), 'metadata_repairs.csv')
+    export(pd.DataFrame([
+        {'source_field':a,'canonical_field':b,'context':'scorecard summary; no target values altered'}
+        for a,b in {'A_ester_fruity':'A_esters_fruity','F_ester_fruity':'F_esters_fruity','4vg':'X4vg'}.items()
+    ]), 'attribute_name_mapping.csv')
+    export(pd.concat([meta,chemistry],axis=1), 'clean_features.csv')
+    export(pd.concat([meta,sensory],axis=1), 'clean_targets.csv')
+    missing = np.isnan(X)
+    export(pd.concat([meta,pd.DataFrame(missing.astype(int),columns=features)],axis=1), 'missing_mask.csv')
+    rows = meta.copy()
+    rows['missing_count'] = missing.sum(axis=1)
+    rows['missing_fraction'] = missing.mean(axis=1)
+    rows['missing_features'] = [';'.join(np.array(features)[mask]) for mask in missing]
+    export(rows, 'missingness_by_sample.csv')
+    groups = []
+    for style in sorted(meta.tasting_category_fine.unique()):
+        select = meta.tasting_category_fine.eq(style).to_numpy()
+        groups.append(dict(style=style, samples=int(select.sum()), affected_samples=int(missing[select].any(axis=1).sum()),
+                           missing_cells=int(missing[select].sum()), missing_fraction=float(missing[select].mean())))
+    export(pd.DataFrame(groups), 'missingness_by_style.csv')
+    patterns = pd.Series(rows.missing_features).value_counts().rename_axis('missing_features').reset_index(name='samples')
+    export(patterns, 'missingness_patterns.csv')
+    tests = []
+    for j in np.flatnonzero(missing.any(axis=0)):
+        for style in sorted(meta.tasting_category_fine.unique()):
+            group = meta.tasting_category_fine.eq(style).to_numpy()
+            a=int(missing[group,j].sum());b=int(group.sum())-a
+            c=int(missing[~group,j].sum());d=int((~group).sum())-c
+            tests.append(dict(feature=features[j],style=style,style_missing=a,style_total=a+b,
+                              others_missing=c,others_total=c+d,p_value=float(fisher_exact([[a,b],[c,d]]).pvalue)))
+    association = pd.DataFrame(tests)
+    order = np.argsort(association.p_value.to_numpy())
+    adjusted = association.p_value.to_numpy()[order]*len(order)/np.arange(1,len(order)+1)
+    association.loc[order,'bh_adjusted_p'] = np.minimum(1,np.minimum.accumulate(adjusted[::-1])[::-1])
+    association['decision'] = np.where(association.bh_adjusted_p<.05,'association detected; missingness not assumed random',
+                                      'no association detected; does not establish MCAR')
+    export(association, 'missingness_style_tests.csv')
+
+    duplicate_records = []
+    for kind, frame, identifiers in [('chemical_rows',chemistry,meta.beer),('sensory_rows',sensory,meta.beer),
+                                      ('chemical_columns',chemistry.T,pd.Series(features))]:
+        repeated = frame.duplicated(keep=False).to_numpy()
+        for pos in np.flatnonzero(repeated):
+            duplicate_records.append(dict(kind=kind,identifier=str(identifiers.iloc[pos]),
+                                           decision='review as possible replicate; do not silently delete'))
+    export(pd.DataFrame(duplicate_records,columns=['kind','identifier','decision']), 'duplicate_audit.csv')
+    const = chemistry.nunique(dropna=True)
+    export(pd.DataFrame({'feature':features,'unique_observed_values':const.to_numpy(),
+                        'constant_or_empty':const.to_numpy()<=1}), 'constant_feature_audit.csv')
+    spread = np.nanquantile(X,.75,axis=0)-np.nanquantile(X,.25,axis=0)
+    spread = np.where(spread>1e-12,spread,np.nanstd(X,axis=0))
+    spread = np.where(spread>1e-12,spread,1.)
+    pairs = []
+    for i in range(len(X)):
+        for k in range(i):
+            observed = np.isfinite(X[i]) & np.isfinite(X[k])
+            delta = np.abs((X[i,observed]-X[k,observed])/spread[observed])
+            pairs.append(dict(beer_a=meta.beer.iloc[k],beer_b=meta.beer.iloc[i],shared_features=int(observed.sum()),
+                              rms_iqr_scaled_difference=float(np.sqrt(np.mean(delta**2))),
+                              max_iqr_scaled_difference=float(delta.max())))
+    near = pd.DataFrame(pairs)
+    near['near_identical'] = (near.shared_features>=.9*len(features)) & (near.max_iqr_scaled_difference<=1e-6)
+    export(near.sort_values('rms_iqr_scaled_difference').head(20), 'nearest_sample_pairs.csv')
+
+    profiles=[]; flagged=[]; row_flags=np.zeros(len(X),dtype=int)
+    for dataset, values, names in [('chemical',X,features),('sensory',Y,targets)]:
+        q1,median,q3 = np.nanquantile(values,[.25,.5,.75],axis=0)
+        iqr=q3-q1;mad=np.nanmedian(np.abs(values-median),axis=0)
+        iqr_flag=((values<q1-1.5*iqr)|(values>q3+1.5*iqr)) & (iqr>1e-12)
+        mad_flag=(np.abs(values-median)>6*1.4826*mad) & (mad>1e-12)
+        combined=iqr_flag|mad_flag
+        if dataset=='chemical':row_flags=combined.sum(axis=1)
+        for j,name in enumerate(names):
+            observed=values[np.isfinite(values[:,j]),j]
+            profiles.append(dict(dataset=dataset,feature=name,observed_count=len(observed),
+                missing_count=int(np.isnan(values[:,j]).sum()),minimum=float(observed.min()),
+                q1=float(q1[j]),median=float(median[j]),q3=float(q3[j]),maximum=float(observed.max()),
+                iqr=float(iqr[j]),mad=float(mad[j]),unique_values=int(len(np.unique(observed))),
+                minimum_frequency=int(np.sum(observed==observed.min())),negative_count=int(np.sum(observed<0)),
+                iqr_flags=int(iqr_flag[:,j].sum()),mad_flags=int(mad_flag[:,j].sum()),
+                decision='retain statistical extremes; neither rule establishes a measurement error'))
+        for i,j in zip(*np.where(combined)):
+            flagged.append(dict(dataset=dataset,beer=meta.beer.iloc[i],feature=names[j],value=float(values[i,j]),
+                iqr_flag=bool(iqr_flag[i,j]),mad_6sigma_flag=bool(mad_flag[i,j]),
+                robust_mad_score=float(abs(values[i,j]-median[j])/(1.4826*mad[j])) if mad[j]>1e-12 else np.nan,
+                decision='retain supplied value; no source evidence that this is a recording error'))
+    export(pd.DataFrame(profiles), 'distribution_profile.csv')
+
+    comparisons=[]; per_feature=[]; physical=[]
+    for j,name in enumerate(features):
+        if name not in reference:continue
+        raw=pd.to_numeric(reference[name],errors='coerce').to_numpy(float);provided=X[:,j]
+        mode=inventory.set_index('feature').loc[name,'representation']
+        positive=raw[np.isfinite(raw)&(raw>0)]
+        half_min=float(positive.min()/2) if len(positive) else np.nan
+        counts={}
+        for i,(a,b) in enumerate(zip(raw,provided)):
+            expected=np.nan
+            if not np.isfinite(a):
+                state='reference_missing_supplied_present' if np.isfinite(b) else 'both_missing'
+            elif not np.isfinite(b):
+                state='source_zero_to_missing' if a==0 else 'supplied_missing_reference_present'
+            elif mode=='log10' and a<=0:
+                expected=float(np.log10(half_min))
+                state='nonpositive_reference_half_min_floor' if np.isclose(b,expected,rtol=1e-7,atol=1e-7) else 'reference_disagreement'
+            else:
+                expected=float(np.log10(a)) if mode=='log10' else float(a)
+                state='matched' if np.isclose(b,expected,rtol=1e-7,atol=1e-7) else 'reference_disagreement'
+            counts[state]=counts.get(state,0)+1
+            if state not in {'matched','both_missing'}:
+                comparisons.append(dict(beer=meta.beer.iloc[i],feature=name,representation=mode,
+                    reference_value=a,supplied_value=b,expected_from_reference=expected,status=state,
+                    decision='keep competition/S1 value; do not overwrite from a discordant reference or invent a detection limit'))
+            invalid=np.isfinite(a) and (a<0 or (name=='pH' and a>14) or (name=='ethanol..v.v.' and a>100))
+            if invalid:
+                physical.append(dict(beer=meta.beer.iloc[i],feature=name,reference_value=a,supplied_value=b,
+                    status='invalid physical reference value',
+                    decision='reference is not a reliable replacement; processed source uses floor if confirmed in cell audit'))
+        per_feature.append(dict(feature=name,representation=mode,comparison_atol=1e-7,comparison_rtol=1e-7,
+                                reference_positive_min_half=half_min,**counts))
+    comparison_frame=pd.DataFrame(comparisons)
+    export(comparison_frame, 'calibration_cell_audit.csv')
+    export(pd.DataFrame(per_feature).fillna(0), 'calibration_feature_audit.csv')
+    export(pd.DataFrame(physical,columns=['beer','feature','reference_value','supplied_value','status','decision']), 'physical_reference_flags.csv')
+
+    scorecards=[]
+    formulas=openpyxl.load_workbook(source/'3.xlsx',read_only=True,data_only=False)
+    cache=openpyxl.load_workbook(source/'3.xlsx',read_only=True,data_only=True)
+    for name in formulas.sheetnames:
+        if not name.startswith('beer_'):continue
+        cells=[cell for row in formulas[name].iter_rows() for cell in row if cell.data_type=='f']
+        cached=[cache[name][cell.coordinate].value for cell in cells]
+        scorecards.append(dict(sheet=name,formula_cells=len(cells),default_zero_cells=sum(v==0 for v in cached),
+                               decision='blank template; never use cached zeros as sensory labels'))
+        if not cells or any(v!=0 for v in cached):
+            raise ValueError(f'Scorecard {name} no longer matches the audited blank template')
+    formulas.close();cache.close()
+    export(pd.DataFrame(scorecards), 'scorecard_audit.csv')
+
+    # Independent published workbook confirms that apparent calibration conflicts
+    # already exist upstream; no attachment values are repaired from guesses.
+    provenance=[]
+    paper_workbook=QUESTION_DIR/'问题分析'/'研究来源材料'/'Supplemental Files and Figure source files.xlsx'
+    if paper_workbook.exists():
+        original=openpyxl.load_workbook(paper_workbook,read_only=True,data_only=True)
+        for sheet,expected,columns in [('Supplementary File S1',X,features),('Supplementary File S4',Y,targets)]:
+            frame=sheet_frame(original,sheet);frame.beer=frame.beer.astype(str)
+            matrix=frame.set_index('beer').loc[meta.beer,columns].apply(pd.to_numeric,errors='coerce').to_numpy(float)
+            identical_missing=np.array_equal(np.isnan(matrix),np.isnan(expected))
+            agrees=bool(np.allclose(matrix,expected,rtol=1e-7,atol=1e-7,equal_nan=True))
+            if not agrees or not identical_missing:raise ValueError(f'Competition input differs from author source {sheet}')
+            provenance.append(dict(source=sheet,status='matches published source including missing locations',
+                max_absolute_difference=float(np.nanmax(np.abs(matrix-expected))),
+                url='https://zenodo.org/records/10653704',sha256=hashlib.sha256(paper_workbook.read_bytes()).hexdigest()))
+        author_reference=sheet_frame(original,'Calibrated chemical dataset')
+        author_reference.beer=author_reference.beer.astype(str)
+        columns=[name for name in features if name in reference]
+        authored=author_reference.set_index('beer').loc[meta.beer,columns].apply(pd.to_numeric,errors='coerce').to_numpy(float)
+        attached=reference[columns].apply(pd.to_numeric,errors='coerce').to_numpy(float)
+        if not np.allclose(authored,attached,rtol=1e-7,atol=1e-7,equal_nan=True):
+            raise ValueError('Attached calibration table differs from the published reference table')
+        provenance.append(dict(source='Calibrated chemical dataset',status='also matches published source; cross-sheet conflicts are upstream',
+            max_absolute_difference=float(np.nanmax(np.abs(authored-attached))),
+            url='https://zenodo.org/records/10653704',sha256=hashlib.sha256(paper_workbook.read_bytes()).hexdigest()))
+        original.close()
+    export(pd.DataFrame(provenance,columns=['source','status','max_absolute_difference','url','sha256']), 'published_source_comparison.csv')
+    outliers=pd.DataFrame(flagged,columns=['dataset','beer','feature','value','iqr_flag','mad_6sigma_flag','robust_mad_score','decision'])
+    reference_status={(row['beer'],row['feature']):row['status'] for row in comparisons}
+    calibrated_names=set(inventory.loc[inventory.calibrated_reference_available,'feature'])
+    outliers['reference_status']=[
+        'standardized_sensory' if row.dataset=='sensory' else
+        reference_status.get((row.beer,row.feature),'matched_reference') if row.feature in calibrated_names else
+        'no_absolute_calibration_reference'
+        for row in outliers.itertuples()]
+    outliers['matches_published_processed_source']=bool(provenance)
+    export(outliers, 'statistical_outlier_flags.csv')
+    extreme=outliers.loc[outliers.dataset=='chemical'].sort_values('robust_mad_score',ascending=False).head(20)
+    export(extreme, 'extreme_value_review.csv')
+    # Retain actual input bytes and prove that canonical exports did not alter measurements.
+    check_x=pd.read_csv(destination/'clean_features.csv',header=0)[features].to_numpy(float)
+    check_y=pd.read_csv(destination/'clean_targets.csv',header=0)[targets].to_numpy(float)
+    np.testing.assert_allclose(check_x,X,rtol=1e-12,atol=1e-12,equal_nan=True)
+    np.testing.assert_allclose(check_y,Y,rtol=1e-12,atol=1e-12)
+    for entry in base_audit['input_manifest']:
+        if hashlib.sha256((source/entry['file']).read_bytes()).hexdigest()!=entry['sha256']:
+            raise ValueError(f'Original attachment modified: {entry["file"]}')
+    summary=dict(samples=len(meta),features=len(features),targets=len(targets),
+        missing_cells=int(missing.sum()),missing_fraction=float(missing.mean()),
+        missing_features=int(missing.any(axis=0).sum()),affected_samples=int(missing.any(axis=1).sum()),
+        max_missing_features_per_sample=int(missing.sum(axis=1).max()),
+        duplicate_chemical_rows=int(chemistry.duplicated().sum()),duplicate_sensory_rows=int(sensory.duplicated().sum()),
+        duplicate_chemical_columns=int(chemistry.T.duplicated().sum()),constant_or_empty_features=int((const<=1).sum()),
+        near_identical_sample_pairs=int(near.near_identical.sum()),metadata_id_repairs=len(repairs),
+        feature_representation_counts=inventory.representation.value_counts().to_dict(),
+        measurement_kind_counts=inventory.measurement_kind.value_counts().to_dict(),
+        calibration_cell_status_counts=comparison_frame.status.value_counts().to_dict(),
+        invalid_physical_reference_cells=len(physical),
+        chemical_statistical_flagged_cells=sum(row['dataset']=='chemical' for row in flagged),
+        sensory_statistical_flagged_cells=sum(row['dataset']=='sensory' for row in flagged),
+        missingness_style_associations_bh05=int((association.bh_adjusted_p<.05).sum()),
+        missingness_style_significant_results=association.loc[association.bh_adjusted_p<.05].to_dict('records'),
+        scorecards_audited=len(scorecards),author_workbook_compared=bool(provenance),
+        numerical_training_inputs_changed=False,rows_deleted=0,features_deleted=0,
+        globally_imputed_cells=0,missing_value_policy='median fitted separately in each training fold',
+        outlier_policy='flag and retain; existing training-fold clipping applies to ridge/PLS only',
+        scale_policy='keep supplied transforms; no second log, no concentration inversion for uncalibrated signals',
+        unavailable_evidence='pre-transform uncalibrated signals, per-compound analytical LOD/LOQ, raw replicate chromatograms',
+        verification='passed: source hashes, canonical CSV roundtrip, source alignment, all scorecard defaults')
+    (INFO/'cleaning_summary.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2),encoding='utf-8')
+    cleaning_plot(chemistry,missing,row_flags)
+    cleaning_report(summary,chemistry,extreme)
+    print(json.dumps(summary,ensure_ascii=False,indent=2),flush=True)
+    return summary
+
+
+def cleaning_plot(chemistry, missing, row_flags):
+    installed={font.name for font in font_manager.fontManager.ttflist}
+    plt.rcParams.update({'font.family':[name for name in ['Microsoft YaHei','SimHei'] if name in installed]+['DejaVu Sans'],
+                         'axes.unicode_minus':False})
+    fig,axes=plt.subplots(1,3,figsize=(15,5),layout='constrained')
+    counts=chemistry.isna().sum().loc[lambda x:x>0].sort_values()
+    axes[0].barh(counts.index,counts.values,color='#0f766e')
+    axes[0].set(title='缺失值集中在9个特征',xlabel='缺失测量数')
+    categories,frequencies=np.unique(missing.sum(axis=1),return_counts=True)
+    axes[1].bar(categories,frequencies,color='#38bdf8')
+    axes[1].set(title='每款啤酒的缺失项数',xlabel='缺失特征数',ylabel='样本数',xticks=categories)
+    axes[2].hist(row_flags,bins=15,color='#c2410c')
+    axes[2].set(title='统计极端值仅标记、保留',xlabel='每样本被标记的化学测量数',ylabel='样本数')
+    fig.savefig(FIG/'数据清洗概览.png',dpi=160);plt.close(fig)
+
+
+def cleaning_report(summary, chemistry, extreme):
+    missing=chemistry.isna().sum().loc[lambda x:x>0].sort_values(ascending=False)
+    table='\n'.join(f'| {name} | {count} | {100*count/len(chemistry):.2f}% |' for name,count in missing.items())
+    status=summary['calibration_cell_status_counts']
+    missing_associations='\n'.join(
+        f'- {row["feature"]}：{row["style"]}组缺失{row["style_missing"]}/{row["style_total"]}，'
+        f'其他风格缺失{row["others_missing"]}/{row["others_total"]}，BH校正p={row["bh_adjusted_p"]:.6f}。'
+        for row in summary['missingness_style_significant_results']) or '未检出BH校正后显著的风格关联。'
+    extreme_table='\n'.join(
+        f'| {row.beer} | {row.feature} | {row.value:.7g} | {row.robust_mad_score:.1f} |'
+        for row in extreme.head(5).itertuples())
+    source_comparison = ('作者公开S1、S4与比赛1.csv、4.csv的数值及缺失位置匹配；8.xlsx的校准表也与作者原表匹配。'
+                         '由此可确认上述跨表差异已经存在于上游公开资料，而非本次CSV读取错误。'
+                         if summary['author_workbook_compared'] else
+                         '本次本地未提供作者公开工作簿，因此本次只执行附件内部核验，不声明已独立逐值核对作者S1/S4。')
+    text=f'''# 第一问数据清洗报告
+
+已完成现有附件可执行的数据清洗、来源追溯及逐项质量核验。保留250个样本、231个特征和50个感官目标；不删除真实但极端的啤酒样本。
+
+## 数据与清洗产物
+
+清洗后的特征表和标签表位于 `数据表格/数据清洗/clean_features.csv`、`clean_targets.csv`。两表按beer对齐并使用化学表和8.xlsx共同确认的精确商品编号，修复了感官表{summary['metadata_id_repairs']}条舍入编号。数值训练输入与原附件保持一致，已核对CSV导出回读和原附件哈希。
+
+缺失值保留为NA；中位数填补、线性/PLS分支的1%—99%裁剪和标准化均在训练折内拟合。清洗表不包含用全体250个样本计算后预先填补的值，避免交叉验证泄露。
+
+## 重复、常量和缺失
+
+- 重复化学特征行：{summary['duplicate_chemical_rows']}；重复感官行：{summary['duplicate_sensory_rows']}；重复化学列：{summary['duplicate_chemical_columns']}。
+- 常量或全空特征：{summary['constant_or_empty_features']}；近乎相同的样本对：{summary['near_identical_sample_pairs']}（至少90%特征可比且最大IQR缩放差≤1e-6）。不因风格相同或感官值接近而去重。
+- 缺失{summary['missing_cells']}处，占{100*summary['missing_fraction']:.4f}%，影响{summary['affected_samples']}款，每款最多缺{summary['max_missing_features_per_sample']}项。
+
+| 特征 | 缺失数 | 样本占比 |
+| --- | --- | --- |
+{table}
+
+已输出样本、特征、风格分布、共现模式和缺失掩码。9个缺失特征×22种风格共198个Fisher精确检验经BH多重校正后，显著关联数为{summary['missingness_style_associations_bh05']}；未检出关联不能证明完全随机缺失，不将NA填为0。
+
+{missing_associations}
+
+## 231列的尺度与来源
+
+`feature_scales.csv`逐列列出名称、测量类型、源单位、变换证据和允许的解释。70列有校准参考：37列的正值与log10参考一致；33列以原值表示为主，但部分单元格存在跨表差异，不能仅凭中位数误差宣称全表一致。
+
+另外161列分为157个未校准相对信号和4个合计信号。已确认它们不是可直接当作mg/L的绝对浓度：作者方法说明色谱峰面积经内标归一化，绘图脚本将未校准字段标为A.U.。公开表未提供其变换前逐列信号和完整变换清单，因此保留给定表示，不再次取对数，不反推或虚构浓度。信号类别已判明，精确逆变换不具备数据依据。
+
+## 校准工作表与主表不一致的处置
+
+逐单元格比较使用atol=rtol=1e-7，允许CSV舍入。发现：
+
+- 与参考转换不一致：{status.get('reference_disagreement',0)}处。
+- 参考缺失、主表有数值：{status.get('reference_missing_supplied_present',0)}处。
+- 参考为0、主表为NA：{status.get('source_zero_to_missing',0)}处，保留主表NA，不将其冒充已确认的真实0。
+- 参考≤0、主表对应半个最小正值后取log10：{status.get('nonpositive_reference_half_min_floor',0)}处。这是已有处理痕迹，不能把替代值说成仪器检出限。
+
+{source_comparison} 保留比赛主表/S1，所有差异导出`calibration_cell_audit.csv`，未用辅助表覆盖主表。
+
+## 异常值与物理范围
+
+化学数据中{summary['chemical_statistical_flagged_cells']}个单元格被1.5IQR或6×1.4826MAD规则标记；感官表标记{summary['sensory_statistical_flagged_cells']}个。IQR/MAD为零时不使用该规则。统计标记用于复核，不作为测量错误判据，不自动截断或删行。感官标签是标准化值，负数不等于错误。
+
+最需复核的化学极端值示例（完整前20项及来源状态见`extreme_value_review.csv`）：
+
+| beer | 特征 | 附件数值 | 稳健MAD偏离分数 |
+| --- | --- | --- | --- |
+{extreme_table}
+
+这些极端值也存在于作者公开处理表。来源一致只能排除本次转录/读取错误，不能证明峰识别、校准或批次处理正确。无原始色谱图和重复测量时，无法确定应替换成哪个真值；保留并标记，线性模型仍采用训练折内裁剪控制外推。
+
+对校准原值检查非负性、pH的0—14范围、乙醇的0—100%范围，发现辅助校准表有{summary['invalid_physical_reference_cells']}个负测量值（β-葡聚糖2处、不可发酵物1处）；对应主表已使用可核对的低端替代值。保留主表，逐项列于`physical_reference_flags.csv`。不使用“常见啤酒范围”删除特殊风格，不把感官阈值误当检测限或异常上界。
+
+全12张评分卡都已检查：公式缓存0为未填写模板的默认结果，不用于感官训练，也不补造没有独立标签的乙醛子项目。
+
+## 结论与适用范围
+
+本轮完成了模型输入所需的清洗与核验，数值训练输入没有变化，现有模型及外层验证指标仍对应同一组输入；本轮未重新训练模型。准确复核测量误差、重做批次校正或反推全部浓度仍需要未公开的原始重复测量/色谱图、逐化合物LOD/LOQ和变换前信号，不能由本轮清洗凭空补齐。
+
+依据：[作者论文方法](https://pmc.ncbi.nlm.nih.gov/articles/PMC10966102/)、[固定版本公开数据与脚本](https://zenodo.org/records/10653704)。来源比对与哈希见`数据表格/数据清洗/published_source_comparison.csv`，处理汇总见`元数据/cleaning_summary.json`。
+
+![清洗概览](绘图/数据清洗概览.png)
+'''
+    (OUT/'数据清洗报告.md').write_text(text,encoding='utf-8')
 
 
 class QuantileClipper(BaseEstimator):
@@ -869,7 +1258,9 @@ def main():
     parser = argparse.ArgumentParser(description='A题第一问：单文件训练、验证、七点评分与预测')
     parser.add_argument('--data-dir',type=Path,help='原始附件目录；默认自动寻找')
     parser.add_argument('--output',type=Path,help='结果目录；默认问题一/问题结果')
-    parser.add_argument('--predict',type=Path,metavar='CSV',help='预测新样本；不重新训练')
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument('--predict',type=Path,metavar='CSV',help='预测新样本；不重新训练')
+    mode.add_argument('--clean-only',action='store_true',help='仅运行完整数据清洗和核验，导出清洗数据与报告')
     parser.add_argument('--model',type=Path,help='预测使用的统一模型文件；默认读取问题一/问题结果/模型')
     args = parser.parse_args()
     default_output = QUESTION_DIR/'问题结果'/'新样本预测' if args.predict else QUESTION_DIR/'问题结果'
@@ -887,6 +1278,10 @@ def main():
     if DATA_DIR is not None and not all((DATA_DIR/f).is_file() for f in ['1.csv','4.csv','3.xlsx','8.xlsx']):
         raise ValueError('附件目录需要包含1.csv、4.csv、3.xlsx和8.xlsx。')
     started = time.time()
+    run_cleaning()
+    if args.clean_only:
+        print(f'数据清洗完成：{OUT}',flush=True)
+        return
     train()
     calibrate()
     combine_models()

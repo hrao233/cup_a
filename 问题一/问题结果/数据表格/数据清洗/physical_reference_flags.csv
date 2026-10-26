@@ -1,0 +1,4 @@
+﻿beer,feature,reference_value,supplied_value,status,decision
+134,betaglucan.mg.L.,-2.0,0.096910013,invalid physical reference value,reference is not a reliable replacement; processed source uses floor if confirmed in cell audit
+18,betaglucan.mg.L.,-2.0,0.096910013,invalid physical reference value,reference is not a reliable replacement; processed source uses floor if confirmed in cell audit
+116,unfermentables,-16.755,0.070960916,invalid physical reference value,reference is not a reliable replacement; processed source uses floor if confirmed in cell audit

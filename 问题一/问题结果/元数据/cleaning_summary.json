@@ -1,0 +1,61 @@
+{
+  "samples": 250,
+  "features": 231,
+  "targets": 50,
+  "missing_cells": 73,
+  "missing_fraction": 0.0012640692640692641,
+  "missing_features": 9,
+  "affected_samples": 63,
+  "max_missing_features_per_sample": 3,
+  "duplicate_chemical_rows": 0,
+  "duplicate_sensory_rows": 0,
+  "duplicate_chemical_columns": 0,
+  "constant_or_empty_features": 0,
+  "near_identical_sample_pairs": 0,
+  "metadata_id_repairs": 213,
+  "feature_representation_counts": {
+    "relative_signal_as_supplied": 157,
+    "log10": 37,
+    "raw": 33,
+    "aggregate_signal_as_supplied": 4
+  },
+  "measurement_kind_counts": {
+    "uncalibrated_signal": 157,
+    "calibrated": 70,
+    "aggregate_signal": 4
+  },
+  "calibration_cell_status_counts": {
+    "nonpositive_reference_half_min_floor": 758,
+    "reference_disagreement": 80,
+    "reference_missing_supplied_present": 69,
+    "source_zero_to_missing": 60
+  },
+  "invalid_physical_reference_cells": 3,
+  "chemical_statistical_flagged_cells": 4446,
+  "sensory_statistical_flagged_cells": 736,
+  "missingness_style_associations_bh05": 1,
+  "missingness_style_significant_results": [
+    {
+      "feature": "aroma_hops_sum",
+      "style": "Hoppy",
+      "style_missing": 6,
+      "style_total": 17,
+      "others_missing": 7,
+      "others_total": 233,
+      "p_value": 5.037692697083153e-05,
+      "bh_adjusted_p": 0.009974631540224642,
+      "decision": "association detected; missingness not assumed random"
+    }
+  ],
+  "scorecards_audited": 12,
+  "author_workbook_compared": true,
+  "numerical_training_inputs_changed": false,
+  "rows_deleted": 0,
+  "features_deleted": 0,
+  "globally_imputed_cells": 0,
+  "missing_value_policy": "median fitted separately in each training fold",
+  "outlier_policy": "flag and retain; existing training-fold clipping applies to ridge/PLS only",
+  "scale_policy": "keep supplied transforms; no second log, no concentration inversion for uncalibrated signals",
+  "unavailable_evidence": "pre-transform uncalibrated signals, per-compound analytical LOD/LOQ, raw replicate chromatograms",
+  "verification": "passed: source hashes, canonical CSV roundtrip, source alignment, all scorecard defaults"
+}

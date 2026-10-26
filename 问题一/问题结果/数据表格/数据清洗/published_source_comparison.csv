@@ -1,0 +1,4 @@
+﻿source,status,max_absolute_difference,url,sha256
+Supplementary File S1,matches published source including missing locations,8.881784197001252e-16,https://zenodo.org/records/10653704,e0a10635c4fbc3c62dc7e06e553cce9fad98c768ea6af5c8adc8a836098d1474
+Supplementary File S4,matches published source including missing locations,1.1102230246251565e-16,https://zenodo.org/records/10653704,e0a10635c4fbc3c62dc7e06e553cce9fad98c768ea6af5c8adc8a836098d1474
+Calibrated chemical dataset,also matches published source; cross-sheet conflicts are upstream,0.0,https://zenodo.org/records/10653704,e0a10635c4fbc3c62dc7e06e553cce9fad98c768ea6af5c8adc8a836098d1474

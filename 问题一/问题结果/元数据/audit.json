@@ -37,9 +37,10 @@
     "Faro": 3
   },
   "scale_counts": {
-    "provided_scale_unresolved": 161,
+    "relative_signal_as_supplied": 157,
     "log10": 37,
-    "raw": 33
+    "raw": 33,
+    "aggregate_signal_as_supplied": 4
   },
   "supplied_score_scale": "panelist-standardized, original 0-6 anchors unavailable",
   "input_manifest": [
