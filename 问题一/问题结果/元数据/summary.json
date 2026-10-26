@@ -2,22 +2,90 @@
   "macro_r2": 0.24476260616263762,
   "mae_provided_scale": 0.3401510347740921,
   "rmse_provided_scale": 0.479040316175923,
-  "core_macro_r2": 0.20099167774936602,
+  "core_macro_r2": 0.20099167774936597,
   "rmse_reduction_vs_training_mean": 0.17320888021543823,
   "relative_grade_mapping_disagreement_fraction": 0.64904,
   "grade_mae_between_mapping_assumptions": 0.77552,
+  "mae_by_original_missingness": [
+    {
+      "group": "any_real_missing",
+      "samples": 63,
+      "scope": "all_50",
+      "mae_provided_scale": 0.3465895416265373,
+      "baseline_mae_provided_scale": 0.4317916442764493,
+      "mae_reduction_vs_training_mean": 0.19732225896284916,
+      "note": "组间差异受风格与样本组成影响，不能解释为缺失的因果效应"
+    },
+    {
+      "group": "any_real_missing",
+      "samples": 63,
+      "scope": "core_30",
+      "mae_provided_scale": 0.3513502068403864,
+      "baseline_mae_provided_scale": 0.4168585171930397,
+      "mae_reduction_vs_training_mean": 0.1571475876126036,
+      "note": "组间差异受风格与样本组成影响，不能解释为缺失的因果效应"
+    },
+    {
+      "group": "complete_cases",
+      "samples": 187,
+      "scope": "all_50",
+      "mae_provided_scale": 0.3379819121446588,
+      "baseline_mae_provided_scale": 0.41227321534566047,
+      "mae_reduction_vs_training_mean": 0.18019919906442128,
+      "note": "组间差异受风格与样本组成影响，不能解释为缺失的因果效应"
+    },
+    {
+      "group": "complete_cases",
+      "samples": 187,
+      "scope": "core_30",
+      "mae_provided_scale": 0.3535671716583611,
+      "baseline_mae_provided_scale": 0.41016795010491713,
+      "mae_reduction_vs_training_mean": 0.13799415198598053,
+      "note": "组间差异受风格与样本组成影响，不能解释为缺失的因果效应"
+    }
+  ],
+  "target_reliability_counts": {
+    "weak": 22,
+    "moderate": 16,
+    "usable": 10,
+    "below_mean_baseline": 2
+  },
+  "weak_targets": [
+    "A_malt_grain",
+    "A_malt_bread",
+    "A_hops_citrus",
+    "A_hops_tropical",
+    "A_hops_woody",
+    "A_esters_ethac",
+    "A_esters_isoaa",
+    "A_esters_flower",
+    "A_esters_fruity",
+    "F_malt_grain",
+    "F_hops_tropical",
+    "F_hops_woody",
+    "F_esters_isoaa",
+    "F_esters_flower",
+    "F_esters_fruity",
+    "diacetyl",
+    "dms",
+    "metallic",
+    "stale_hops",
+    "t2n",
+    "orange",
+    "clove",
+    "barnyard",
+    "overall"
+  ],
   "bootstrap_macro_r2_95_interval_fixed_oof": [
     0.21578805383208044,
     0.2628538850332826
   ],
   "bootstrap_core_r2_95_interval_fixed_oof": [
     0.1672597927798396,
-    0.22471303574401175
+    0.22471303574401172
   ],
   "split_conformal_90_mean_coverage": 0.8872,
   "split_conformal_90_core_mean_coverage": 0.8986666666666668,
-  "elapsed_seconds": 412.41,
-  "verification": "passed: nested fold isolation, finite predictions, grade bounds, serialization, unchanged source hashes",
-  "result_origin": "previous_complete_experiment",
-  "integration_verification": "Independent single-file fold 1 matches archived fold 1; remaining full experiment reused, not retrained"
+  "elapsed_seconds": 1144.19,
+  "verification": "passed: nested fold isolation, finite predictions, grade bounds, serialization, unchanged source hashes"
 }

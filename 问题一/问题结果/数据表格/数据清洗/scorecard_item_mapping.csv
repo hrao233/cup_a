@@ -1,0 +1,53 @@
+﻿card_item,card_side,item_kind,label_cell,value_cell,scale_row,parent_card_item,card_section,summary_column,target_4csv,label_source,summary_reference_status,included_in_intensity_output,disposition,card_count
+Malt,Aroma,group_scale,beer_1!B6,beer_1!Q7,beer_1!C8:O8,,,A_malt_all,A_malt_all,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,核心30项：Aroma/Flavour 组分总强度，直接对应4.csv目标,12
+"Cereals, flour, grains",Aroma,inherited_descriptor,beer_1!E10,beer_1!Q10,,Malt,,A_malt_grain,A_malt_grain,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,核心30项：勾选后继承组分强度的描述子项，直接对应4.csv目标,12
+Bread crust,Aroma,inherited_descriptor,beer_1!E12,beer_1!Q12,,Malt,,A_malt_bread,A_malt_bread,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,核心30项：勾选后继承组分强度的描述子项，直接对应4.csv目标,12
+Caramel,Aroma,inherited_descriptor,beer_1!E14,beer_1!Q14,,Malt,,A_malt_cara,A_malt_cara,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,核心30项：勾选后继承组分强度的描述子项，直接对应4.csv目标,12
+"Smoked, burnt toast",Aroma,inherited_descriptor,beer_1!E16,beer_1!Q16,,Malt,,A_malt_burn,A_malt_burn,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,核心30项：勾选后继承组分强度的描述子项，直接对应4.csv目标,12
+Hops,Aroma,group_scale,beer_1!B19,beer_1!Q20,beer_1!C21:O21,,,A_hops_all,A_hops_all,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,核心30项：Aroma/Flavour 组分总强度，直接对应4.csv目标,12
+Citrus,Aroma,inherited_descriptor,beer_1!E23,beer_1!Q23,,Hops,,A_hops_citrus,A_hops_citrus,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,核心30项：勾选后继承组分强度的描述子项，直接对应4.csv目标,12
+Tropical fruit,Aroma,inherited_descriptor,beer_1!E25,beer_1!Q25,,Hops,,A_hops_tropical,A_hops_tropical,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,核心30项：勾选后继承组分强度的描述子项，直接对应4.csv目标,12
+"Noble hops (dried herbs, dried grass, hay)",Aroma,inherited_descriptor,beer_1!E27,beer_1!Q27,,Hops,,A_hops_noble,A_hops_noble,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,核心30项：勾选后继承组分强度的描述子项，直接对应4.csv目标,12
+"Pine, woody, resinous",Aroma,inherited_descriptor,beer_1!E29,beer_1!Q29,,Hops,,A_hops_woody,A_hops_woody,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,核心30项：勾选后继承组分强度的描述子项，直接对应4.csv目标,12
+Esters,Aroma,group_scale,beer_1!B32,beer_1!Q33,beer_1!C34:O34,,,A_esters_all,A_esters_all,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,核心30项：Aroma/Flavour 组分总强度，直接对应4.csv目标,12
+"Ethyl acetate, solvent, nail polish",Aroma,inherited_descriptor,beer_1!E36,beer_1!Q36,,Esters,,A_esters_ethac,A_esters_ethac,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,核心30项：勾选后继承组分强度的描述子项，直接对应4.csv目标,12
+"Banana, pear, candy",Aroma,inherited_descriptor,beer_1!E38,beer_1!Q38,,Esters,,A_esters_isoaa,A_esters_isoaa,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,核心30项：勾选后继承组分强度的描述子项，直接对应4.csv目标,12
+"Flowers, roses",Aroma,inherited_descriptor,beer_1!E40,beer_1!Q40,,Esters,,A_esters_flower,A_esters_flower,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,核心30项：勾选后继承组分强度的描述子项，直接对应4.csv目标,12
+"Sweet, fruity, apples",Aroma,inherited_descriptor,beer_1!E42,beer_1!Q42,,Esters,,A_ester_fruity,A_esters_fruity,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,核心30项：勾选后继承组分强度的描述子项，直接对应4.csv目标,12
+"Acetaldehyde (green apples, peel)",Aroma,group_scale,beer_1!B44,beer_1!Q45,beer_1!C46:O46,,,,,3.xlsx 卡片（summary未收录）,no_summary_column,False,3.xlsx 卡片有该项目，但4.csv与8.xlsx均无对应独立训练标签；不估分、不以0填充,12
+Body,Aroma,group_scale,beer_1!B49,beer_1!Q50,beer_1!C51:O51,,,body,body,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,扩展19项：口感/缺陷/特殊风味，直接对应4.csv目标,12
+Bitterness,Aroma,group_scale,beer_1!B53,beer_1!Q54,beer_1!C55:O55,,,bitternes,bitternes,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,扩展19项：口感/缺陷/特殊风味，直接对应4.csv目标,12
+Carbonation,Aroma,group_scale,beer_1!B57,beer_1!Q58,beer_1!C59:O59,,,co2,co2,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,扩展19项：口感/缺陷/特殊风味，直接对应4.csv目标,12
+Aftertaste,Aroma,group_scale,beer_1!B61,beer_1!Q62,beer_1!C63:O63,,,aftertaste,aftertaste,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,扩展19项：口感/缺陷/特殊风味，直接对应4.csv目标,12
+"DMS (cooked cabbage, corn)",Aroma,group_scale,beer_1!B67,beer_1!Q68,beer_1!C69:O69,,Faults,dms,dms,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,扩展19项：口感/缺陷/特殊风味，直接对应4.csv目标,12
+Metallic,Aroma,group_scale,beer_1!B71,beer_1!Q72,beer_1!C73:O73,,Faults,metallic,metallic,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,扩展19项：口感/缺陷/特殊风味，直接对应4.csv目标,12
+"4VG (smoky, clove, medicinal, dentist)",Aroma,group_scale,beer_1!B75,beer_1!Q76,beer_1!C77:O77,,Faults,4vg,X4vg,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,扩展19项：口感/缺陷/特殊风味，直接对应4.csv目标,12
+Orange,Aroma,group_scale,beer_1!B81,beer_1!Q82,beer_1!C83:O83,,Spiced beers,orange,orange,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,扩展19项：口感/缺陷/特殊风味，直接对应4.csv目标,12
+Coriander,Aroma,group_scale,beer_1!B85,beer_1!Q86,beer_1!C87:O87,,Spiced beers,coriander,coriander,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,扩展19项：口感/缺陷/特殊风味，直接对应4.csv目标,12
+Clove/anise,Aroma,group_scale,beer_1!B89,beer_1!Q90,beer_1!C91:O91,,Spiced beers,clove,clove,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,扩展19项：口感/缺陷/特殊风味，直接对应4.csv目标,12
+Overall,Aroma,group_scale,beer_1!B93,beer_1!Q94,beer_1!C95:O95,,,overall,overall,3.xlsx beer_1..beer_12 卡片与 summary,correct,False,overall 为总体喜好度，不是感官强度，保留在连续预测表而不进入强度评分,12
+Malt,Flavour,group_scale,beer_1!R6,beer_1!AG7,beer_1!C8:O8,,,F_malt_all,F_malt_all,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,核心30项：Aroma/Flavour 组分总强度，直接对应4.csv目标,12
+"Cereals, flour, grains",Flavour,inherited_descriptor,beer_1!U10,beer_1!AG10,,Malt,,F_malt_grain,F_malt_grain,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,核心30项：勾选后继承组分强度的描述子项，直接对应4.csv目标,12
+Bread crust,Flavour,inherited_descriptor,beer_1!U12,beer_1!AG12,,Malt,,F_malt_bread,F_malt_bread,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,核心30项：勾选后继承组分强度的描述子项，直接对应4.csv目标,12
+Caramel,Flavour,inherited_descriptor,beer_1!U14,beer_1!AG14,,Malt,,F_malt_cara,F_malt_cara,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,核心30项：勾选后继承组分强度的描述子项，直接对应4.csv目标,12
+"Smoked, burnt toast",Flavour,inherited_descriptor,beer_1!U16,beer_1!AG16,,Malt,,F_malt_burn,F_malt_burn,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,核心30项：勾选后继承组分强度的描述子项，直接对应4.csv目标,12
+Hops,Flavour,group_scale,beer_1!R19,beer_1!AG20,beer_1!C21:O21,,,F_hops_all,F_hops_all,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,核心30项：Aroma/Flavour 组分总强度，直接对应4.csv目标,12
+Citrus,Flavour,inherited_descriptor,beer_1!U23,beer_1!AG23,,Hops,,F_hops_citrus,F_hops_citrus,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,核心30项：勾选后继承组分强度的描述子项，直接对应4.csv目标,12
+Tropical fruit,Flavour,inherited_descriptor,beer_1!U25,beer_1!AG25,,Hops,,F_hops_tropical,F_hops_tropical,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,核心30项：勾选后继承组分强度的描述子项，直接对应4.csv目标,12
+"Noble hops (dried herbs, dried grass, hay)",Flavour,inherited_descriptor,beer_1!U27,beer_1!AG27,,Hops,,F_hops_noble,F_hops_noble,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,核心30项：勾选后继承组分强度的描述子项，直接对应4.csv目标,12
+"Pine, woody, resinous",Flavour,inherited_descriptor,beer_1!U29,beer_1!AG29,,Hops,,F_hops_woody,F_hops_woody,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,核心30项：勾选后继承组分强度的描述子项，直接对应4.csv目标,12
+Esters,Flavour,group_scale,beer_1!R32,beer_1!AG33,beer_1!C34:O34,,,F_esters_all,F_esters_all,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,核心30项：Aroma/Flavour 组分总强度，直接对应4.csv目标,12
+"Ethyl acetate, solvent, nail polish",Flavour,inherited_descriptor,beer_1!U36,beer_1!AG36,,Esters,,F_esters_ethac,F_esters_ethac,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,核心30项：勾选后继承组分强度的描述子项，直接对应4.csv目标,12
+"Banana, pear, candy",Flavour,inherited_descriptor,beer_1!U38,beer_1!AG38,,Esters,,F_esters_isoaa,F_esters_isoaa,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,核心30项：勾选后继承组分强度的描述子项，直接对应4.csv目标,12
+"Flowers, roses",Flavour,inherited_descriptor,beer_1!U40,beer_1!AG40,,Esters,,F_esters_flower,F_esters_flower,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,核心30项：勾选后继承组分强度的描述子项，直接对应4.csv目标,12
+"Sweet, fruity, apples",Flavour,inherited_descriptor,beer_1!U42,beer_1!AG42,,Esters,,F_ester_fruity,F_esters_fruity,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,核心30项：勾选后继承组分强度的描述子项，直接对应4.csv目标,12
+"Acetaldehyde (green apples, peel)",Flavour,group_scale,beer_1!R44,beer_1!AG45,beer_1!C46:O46,,,,,3.xlsx 卡片（summary未收录）,no_summary_column,False,3.xlsx 卡片有该项目，但4.csv与8.xlsx均无对应独立训练标签；不估分、不以0填充,12
+Alcohol,Flavour,group_scale,beer_1!R49,beer_1!AG50,beer_1!C51:O51,,,alcohol,alcohol,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,扩展19项：口感/缺陷/特殊风味，直接对应4.csv目标,12
+Sweetness,Flavour,group_scale,beer_1!R53,beer_1!AG54,beer_1!C55:O55,,,sweetness,sweetness,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,扩展19项：口感/缺陷/特殊风味，直接对应4.csv目标,12
+Acidity/sourness,Flavour,group_scale,beer_1!R57,beer_1!AG58,beer_1!C59:O59,,,acidity,acidity,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,扩展19项：口感/缺陷/特殊风味，直接对应4.csv目标,12
+"Trans-2-nonenal (wet cardboard, old attic, papery)",Flavour,group_scale,beer_1!R67,beer_1!AG68,beer_1!C69:O69,,Faults,t2n,t2n,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,扩展19项：口感/缺陷/特殊风味，直接对应4.csv目标,12
+"Diacetyl (buttery, caramel/butterscotch)",Flavour,group_scale,beer_1!R71,beer_1!AG72,beer_1!C73:O73,,Faults,diacetyl,diacetyl,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,扩展19项：口感/缺陷/特殊风味，直接对应4.csv目标,12
+"Stale hops (cheesy, roquefort)",Flavour,group_scale,beer_1!R75,beer_1!AG76,beer_1!C77:O77,,Faults,stale_hops,stale_hops,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,扩展19项：口感/缺陷/特殊风味，直接对应4.csv目标,12
+Lactic acid,Flavour,group_scale,beer_1!R81,beer_1!AG82,beer_1!C83:O83,,Lambic/Geuze,lactic,lactic,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,扩展19项：口感/缺陷/特殊风味，直接对应4.csv目标,12
+Acetic acid,Flavour,group_scale,beer_1!R85,beer_1!AG86,beer_1!C87:O87,,Lambic/Geuze,acetic,acetic,3.xlsx beer_1..beer_12 卡片与 summary,correct,True,扩展19项：口感/缺陷/特殊风味，直接对应4.csv目标,12
+Barnyard/horsey,Flavour,group_scale,beer_1!R89,beer_1!AG90,beer_1!C91:O91,,Lambic/Geuze,barnyard,barnyard,3.xlsx beer_1..beer_12 卡片与 summary,wrong_reference,True,扩展19项：口感/缺陷/特殊风味，直接对应4.csv目标,12

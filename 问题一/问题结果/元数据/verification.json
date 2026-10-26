@@ -1,12 +1,10 @@
 {
   "single_source_file": true,
-  "model_and_scoring_definitions_identical": true,
-  "independent_fold_1_matches_previous_results": true,
-  "all_five_folds_retrained": false,
-  "seven_point_grades_and_sensitivity_match_previous_results": true,
-  "unified_model_serialization": "passed",
-  "remaining_results_origin": "previous complete experiment",
-  "isolated_cli_prediction": "passed with missing feature column",
-  "prediction_matches_legacy_model": true,
-  "new_sample_grades_match_legacy_scale": true
+  "model_serialization": "passed",
+  "fold_isolation_and_source_hashes": "passed",
+  "grade_monotonicity_and_bounds": "passed",
+  "scorecard_mapping_items": 52,
+  "scorecard_intensity_targets": 49,
+  "run_note": "training, scoring, figures and model were produced by the full run; paper tables, report and this record were regenerated after a table-generation bug fix",
+  "tail_step_seconds": 0.08
 }

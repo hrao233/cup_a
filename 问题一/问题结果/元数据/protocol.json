@@ -20,8 +20,19 @@
     0.3
   ],
   "mask_repeats": 5,
-  "stress_test": "additional MCAR masking of observed outer-test feature cells; no train/test refit",
-  "grade_mapping": "seven train-label quantile bins, grade 0 is a relative rank, not absence",
+  "stress_test": "two added-missing schemes on observed outer-test cells: random over all 231 features, and targeted over the 9 features with real missing data in 1.csv; no train/test refit",
+  "grade_mapping": "QDP-inspired seven-point intensity: training minimum -> 0, median above floor -> 3, observation nearest the 95th percentile above floor -> 6, piecewise linear then rounded; empirical proxy anchors, not calibrated 0-6 scores",
+  "scorecard_items": 52,
+  "scorecard_intensity_targets": 49,
+  "scorecard_items_excluded": [
+    "Aroma :: Acetaldehyde (green apples, peel): no trained-panel label",
+    "Flavour :: Acetaldehyde (green apples, peel): no trained-panel label",
+    "overall: overall appreciation, not an intensity attribute"
+  ],
+  "scorecard_summary_reference_errors": [
+    "summary!barnyard -> Flavour AG76 (Stale hops) instead of AG90 (Barnyard/horsey)"
+  ],
+  "alternative_sensory_inputs": "7.csv is the published Ratebeer tf-idf text-weight sheet; not used as a panel label",
   "folds": [
     {
       "fold": 1,

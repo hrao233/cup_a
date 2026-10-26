@@ -28,6 +28,7 @@ import joblib
 import numpy as np
 import openpyxl
 import pandas as pd
+from openpyxl.utils import column_index_from_string
 import sklearn
 import matplotlib
 matplotlib.use("Agg")
@@ -143,6 +144,271 @@ def feature_inventory(features, X, calibrated, thresholds):
                            provided[keep], rtol=1e-7, atol=1e-7)))
         rows.append(row)
     return pd.DataFrame(rows)
+
+
+# ---------- Scorecard inventory ----------
+# Every named item on the 3.xlsx cards, with the summary column and 4.csv target
+# it must correspond to. The workbook is checked against this table instead of the
+# table being inferred from the workbook, so a template error cannot silently
+# redefine a field. kind: group_scale = own 0-6 scale row; inherited_descriptor =
+# tick box that copies its parent group intensity (or 0).
+SCORECARD_ITEMS = [
+    dict(target='A_malt_all', column='A_malt_all', side='Aroma', label='Malt', parent='', kind='group_scale'),
+    dict(target='A_malt_grain', column='A_malt_grain', side='Aroma', label='Cereals, flour, grains', parent='Malt', kind='inherited_descriptor'),
+    dict(target='A_malt_bread', column='A_malt_bread', side='Aroma', label='Bread crust', parent='Malt', kind='inherited_descriptor'),
+    dict(target='A_malt_cara', column='A_malt_cara', side='Aroma', label='Caramel', parent='Malt', kind='inherited_descriptor'),
+    dict(target='A_malt_burn', column='A_malt_burn', side='Aroma', label='Smoked, burnt toast', parent='Malt', kind='inherited_descriptor'),
+    dict(target='A_hops_all', column='A_hops_all', side='Aroma', label='Hops', parent='', kind='group_scale'),
+    dict(target='A_hops_citrus', column='A_hops_citrus', side='Aroma', label='Citrus', parent='Hops', kind='inherited_descriptor'),
+    dict(target='A_hops_tropical', column='A_hops_tropical', side='Aroma', label='Tropical fruit', parent='Hops', kind='inherited_descriptor'),
+    dict(target='A_hops_noble', column='A_hops_noble', side='Aroma', label='Noble hops (dried herbs, dried grass, hay)', parent='Hops', kind='inherited_descriptor'),
+    dict(target='A_hops_woody', column='A_hops_woody', side='Aroma', label='Pine, woody, resinous', parent='Hops', kind='inherited_descriptor'),
+    dict(target='A_esters_all', column='A_esters_all', side='Aroma', label='Esters', parent='', kind='group_scale'),
+    dict(target='A_esters_ethac', column='A_esters_ethac', side='Aroma', label='Ethyl acetate, solvent, nail polish', parent='Esters', kind='inherited_descriptor'),
+    dict(target='A_esters_isoaa', column='A_esters_isoaa', side='Aroma', label='Banana, pear, candy', parent='Esters', kind='inherited_descriptor'),
+    dict(target='A_esters_flower', column='A_esters_flower', side='Aroma', label='Flowers, roses', parent='Esters', kind='inherited_descriptor'),
+    dict(target='A_esters_fruity', column='A_ester_fruity', side='Aroma', label='Sweet, fruity, apples', parent='Esters', kind='inherited_descriptor'),
+    dict(target='', column='', side='Aroma', label='Acetaldehyde (green apples, peel)', parent='', kind='group_scale'),
+    dict(target='body', column='body', side='Aroma', label='Body', parent='', kind='group_scale'),
+    dict(target='bitternes', column='bitternes', side='Aroma', label='Bitterness', parent='', kind='group_scale'),
+    dict(target='co2', column='co2', side='Aroma', label='Carbonation', parent='', kind='group_scale'),
+    dict(target='aftertaste', column='aftertaste', side='Aroma', label='Aftertaste', parent='', kind='group_scale'),
+    dict(target='dms', column='dms', side='Aroma', label='DMS (cooked cabbage, corn)', parent='', section='Faults', kind='group_scale'),
+    dict(target='metallic', column='metallic', side='Aroma', label='Metallic', parent='', section='Faults', kind='group_scale'),
+    dict(target='X4vg', column='4vg', side='Aroma', label='4VG (smoky, clove, medicinal, dentist)', parent='', section='Faults', kind='group_scale'),
+    dict(target='orange', column='orange', side='Aroma', label='Orange', parent='', section='Spiced beers', kind='group_scale'),
+    dict(target='coriander', column='coriander', side='Aroma', label='Coriander', parent='', section='Spiced beers', kind='group_scale'),
+    dict(target='clove', column='clove', side='Aroma', label='Clove/anise', parent='', section='Spiced beers', kind='group_scale'),
+    dict(target='overall', column='overall', side='Aroma', label='Overall', parent='', kind='group_scale'),
+    dict(target='F_malt_all', column='F_malt_all', side='Flavour', label='Malt', parent='', kind='group_scale'),
+    dict(target='F_malt_grain', column='F_malt_grain', side='Flavour', label='Cereals, flour, grains', parent='Malt', kind='inherited_descriptor'),
+    dict(target='F_malt_bread', column='F_malt_bread', side='Flavour', label='Bread crust', parent='Malt', kind='inherited_descriptor'),
+    dict(target='F_malt_cara', column='F_malt_cara', side='Flavour', label='Caramel', parent='Malt', kind='inherited_descriptor'),
+    dict(target='F_malt_burn', column='F_malt_burn', side='Flavour', label='Smoked, burnt toast', parent='Malt', kind='inherited_descriptor'),
+    dict(target='F_hops_all', column='F_hops_all', side='Flavour', label='Hops', parent='', kind='group_scale'),
+    dict(target='F_hops_citrus', column='F_hops_citrus', side='Flavour', label='Citrus', parent='Hops', kind='inherited_descriptor'),
+    dict(target='F_hops_tropical', column='F_hops_tropical', side='Flavour', label='Tropical fruit', parent='Hops', kind='inherited_descriptor'),
+    dict(target='F_hops_noble', column='F_hops_noble', side='Flavour', label='Noble hops (dried herbs, dried grass, hay)', parent='Hops', kind='inherited_descriptor'),
+    dict(target='F_hops_woody', column='F_hops_woody', side='Flavour', label='Pine, woody, resinous', parent='Hops', kind='inherited_descriptor'),
+    dict(target='F_esters_all', column='F_esters_all', side='Flavour', label='Esters', parent='', kind='group_scale'),
+    dict(target='F_esters_ethac', column='F_esters_ethac', side='Flavour', label='Ethyl acetate, solvent, nail polish', parent='Esters', kind='inherited_descriptor'),
+    dict(target='F_esters_isoaa', column='F_esters_isoaa', side='Flavour', label='Banana, pear, candy', parent='Esters', kind='inherited_descriptor'),
+    dict(target='F_esters_flower', column='F_esters_flower', side='Flavour', label='Flowers, roses', parent='Esters', kind='inherited_descriptor'),
+    dict(target='F_esters_fruity', column='F_ester_fruity', side='Flavour', label='Sweet, fruity, apples', parent='Esters', kind='inherited_descriptor'),
+    dict(target='', column='', side='Flavour', label='Acetaldehyde (green apples, peel)', parent='', kind='group_scale'),
+    dict(target='alcohol', column='alcohol', side='Flavour', label='Alcohol', parent='', kind='group_scale'),
+    dict(target='sweetness', column='sweetness', side='Flavour', label='Sweetness', parent='', kind='group_scale'),
+    dict(target='acidity', column='acidity', side='Flavour', label='Acidity/sourness', parent='', kind='group_scale'),
+    dict(target='t2n', column='t2n', side='Flavour', label='Trans-2-nonenal (wet cardboard, old attic, papery)', parent='', section='Faults', kind='group_scale'),
+    dict(target='diacetyl', column='diacetyl', side='Flavour', label='Diacetyl (buttery, caramel/butterscotch)', parent='', section='Faults', kind='group_scale'),
+    dict(target='stale_hops', column='stale_hops', side='Flavour', label='Stale hops (cheesy, roquefort)', parent='', section='Faults', kind='group_scale'),
+    dict(target='lactic', column='lactic', side='Flavour', label='Lactic acid', parent='', section='Lambic/Geuze', kind='group_scale'),
+    dict(target='acetic', column='acetic', side='Flavour', label='Acetic acid', parent='', section='Lambic/Geuze', kind='group_scale'),
+    dict(target='barnyard', column='barnyard', side='Flavour', label='Barnyard/horsey', parent='', section='Lambic/Geuze', kind='group_scale'),
+]
+
+SCORECARD_SIDES = {
+    'Aroma': dict(group='B', descriptor='E', value='Q', markers=tuple(range(3, 16, 2))),
+    'Flavour': dict(group='R', descriptor='U', value='AG', markers=tuple(range(19, 32, 2))),
+}
+SECTION_HEADERS = {'Aroma', 'Flavour', 'Faults', 'Spiced beers', 'Lambic/Geuze'}
+
+DISPOSITION = {
+    'core_group': '核心30项：Aroma/Flavour 组分总强度，直接对应4.csv目标',
+    'core_descriptor': '核心30项：勾选后继承组分强度的描述子项，直接对应4.csv目标',
+    'additional': '扩展19项：口感/缺陷/特殊风味，直接对应4.csv目标',
+    'appreciation': 'overall 为总体喜好度，不是感官强度，保留在连续预测表而不进入强度评分',
+    'no_label': '3.xlsx 卡片有该项目，但4.csv与8.xlsx均无对应独立训练标签；不估分、不以0填充',
+}
+
+
+def scoped_item(row):
+    """Classify one scorecard row for the disposition column."""
+    if row['target'] == '':
+        return 'no_label'
+    if row['target'] == 'overall':
+        return 'appreciation'
+    if row['target'].startswith(('A_', 'F_')):
+        return 'core_group' if row['kind'] == 'group_scale' else 'core_descriptor'
+    return 'additional'
+
+
+def card_items(sheet):
+    """Parse visible scorecard items from one card sheet.
+
+    Group items own a 0-6 scale row two rows below the label; descriptor items
+    are tick boxes whose formula copies the parent group intensity (or 0).
+    """
+    items = {}
+    for side, columns in SCORECARD_SIDES.items():
+        value_column = columns['value']
+        for row in range(1, sheet.max_row + 1):
+            for label_column in (columns['group'], columns['descriptor']):
+                label = sheet[f'{label_column}{row}'].value
+                if not isinstance(label, str) or not label.strip():
+                    continue
+                label = ' '.join(label.split())
+                if label in SECTION_HEADERS or label.endswith(':'):
+                    continue
+                here = sheet[f'{value_column}{row}'].value
+                if (isinstance(here, str) and here.startswith('=IF(ISBLANK(') and ',0,' in here
+                        and here.split(',0,')[-1].strip(')').startswith(value_column)):
+                    items[(side, label)] = dict(
+                        label_cell=f'{label_column}{row}', value_cell=f'{value_column}{row}',
+                        kind='inherited_descriptor', scale_row=None,
+                        parent_cell=here.split(',0,')[-1].strip(')'))
+                    continue
+                later = sheet[f'{value_column}{row + 1}'].value
+                scale_row = row + 2
+                ticks = [sheet.cell(row=scale_row, column=column).value for column in columns['markers']]
+                marker = later.split('ISBLANK(')[-1].split(')')[0] if isinstance(later, str) else ''
+                if (isinstance(later, str) and later.startswith('=IF(ISBLANK(')
+                        and marker[1:] == str(row + 1)
+                        and column_index_from_string(marker[0].replace('$', '') or 'A') in columns['markers']
+                        and ticks == list(range(7))):
+                    items[(side, label)] = dict(
+                        label_cell=f'{label_column}{row}', value_cell=f'{value_column}{row + 1}',
+                        kind='group_scale', scale_row=scale_row, parent_cell='')
+    return items
+
+
+def summary_references(sheet):
+    """Map the summary sheet's per-card references to the cell they point at."""
+    headers = [cell.value for cell in sheet[1]]
+    columns = {}
+    for column, header in enumerate(headers, 1):
+        if column == 1 or header == 'comments':
+            continue
+        columns[header] = dict(column=column, sheet=None, cell=None, formula=sheet.cell(row=2, column=column).value)
+    for header, entry in columns.items():
+        formula = entry['formula']
+        if not isinstance(formula, str) or '!' not in formula:
+            raise ValueError(f'Summary column {header} does not reference a card cell: {formula!r}')
+        source, cell = formula.lstrip('=').split('!')
+        entry['sheet'], entry['cell'] = source.strip(), cell.replace('$', '')
+        for row in range(3, 14):
+            expected = f'=beer_{row-1}!{cell}'
+            if sheet.cell(row=row, column=entry['column']).value != expected:
+                raise ValueError(f'Summary column {header} does not follow its beer_{row-1} pattern')
+    return {entry['cell']: header for header, entry in columns.items()} | {'columns': columns}
+
+
+# The only template reference error confirmed on inspection: the summary's
+# barnyard column points at the Stale hops cell (Flavour AG76) instead of the
+# Barnyard/horsey cell (Flavour AG90). Kept as a declared, verified exception so
+# that any *additional* change in the template still fails the check.
+KNOWN_REFERENCE_ERRORS = {'barnyard': 'AG76'}
+
+
+def scorecard_audit(source, targets):
+    """Build the scorecard-to-output table and check every summary reference."""
+    formula_book = openpyxl.load_workbook(source / '3.xlsx', read_only=False, data_only=False)
+    cards = [name for name in formula_book.sheetnames if name.startswith('beer_')]
+    parsed = card_items(formula_book['beer_1'])
+    for name in cards[1:]:
+        assert card_items(formula_book[name]) == parsed, f'{name} no longer shares the beer_1 layout'
+    summary = summary_references(formula_book['summary'])
+    columns = summary.pop('columns')
+    inverse = {}
+    for header, entry in columns.items():
+        inverse.setdefault(entry['cell'], []).append(header)
+    declared_columns = {row['column'] for row in SCORECARD_ITEMS if row['column']}
+    if declared_columns != set(columns):
+        raise ValueError(f'Declared summary columns differ from the workbook: {declared_columns ^ set(columns)}')
+    target_set = set(targets)
+    rows = []
+    error_rows = []
+    for row in SCORECARD_ITEMS:
+        item = parsed.get((row['side'], row['label']))
+        if item is None:
+            raise ValueError(f'Scorecard item not found in beer_1: {row["side"]} / {row["label"]}')
+        if row['kind'] != item['kind']:
+            raise ValueError(f'Item kind changed for {row["label"]}: {item["kind"]}')
+        if row['parent']:
+            parent = parsed.get((row['side'], row['parent']))
+            assert parent is not None and parent['kind'] == 'group_scale', row['label']
+            assert item['parent_cell'] == parent['value_cell'], f'{row["label"]} no longer inherits {row["parent"]}'
+        if row['target']:
+            if row['target'] not in target_set:
+                raise ValueError(f'Target missing from 4.csv: {row["target"]}')
+        if row['column']:
+            entry = columns[row['column']]
+            actual = entry['cell']
+            owners = inverse[actual]
+            expected_owners = 1 + sum(1 for cell in KNOWN_REFERENCE_ERRORS.values() if cell == actual)
+            if entry['sheet'] != 'beer_1':
+                raise ValueError(f'Summary column {row["column"]} references {entry["sheet"]}')
+            if actual != item['value_cell']:
+                if KNOWN_REFERENCE_ERRORS.get(row['column']) != actual:
+                    raise ValueError(f'Summary column {row["column"]} points at {actual}, item is {item["value_cell"]}')
+                error_rows.append(dict(
+                    summary_column=row['column'], expected_card_cell=item['value_cell'],
+                    actual_card_cell=actual,
+                    actual_card_item=next(label for (side, label), value in parsed.items()
+                                          if value['value_cell'] == actual and parsed[(side, label)]['kind'] == 'group_scale'),
+                    status='wrong_reference'))
+            elif len(owners) != expected_owners or owners[0] != row['column']:
+                raise ValueError(f'Card cell {actual} is shared by {owners} instead of {row["column"]}')
+            reference_status = 'correct' if actual == item['value_cell'] else 'wrong_reference'
+        else:
+            reference_status = 'no_summary_column'
+        disposition = scoped_item(row)
+        rows.append({
+            'card_item': row['label'], 'card_side': row['side'], 'item_kind': item['kind'],
+            'label_cell': f'beer_1!{item["label_cell"]}', 'value_cell': f'beer_1!{item["value_cell"]}',
+            'scale_row': '' if item['scale_row'] is None else f'beer_1!C{item["scale_row"]}:O{item["scale_row"]}',
+            'parent_card_item': row['parent'], 'card_section': row.get('section', ''),
+            'summary_column': row['column'], 'target_4csv': row['target'],
+            'label_source': '3.xlsx beer_1..beer_12 卡片与 summary' if row['column'] else '3.xlsx 卡片（summary未收录）',
+            'summary_reference_status': reference_status,
+            'included_in_intensity_output': disposition in {'core_group', 'core_descriptor', 'additional'},
+            'disposition': DISPOSITION[disposition],
+            'card_count': len(cards),
+        })
+    # Independent, data-level check of the one template reference error.
+    formula_book.close()
+    frame = pd.DataFrame(rows)
+    assert len(frame) == 52 and int(frame.included_in_intensity_output.sum()) == 49
+    assert len(set(frame.loc[frame.included_in_intensity_output, 'target_4csv'])) == 49
+    assert len(frame.loc[frame.target_4csv == 'overall']) == 1
+    return frame, pd.DataFrame(error_rows, columns=[
+        'summary_column', 'expected_card_cell', 'actual_card_cell', 'actual_card_item', 'status'])
+
+
+def alternative_sensory_audit(source, targets, Y):
+    """Trace the acetaldehyde candidates in 7.csv and quantify their mismatch."""
+    sensory = pd.read_csv(source / '7.csv', encoding='utf-8-sig')
+    blocks = []
+    for prefix in ('aroma_', 'palate_', 'taste_'):
+        selected = [name for name in sensory.columns if name.startswith(prefix)]
+        observations = sensory[selected].notna().sum()
+        blocks.append(dict(block=prefix, columns=len(selected), cells=int(sensory[selected].size),
+                           missing=int(sensory[selected].isna().sum().sum()),
+                           empty_columns=int((observations == 0).sum())))
+    rows = []
+    for column in ['aroma_acetaldehyde', 'taste_acetaldehyde', 'palate_acetaldehyde']:
+        values = pd.to_numeric(sensory[column], errors='coerce')
+        observed = values.dropna()
+        row = dict(column=column, observed=int(len(observed)))
+        if observed.empty:
+            row.update(distinct=0, modal_value='', modal_fraction='', maximum='',
+                       best_panel_target='', best_absolute_pearson='', claim='全缺失，不能作为标签')
+            rows.append(row); continue
+        mode = observed.mode().iloc[0]
+        mask = values.notna().to_numpy()
+        numeric = values.to_numpy(float)
+        correlations = {}
+        for j, target in enumerate(targets):
+            if np.nanstd(Y[mask, j]) > 0:
+                correlations[target] = float(np.corrcoef(numeric[mask], Y[mask, j])[0, 1])
+        best = max(correlations, key=lambda name: abs(correlations[name]))
+        row.update(distinct=int(observed.nunique()), modal_value=float(mode),
+                   modal_fraction=float((observed == mode).mean()), maximum=float(observed.max()),
+                   best_panel_target=best, best_absolute_pearson=float(abs(correlations[best])),
+                   claim='标准化文本权重，不是品评员0-6强度；与4.csv目标的相关系数绝对值很小')
+        rows.append(row)
+    frame = pd.DataFrame(rows)
+    return frame, pd.DataFrame(blocks)
 
 
 def load_data(out=None):
@@ -386,6 +652,17 @@ def run_cleaning():
     formulas.close();cache.close()
     export(pd.DataFrame(scorecards), 'scorecard_audit.csv')
 
+    # Scorecard-to-output correspondence: every named item on the 12 cards, the
+    # summary column that carries it, and the 4.csv target that trains it.
+    item_table, reference_errors = scorecard_audit(source, targets)
+    export(item_table, 'scorecard_item_mapping.csv')
+    export(reference_errors, 'scorecard_summary_reference_errors.csv')
+    if len(reference_errors) != 1 or reference_errors.iloc[0].summary_column != 'barnyard':
+        raise ValueError(f'Unexpected summary reference errors: {reference_errors.to_dict("records")}')
+    alternative, blocks = alternative_sensory_audit(source, targets, Y)
+    export(alternative, 'alternative_acetaldehyde_candidates.csv')
+    export(blocks, 'alternative_sensory_blocks.csv')
+
     # Independent published workbook confirms that apparent calibration conflicts
     # already exist upstream; no attachment values are repaired from guesses.
     provenance=[]
@@ -410,6 +687,20 @@ def run_cleaning():
             raise ValueError('Attached calibration table differs from the published reference table')
         provenance.append(dict(source='Calibrated chemical dataset',status='also matches published source; cross-sheet conflicts are upstream',
             max_absolute_difference=float(np.nanmax(np.abs(authored-attached))),
+            url='https://zenodo.org/records/10653704',sha256=hashlib.sha256(paper_workbook.read_bytes()).hexdigest()))
+        # 7.csv is the published Ratebeer tf-idf file (S7), not a panel rating table.
+        s7=sheet_frame(original,'Supplementary File S7');s7.beer=s7.beer.astype(str)
+        current7=pd.read_csv(source/'7.csv',encoding='utf-8-sig',header=0)
+        if list(s7.columns)!=list(current7.columns):
+            raise ValueError('7.csv columns differ from the published Supplementary File S7')
+        columns7=list(s7.columns[3:])
+        published7=s7.set_index('beer').loc[current7.beer.astype(str),columns7].apply(pd.to_numeric,errors='coerce').to_numpy(float)
+        supplied7=current7[columns7].apply(pd.to_numeric,errors='coerce').to_numpy(float)
+        if not np.allclose(published7,supplied7,rtol=1e-7,atol=1e-7,equal_nan=True):
+            raise ValueError('7.csv differs from the published Supplementary File S7')
+        provenance.append(dict(source='Supplementary File S7 (Ratebeer text weights)',
+            status='7.csv is identical to the published Ratebeer tf-idf sheet; it is a text-mining table, not a trained-panel score table',
+            max_absolute_difference=float(np.nanmax(np.abs(published7-supplied7))),
             url='https://zenodo.org/records/10653704',sha256=hashlib.sha256(paper_workbook.read_bytes()).hexdigest()))
         original.close()
     export(pd.DataFrame(provenance,columns=['source','status','max_absolute_difference','url','sha256']), 'published_source_comparison.csv')
@@ -449,6 +740,14 @@ def run_cleaning():
         missingness_style_associations_bh05=int((association.bh_adjusted_p<.05).sum()),
         missingness_style_significant_results=association.loc[association.bh_adjusted_p<.05].to_dict('records'),
         scorecards_audited=len(scorecards),author_workbook_compared=bool(provenance),
+        scorecard_named_items=len(item_table),
+        scorecard_independent_scale_items=int((item_table.item_kind=='group_scale').sum()),
+        scorecard_inherited_descriptors=int((item_table.item_kind=='inherited_descriptor').sum()),
+        scorecard_intensity_targets=int(item_table.included_in_intensity_output.sum()),
+        scorecard_items_without_training_label=item_table.loc[~item_table.included_in_intensity_output,'card_item'].tolist(),
+        summary_reference_errors=reference_errors.to_dict('records'),
+        alternative_sensory_source='7.csv matches published Supplementary File S7 (Ratebeer tf-idf text weights)',
+        alternative_sensory_decision='not used as a panel intensity label; see problem analysis note',
         numerical_training_inputs_changed=False,rows_deleted=0,features_deleted=0,
         globally_imputed_cells=0,missing_value_policy='median fitted separately in each training fold',
         outlier_policy='flag and retain; existing training-fold clipping applies to ridge/PLS only',
@@ -456,26 +755,9 @@ def run_cleaning():
         unavailable_evidence='pre-transform uncalibrated signals, per-compound analytical LOD/LOQ, raw replicate chromatograms',
         verification='passed: source hashes, canonical CSV roundtrip, source alignment, all scorecard defaults')
     (INFO/'cleaning_summary.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2),encoding='utf-8')
-    cleaning_plot(chemistry,missing,row_flags)
     cleaning_report(summary,chemistry,extreme)
     print(json.dumps(summary,ensure_ascii=False,indent=2),flush=True)
     return summary
-
-
-def cleaning_plot(chemistry, missing, row_flags):
-    installed={font.name for font in font_manager.fontManager.ttflist}
-    plt.rcParams.update({'font.family':[name for name in ['Microsoft YaHei','SimHei'] if name in installed]+['DejaVu Sans'],
-                         'axes.unicode_minus':False})
-    fig,axes=plt.subplots(1,3,figsize=(15,5),layout='constrained')
-    counts=chemistry.isna().sum().loc[lambda x:x>0].sort_values()
-    axes[0].barh(counts.index,counts.values,color='#0f766e')
-    axes[0].set(title='缺失值集中在9个特征',xlabel='缺失测量数')
-    categories,frequencies=np.unique(missing.sum(axis=1),return_counts=True)
-    axes[1].bar(categories,frequencies,color='#38bdf8')
-    axes[1].set(title='每款啤酒的缺失项数',xlabel='缺失特征数',ylabel='样本数',xticks=categories)
-    axes[2].hist(row_flags,bins=15,color='#c2410c')
-    axes[2].set(title='统计极端值仅标记、保留',xlabel='每样本被标记的化学测量数',ylabel='样本数')
-    fig.savefig(FIG/'数据清洗概览.png',dpi=160);plt.close(fig)
 
 
 def cleaning_report(summary, chemistry, extreme):
@@ -548,7 +830,7 @@ def cleaning_report(summary, chemistry, extreme):
 
 对校准原值检查非负性、pH的0—14范围、乙醇的0—100%范围，发现辅助校准表有{summary['invalid_physical_reference_cells']}个负测量值（β-葡聚糖2处、不可发酵物1处）；对应主表已使用可核对的低端替代值。保留主表，逐项列于`physical_reference_flags.csv`。不使用“常见啤酒范围”删除特殊风格，不把感官阈值误当检测限或异常上界。
 
-全12张评分卡都已检查：公式缓存0为未填写模板的默认结果，不用于感官训练，也不补造没有独立标签的乙醛子项目。
+全12张评分卡都已检查：公式缓存0为未填写模板的默认结果，不用于感官训练。52个卡片项目的逐项去向见`数据清洗/scorecard_item_mapping.csv`；Aroma与Flavour两个`Acetaldehyde`项目在`4.csv`与`8.xlsx`中没有面板标签，`7.csv`的同名列是Ratebeer评论文本的TF-IDF权重（与作者`Supplementary File S7`逐值一致），构念不同，因此不补造这两项分数。`summary`的`barnyard`引用错误（指向`AG76`而非`AG90`）已记录，未改动原始附件。
 
 ## 结论与适用范围
 
@@ -556,7 +838,7 @@ def cleaning_report(summary, chemistry, extreme):
 
 依据：[作者论文方法](https://pmc.ncbi.nlm.nih.gov/articles/PMC10966102/)、[固定版本公开数据与脚本](https://zenodo.org/records/10653704)。来源比对与哈希见`数据表格/数据清洗/published_source_comparison.csv`，处理汇总见`元数据/cleaning_summary.json`。
 
-![清洗概览](绘图/数据清洗概览.png)
+
 '''
     (OUT/'数据清洗报告.md').write_text(text,encoding='utf-8')
 
@@ -780,6 +1062,25 @@ def score(y, p):
             'mae_provided_scale': float(np.abs(y-p).mean()),
             'rmse_provided_scale': float(np.sqrt(np.mean((y-p)**2)))}
 
+
+def reliability_label(r2, baseline_r2):
+    """Readability bands for OOF R2; "below baseline" compares with the same
+    target's training-fold-mean baseline instead of assuming a zero threshold."""
+    if r2 < baseline_r2:
+        return 'below_mean_baseline'
+    if r2 >= 0.4:
+        return 'usable'
+    if r2 >= 0.2:
+        return 'moderate'
+    return 'weak'
+
+
+def as_bool(series):
+    """Read a CSV boolean column without letting the string 'False' become True."""
+    if series.dtype == bool:
+        return series
+    return series.astype(str).str.strip().str.lower().isin(('true', '1'))
+
 def train():
     OUT.mkdir(parents=True, exist_ok=True)
     TABLES.mkdir(parents=True, exist_ok=True)
@@ -803,8 +1104,14 @@ def train():
         'model_selection': 'minimum inner-fold OOF MSE independently per target',
         'excluded_predictors': ['beer', 'beer_id', 'tasting_category_fine', '4.csv', '7.csv', 'external model outputs'],
         'missingness_scenarios': [0.0, 0.1, 0.2, 0.3], 'mask_repeats': 5,
-        'stress_test': 'additional MCAR masking of observed outer-test feature cells; no train/test refit',
-        'grade_mapping': 'QDP-inspired seven-point proxy anchors; quantile bins exported only as historical comparison',
+        'stress_test': 'two added-missing schemes on observed outer-test cells: random over all 231 features, and targeted over the 9 features with real missing data in 1.csv; no train/test refit',
+        'grade_mapping': 'QDP-inspired seven-point intensity: training minimum -> 0, median above floor -> 3, observation nearest the 95th percentile above floor -> 6, piecewise linear then rounded; empirical proxy anchors, not calibrated 0-6 scores',
+        'scorecard_items': 52, 'scorecard_intensity_targets': 49,
+        'scorecard_items_excluded': ['Aroma :: Acetaldehyde (green apples, peel): no trained-panel label',
+                                     'Flavour :: Acetaldehyde (green apples, peel): no trained-panel label',
+                                     'overall: overall appreciation, not an intensity attribute'],
+        'scorecard_summary_reference_errors': ['summary!barnyard -> Flavour AG76 (Stale hops) instead of AG90 (Barnyard/horsey)'],
+        'alternative_sensory_inputs': '7.csv is the published Ratebeer tf-idf text-weight sheet; not used as a panel label',
         'folds': [{'fold': i+1, 'train_beer': meta.beer.iloc[tr].tolist(),
                    'test_beer': meta.beer.iloc[te].tolist()} for i, (tr,te) in enumerate(folds)],
         'environment': {'python': platform.python_version(), 'sklearn': sklearn.__version__,
@@ -838,16 +1145,33 @@ def train():
                 min_samples_leaf=6, max_features=0.7, random_state=SEED+fold, n_jobs=2)),
             transformer=StandardScaler()).fit(np.vstack(aug_x), np.tile(Y[tr], (4,1)))
         stress = []
-        for rate in [0.0, 0.1, 0.2, 0.3]:
-            repeats = 1 if rate == 0 else 5
-            for repeat in range(repeats):
-                rng = np.random.default_rng(SEED + fold*1000 + repeat)
-                masked = X[te].copy()
-                masked[rng.random(masked.shape) < rate] = np.nan
-                for method, p in [('nested_selected', model.predict(masked)),
-                                  ('mask_augmented_extra_trees', robust.predict(masked))]:
-                    stress.append(dict(fold=fold, additional_missing_rate=rate, repeat=repeat,
-                                       method=method, **score(Y[te],p), core_macro_r2=score(Y[te][:,core],p[:,core])['macro_r2']))
+        # Two masking schemes on the same outer split. random_all_features is the
+        # extra random-measurement stress test; observed_missing_features masks
+        # only the nine columns that are actually missing in 1.csv, which is the
+        # targeted scenario suggested by the audited missingness pattern.
+        missing_columns = np.flatnonzero(np.isnan(X).any(axis=0))
+        for scheme in ['random_all_features', 'observed_missing_features']:
+            for rate in [0.0, 0.1, 0.2, 0.3]:
+                if scheme != 'random_all_features' and rate == 0.0:
+                    continue
+                repeats = 1 if rate == 0 else 5
+                for repeat in range(repeats):
+                    rng = np.random.default_rng(SEED + fold*1000 + repeat)
+                    masked = X[te].copy()
+                    if scheme == 'random_all_features':
+                        masked[rng.random(masked.shape) < rate] = np.nan
+                    else:
+                        subset = masked[:, missing_columns].copy()
+                        draw = rng.random(subset.shape) < rate
+                        masked[:, missing_columns] = np.where(draw, np.nan, subset)
+                    for method, p in [('nested_selected', model.predict(masked)),
+                                      ('mask_augmented_extra_trees', robust.predict(masked))]:
+                        columns_masked = X.shape[1] if scheme == 'random_all_features' else len(missing_columns)
+                        stress.append(dict(fold=fold, masking_scheme=scheme, additional_missing_rate=rate,
+                                           repeat=repeat, masked_columns=columns_masked,
+                                           masked_cell_share_of_all=rate*columns_masked/X.shape[1],
+                                           method=method, **score(Y[te],p),
+                                           core_macro_r2=score(Y[te][:,core],p[:,core])['macro_r2']))
         rec = dict(te=te, prediction=prediction, grades=grade, zgrades=zgrade,
                    families={name:all_p[j] for j,name in enumerate(model.names_)},
                    choices=[model.names_[j] for j in model.selected_], stress=stress)
@@ -874,11 +1198,12 @@ def train():
     csv(pd.DataFrame(choices), 'outer_model_selection.csv')
     stress_df = pd.DataFrame(stress_rows); csv(stress_df,'missingness_stress_raw.csv')
     # Average repeats within a fold first, so repeats are not treated as independent datasets.
-    stress_fold = stress_df.groupby(['method','additional_missing_rate','fold'],as_index=False)[
-        ['macro_r2','core_macro_r2','rmse_provided_scale','mae_provided_scale']].mean()
-    stress_summary=stress_fold.groupby(['method','additional_missing_rate']).agg(
+    stress_fold = stress_df.groupby(['masking_scheme','method','additional_missing_rate','fold'],as_index=False)[
+        ['macro_r2','core_macro_r2','rmse_provided_scale','mae_provided_scale','masked_cell_share_of_all']].mean()
+    stress_summary=stress_fold.groupby(['masking_scheme','method','additional_missing_rate']).agg(
         macro_r2=('macro_r2','mean'), core_macro_r2=('core_macro_r2','mean'),
         rmse=('rmse_provided_scale','mean'), mae=('mae_provided_scale','mean'),
+        masked_cell_share_of_all=('masked_cell_share_of_all','mean'),
         fold_sd_r2=('macro_r2','std')).reset_index()
     csv(stress_summary,'missingness_stress_summary.csv')
     target_rows=[]
@@ -889,10 +1214,34 @@ def train():
             normalized_rmse=float(np.sqrt(np.mean((Y[:,j]-oof[:,j])**2))/Y[:,j].std(ddof=1)),
             spearman=float(spearmanr(Y[:,j],oof[:,j]).statistic),
             baseline_r2=float(r2_score(Y[:,j],baseline[:,j]))))
-    csv(pd.DataFrame(target_rows).merge(mapping,on=['target','scope']), 'per_target_metrics.csv')
+    metrics_frame = pd.DataFrame(target_rows).merge(mapping,on=['target','scope'])
+    metrics_frame['reliability'] = [reliability_label(a, b) for a, b in
+                                    zip(metrics_frame.r2, metrics_frame.baseline_r2)]
+    metrics_frame['reliability_note'] = [
+        {'usable':'R2>=0.4：可作为该属性的估计，仍非原始0-6分',
+         'moderate':'0.2<=R2<0.4：方向可用，等级细节不可靠',
+         'weak':'R2<0.2 且不低于训练均值基线：接近均值预测，等级只能作参考',
+         'below_mean_baseline':'R2 低于该属性的训练均值基线（见baseline_r2列），不应作为该属性的评分'}[label]
+        for label in metrics_frame.reliability]
+    csv(metrics_frame, 'per_target_metrics.csv')
+    # Error split by whether the beer actually carries missing measurements.
+    has_missing = np.isnan(X).any(axis=1)
+    group_rows = []
+    for label, select in [('any_real_missing', has_missing), ('complete_cases', ~has_missing)]:
+        if select.sum() == 0:
+            continue
+        for scope, columns in [('all_50', np.ones(q, dtype=bool)), ('core_30', core)]:
+            model_error = float(np.abs(Y[select][:,columns]-oof[select][:,columns]).mean())
+            base_error = float(np.abs(Y[select][:,columns]-baseline[select][:,columns]).mean())
+            group_rows.append(dict(group=label, samples=int(select.sum()), scope=scope,
+                mae_provided_scale=model_error, baseline_mae_provided_scale=base_error,
+                mae_reduction_vs_training_mean=float(1-model_error/base_error),
+                note='组间差异受风格与样本组成影响，不能解释为缺失的因果效应'))
+    csv(pd.DataFrame(group_rows), 'missingness_group_metrics.csv')
+    result['mae_by_original_missingness'] = group_rows
+    result['target_reliability_counts'] = metrics_frame.reliability.value_counts().to_dict()
+    result['weak_targets'] = metrics_frame.loc[metrics_frame.r2 < 0.2, 'target'].tolist()
     csv(pd.concat([meta,pd.Series(fold_labels,name='outer_fold'),pd.DataFrame(oof,columns=targets)],axis=1),'oof_predictions_continuous.csv')
-    csv(pd.concat([meta,pd.Series(fold_labels,name='outer_fold'),pd.DataFrame(grades,columns=targets)],axis=1),'oof_relative_grades_0_6.csv')
-    csv(pd.concat([meta,pd.DataFrame(zgrades,columns=targets)],axis=1),'oof_alternative_grades_0_6.csv')
     csv(pd.concat([meta,pd.DataFrame(Y,columns=targets)],axis=1),'reference_targets_provided_scale.csv')
     np.savez_compressed(INFO/'evaluation_arrays.npz',y=Y,prediction=oof,baseline=baseline,grades=grades,fold=fold_labels)
 
@@ -940,7 +1289,6 @@ def train():
                 MODEL_DIR/'sensory_model.joblib')
     csv(pd.DataFrame({'target':targets,'selected_model':[final.names_[j] for j in final.selected_]}),'final_model_selection.csv')
     csv(pd.DataFrame(final.inner_mse_.T,columns=final.names_,index=targets).reset_index(names='target'),'final_inner_cv_mse.csv')
-    csv(pd.DataFrame(final.y_reference_,columns=targets),'grade_reference_distribution.csv')
     # Serialization, input/output alignment, and finite predictions are material checks.
     restored=joblib.load(MODEL_DIR/'sensory_model.joblib')
     np.testing.assert_allclose(final.predict(X[:7]),restored['model'].predict(X[:7]),rtol=0,atol=1e-12)
@@ -1034,8 +1382,19 @@ def calibrate():
     refs=pd.DataFrame(references)
     save(refs,'reference_candidates_and_assumptions.csv')
     dictionary=mapping[mapping.target!='overall'].copy()
-    dictionary['scale']='QDP-inspired seven-point ordinal intensity'
+    cards=pd.read_csv(TABLES/'数据清洗/scorecard_item_mapping.csv',header=0)
+    cards=cards[as_bool(cards.included_in_intensity_output)].copy()
+    if set(cards.target_4csv)!=set(dictionary.target) or len(cards)!=49:
+        raise ValueError('Scorecard intensity targets differ from the 49 training targets')
+    cards=cards.rename(columns={'target_4csv':'target'})[
+        ['target','card_item','card_side','item_kind','value_cell','parent_card_item','summary_column']]
+    dictionary=dictionary.merge(cards,on='target',how='left',validate='one_to_one')
+    per_target=pd.read_csv(TABLES/'per_target_metrics.csv',header=0).set_index('target')
+    dictionary['predictive_oof_r2_provided_scale']=dictionary.target.map(per_target.r2)
+    dictionary['reliability']=dictionary.target.map(per_target.reliability)
+    dictionary['scale']='QDP-inspired seven-point ordinal intensity (0-6), model-estimated'
     dictionary['calibration_status']='unverified_empirical_reference_candidates'
+    dictionary['grade_meaning']='模型估计强度等级；0为该属性估计的最低水平，不等于已确认不存在'
     save(dictionary,'intensity_target_dictionary.csv')
     semantic=pd.DataFrame({'grade':list(range(7)),
         'adopted_project_label':['未感知','极弱','弱','中等','较强','强','极强／占主导'],
@@ -1077,113 +1436,237 @@ def calibrate():
 # ---------- Figures ----------
 
 def plot_results():
-    summary=json.loads((INFO/'summary.json').read_text(encoding='utf-8'))
-    audit=json.loads((INFO/'audit.json').read_text(encoding='utf-8'))
     metrics=pd.read_csv(TABLES/'per_target_metrics.csv',header=0)
-    compare=pd.read_csv(TABLES/'model_comparison.csv',header=0)
     stress=pd.read_csv(TABLES/'missingness_stress_summary.csv',header=0)
-    interval=pd.read_csv(TABLES/'split_conformal_metrics.csv',header=0)
-    target_names=metrics.set_index('target').CleanName_PanelFeedback.to_dict()
-    arrays=np.load(INFO/'evaluation_arrays.npz')
-    y,pred=arrays['y'],arrays['prediction']
     FIG.mkdir(exist_ok=True)
     installed={f.name for f in font_manager.fontManager.ttflist}
     preferred=[f for f in ['Microsoft YaHei','SimHei','Noto Sans CJK SC','Arial Unicode MS'] if f in installed]
     plt.rcParams.update({'font.family':preferred+['DejaVu Sans'],'axes.unicode_minus':False,
         'axes.spines.top':False,'axes.spines.right':False,'figure.facecolor':'#f8fafc',
         'axes.facecolor':'white','axes.titleweight':'bold','font.size':10})
-    fig,axes=plt.subplots(2,2,figsize=(14,10),layout='constrained')
-    fig.suptitle('A题第一问 · 嵌套交叉验证结果',fontsize=20,fontweight='bold',color='#172554')
-    plot=compare.sort_values('macro_r2')
-    labels={'training_mean':'训练折均值基线','nested_selected':'按属性内层选择','hist_gradient_boost':'梯度提升树',
-            'blend_tree_linear':'树模型＋岭回归等权融合'}
-    axes[0,0].barh([labels.get(x,x) for x in plot.model],plot.macro_r2,
-                  color=['#0f766e' if x=='nested_selected' else '#93c5fd' for x in plot.model])
-    axes[0,0].axvline(0,color='#64748b',lw=.8)
-    axes[0,0].set(title='50个感官属性：宏平均 R²',xlabel='外层折未见样本的预测表现')
-    best=metrics.sort_values('r2',ascending=False).iloc[0]
-    j=list(metrics.target).index(best.target)
-    axes[0,1].scatter(y[:,j],pred[:,j],s=22,alpha=.65,c='#0f766e',edgecolors='white',linewidths=.3)
-    lim=[min(y[:,j].min(),pred[:,j].min()),max(y[:,j].max(),pred[:,j].max())]
-    axes[0,1].plot(lim,lim,'--',color='#64748b')
-    axes[0,1].set(title=f'示例：{target_names[best.target]}，R²={best.r2:.3f}',
-                  xlabel='附件提供的感官值',ylabel='外层预测值')
-    for name,color,label in [('nested_selected','#0f766e','内层选择模型'),('mask_augmented_extra_trees','#c2410c','缺失增强树模型')]:
-        part=stress[stress.method==name]
-        axes[1,0].plot(part.additional_missing_rate*100,part.core_macro_r2,'o-',color=color,label=label)
-    axes[1,0].set(title='成分额外随机缺失：30个核心香气/风味属性',xlabel='额外遮蔽比例（%）',ylabel='各外层折宏平均 R² 的均值')
-    axes[1,0].legend(frameon=False);axes[1,0].grid(axis='y',alpha=.2)
-    part=metrics.sort_values('r2',ascending=False).head(10).sort_values('r2')
-    axes[1,1].barh(part.target,part.r2,color='#38bdf8')
-    axes[1,1].set(title='预测表现最高的10个属性',xlabel='汇总外层预测 R²')
-    fig.savefig(FIG/'question1_overview.png',dpi=170)
-    fig.savefig(FIG/'question1_overview.svg')
-    plt.close(fig)
     plot=metrics.sort_values('r2')
     fig,ax=plt.subplots(figsize=(11,13),layout='constrained')
     ax.barh(plot.target,plot.r2,color=np.where(plot.r2>0,'#0f766e','#c2410c'))
     ax.axvline(0,c='#64748b',lw=1)
     ax.set(title='全部50个属性的外层预测 R²（保留负值）',xlabel='R²；负值表示弱于按总体均值预测')
     fig.savefig(FIG/'all_target_r2.png',dpi=160);plt.close(fig)
+    missingness_curve(stress)
+
+
+def missingness_curve(stress):
+    """Standalone 图2: error versus added missingness under both masking schemes."""
+    fig,axes=plt.subplots(1,2,figsize=(12,5.0))
+    fig.subplots_adjust(bottom=0.28,top=0.82,left=0.07,right=0.98,wspace=0.22)
+    styles={('random_all_features','nested_selected'):('#0f766e','-','随机遮蔽·内层选择'),
+            ('random_all_features','mask_augmented_extra_trees'):('#0f766e','--','随机遮蔽·缺失增强树'),
+            ('observed_missing_features','nested_selected'):('#c2410c','-','定向遮蔽9列·内层选择'),
+            ('observed_missing_features','mask_augmented_extra_trees'):('#c2410c','--','定向遮蔽9列·缺失增强树')}
+    for (scheme,method),(color,linestyle,label) in styles.items():
+        part=stress[(stress.masking_scheme==scheme)&(stress.method==method)].sort_values('additional_missing_rate')
+        if part.empty:
+            continue
+        axes[0].plot(part.additional_missing_rate*100,part.core_macro_r2,marker='o',linestyle=linestyle,
+                     color=color,label=label,ms=4)
+        axes[1].plot(part.additional_missing_rate*100,part.rmse,marker='o',linestyle=linestyle,
+                     color=color,label=label,ms=4)
+    axes[0].set(title='核心30项：额外缺失使宏平均 R² 下降',xlabel='额外遮蔽比例（%，在各自选定列内）',ylabel='各外层折 R² 的均值')
+    axes[1].set(title='50项：额外缺失使 RMSE 上升',xlabel='额外遮蔽比例（%，在各自选定列内）',ylabel='各外层折 RMSE 的均值（附件连续尺度）')
+    for axis in axes:
+        axis.grid(axis='y',alpha=.2)
+    handles,labels=axes[0].get_legend_handles_labels()
+    fig.legend(handles,labels,frameon=False,fontsize=9,ncol=4,loc='lower center',bbox_to_anchor=(0.5,0.01))
+    fig.suptitle('图2 缺失情景—预测误差曲线（0%仅指未再额外遮蔽，原始缺失仍在）\n'
+                 '横轴为在各自选定列内追加遮蔽的比例：随机方案作用于231列，'
+                 '定向方案只作用于9列（30%时约占全部单元格1.17%），两者不代表同等缺失总量',
+                 fontsize=11,fontweight='bold',y=0.975)
+    fig.savefig(FIG/'missingness_error_curve.png',dpi=170)
+    plt.close(fig)
+
+
+def paper_tables():
+    """Two body tables plus the full score table kept as supporting material."""
+    destination = TABLES/'论文表格'
+    destination.mkdir(parents=True, exist_ok=True)
+    # Full 49-column table: the body table mixes core and additional dimensions.
+    grades = pd.read_csv(SCORE_OUT/'oof_estimated_intensity_grades_0_6.csv', header=0)
+    core_columns = [name for name in grades.columns if name.startswith(('A_', 'F_'))]
+    card = grades[grades.beer.astype(int).between(1, 12)][
+        ['beer', 'beer_id', 'tasting_category_fine', 'outer_fold'] + core_columns].copy()
+    card['order'] = card.beer.astype(int)
+    card = card.sort_values('order').drop(columns='order')
+    card.to_csv(destination/'表1_评分卡12款核心评分.csv', index=False, encoding='utf-8-sig')
+    # Body-sized table: five beers at fixed overall predicted quantiles, ten
+    # group-level or widely interpretable dimensions instead of all 30.
+    continuous = pd.read_csv(TABLES/'oof_predictions_continuous.csv', header=0)
+    overall = continuous.set_index('beer').overall
+    picks, chosen = [], set()
+    for quantile in [0.05, 0.275, 0.5, 0.725, 0.95]:
+        target = overall.quantile(quantile)
+        order = (overall - target).abs().sort_values()
+        beer = next(name for name in order.index if name not in chosen)
+        chosen.add(beer)
+        picks.append(beer)
+    dimensions = ['A_malt_all', 'A_hops_all', 'A_esters_all', 'F_malt_all', 'F_hops_all',
+                  'F_esters_all', 'bitternes', 'acidity', 'sweetness', 'body']
+    body = grades[grades.beer.isin(picks)].set_index('beer').loc[picks, dimensions]
+    body = body.reset_index()
+    body.insert(1, '风格', grades.set_index('beer').loc[picks, 'tasting_category_fine'].to_numpy())
+    body.insert(2, 'overall预测分位(%)', [5, 27.5, 50, 72.5, 95])
+    body.to_csv(destination/'表1_正文_代表样本主要维度.csv', index=False, encoding='utf-8-sig')
+    compare = pd.read_csv(TABLES/'model_comparison.csv', header=0)
+    keep = ['training_mean', 'ridge_100', 'extra_trees_leaf2', 'blend_tree_only', 'nested_selected']
+    table = compare[compare.model.isin(keep)].copy()
+    table['order'] = table.model.map({name: i for i, name in enumerate(keep)})
+    table = table.sort_values('order')
+    table['model'] = table.model.map({'training_mean': '训练折均值基线', 'ridge_100': '岭回归(α=100)',
+                                      'extra_trees_leaf2': '极端随机树(leaf=2)',
+                                      'blend_tree_only': '固定等权树融合',
+                                      'nested_selected': '逐属性内层选择（主模型）'})
+    table = table[['model', 'macro_r2', 'core_macro_r2', 'mae_provided_scale', 'rmse_provided_scale']]
+    table.columns = ['模型', '50项宏平均R²', '核心30项宏平均R²', 'MAE（附件连续尺度）', 'RMSE（附件连续尺度）']
+    table.to_csv(destination/'表2_模型评价.csv', index=False, encoding='utf-8-sig')
+    (destination/'README.md').write_text(
+        '# 论文正文表格\n\n'
+        '- `表1_正文_代表样本主要维度.csv`：正文用表。5 款代表样本（按 `overall` 连续预测的 5%、27.5%、50%、72.5%、95% 分位各取 1 款，'
+        '不按风格分层）× 10 个主要维度，值为外层 OOF 整数等级 0—6。\n'
+        '- `表1_评分卡12款核心评分.csv`：支撑材料用完整表（Beer# 1—12 × 30 核心项）。\n'
+        '- `表2_模型评价.csv`：均值基线、岭回归、极端随机树、固定等权树融合与主模型；同一外层划分、连续标签尺度，不是 0—6 分误差。'
+        '固定树融合总体 0.2508、核心 0.1982，列出后可解释主模型的选择理由。\n'
+        '- 生成入口：`问题一/代码/question1.py` 的 `paper_tables()`；正文只放这两张表。\n',
+        encoding='utf-8')
 
 
 def write_report():
     """Write the current results without depending on old reports or downloads."""
     summary = json.loads((INFO/'summary.json').read_text(encoding='utf-8'))
     scoring = json.loads((INFO/'seven_point_summary.json').read_text(encoding='utf-8'))
-    origin = ('本目录复用此前已完成的完整实验结果和模型，用于单文件整合核对；'
-              '整合版独立重训了第一折，四项指标与旧版一致。当前并未重新训练全部五折。'
-              if summary.get('result_origin') == 'previous_complete_experiment'
-              else '本次从原始附件重新完成数据核对、建模、评价、七点评分、图表和模型导出。')
-    report = f"""# A题第一问：单文件运行结果
+    metrics = pd.read_csv(TABLES/'per_target_metrics.csv', header=0)
+    groups = pd.read_csv(TABLES/'missingness_group_metrics.csv', header=0)
+    stress = pd.read_csv(TABLES/'missingness_stress_summary.csv', header=0)
+    mapping = pd.read_csv(TABLES/'数据清洗/scorecard_item_mapping.csv', header=0)
+    reference_errors = pd.read_csv(TABLES/'数据清洗/scorecard_summary_reference_errors.csv', header=0)
+    alternative = pd.read_csv(TABLES/'数据清洗/alternative_acetaldehyde_candidates.csv', header=0)
+    origin = ('本文件由`问题一/代码/question1.py`本次运行自动生成。'
+              if summary.get('result_origin') != 'previous_complete_experiment'
+              else '本文件复用了此前完成的完整五折结果，仅新增核对与说明，未重新训练模型。')
+    weak = metrics[metrics.r2 < 0.2].sort_values('r2')
+    weak_table = '\n'.join(
+        f'| {row.target} | {" ".join(str(row.CleanName_PanelFeedback).split())} | {row.r2:.4f} | {row.reliability} |'
+        for row in weak.itertuples())
+    group_table = '\n'.join(
+        f'| {row.group} | {row.scope} | {row.samples} | {row.mae_provided_scale:.4f} | '
+        f'{row.baseline_mae_provided_scale:.4f} | {row.mae_reduction_vs_training_mean:.4f} |'
+        for row in groups.itertuples())
+    scheme_rows = []
+    targeted_share = 0.0
+    for scheme, title in [('random_all_features', '随机遮蔽全部231列'),
+                          ('observed_missing_features', '定向遮蔽9个真实缺失列')]:
+        for rate in [0.0, 0.1, 0.2, 0.3]:
+            part = stress[(stress.masking_scheme == scheme) & (stress.additional_missing_rate == rate)
+                          & (stress.method == 'nested_selected')]
+            if part.empty:
+                continue
+            share = float(part.masked_cell_share_of_all.iloc[0])
+            if scheme == 'observed_missing_features':
+                targeted_share = max(targeted_share, share)
+            scheme_rows.append(f'| {title} | {rate*100:.0f}% | {share*100:.2f}% | {part.macro_r2.iloc[0]:.4f} | '
+                               f'{part.core_macro_r2.iloc[0]:.4f} | {part.rmse.iloc[0]:.4f} |')
+    scheme_table = '\n'.join(scheme_rows)
+    below_baseline = int((metrics.r2 < metrics.baseline_r2).sum())
+    acetaldehyde = alternative.set_index('column')
+    aro = acetaldehyde.loc['aroma_acetaldehyde']
+    tas = acetaldehyde.loc['taste_acetaldehyde']
+    report = f"""# A题第一问：结果与评分说明
 
 {origin}
 
-- 输入：250个样本，231个化学/理化特征；连续目标为50个感官属性。
-- 验证：外层5折评价，内层3折逐属性选择模型；插补、裁剪、标准化均在训练折拟合。
-- 50项宏平均R²：{summary['macro_r2']:.6f}。
-- 30项核心香气/风味宏平均R²：{summary['core_macro_r2']:.6f}。
-- 连续值MAE：{summary['mae_provided_scale']:.6f}；RMSE：{summary['rmse_provided_scale']:.6f}。
-- 独立区间实验：150个训练、50个校准、50个测试，逐属性90%区间平均覆盖率为{summary['split_conformal_90_mean_coverage']:.4f}。
+## 1. 输出口径
 
-候选模型包含岭回归、PLS、极端随机树、梯度提升及固定等权融合；各属性仅按内层验证误差选择。
-额外缺失实验遮蔽外层测试集10%、20%、30%的测量，另与仅使用训练数据构建的缺失增强模型比较。
-R²的自助区间基于固定的外层预测，不包含整套模型重新训练的变异。
-区间实验使用独立模型，报告逐属性覆盖率，不代表50项同时覆盖。
+题目`3.xlsx`的12张评分卡共有{len(mapping)}个可见项目：{int((mapping.item_kind == 'group_scale').sum())}个各自带0—6标尺的项目，另有{int((mapping.item_kind == 'inherited_descriptor').sum())}个"勾选后继承组分强度"的描述子项。
 
-## 七点评分
+- 有`4.csv`直接训练标签并进入最终评分：{int(as_bool(mapping.included_in_intensity_output).sum())}项（Aroma/Flavour核心30项＋口感、缺陷与特殊风味19项）。
+- 不进入强度评分：`overall`（总体喜好度）与 Aroma、Flavour 两个`Acetaldehyde`项目（无直接训练标签，不以0填充）。
+- 逐项对应（卡名称、单元格、父组、summary列、4.csv列、是否纳入）见`问题结果/数据表格/数据清洗/scorecard_item_mapping.csv`，说明见[评分卡到输出对应关系](题意与数据核验.md)。
+- 模板引用错误{len(reference_errors)}处：summary的`barnyard`指向`Flavour AG76`（Stale hops），正确位置为`AG90`；已记录，未修改原始附件。`4.csv`的`barnyard`与`stale_hops`并非同一列（相关系数0.9788，且非恒等），因此不能据此认定训练标签已错。
 
-借鉴QDP参照描述方法及来源研究的七点强度形式，等级为0—6。
-0、3、6的经验候选锚点依次取训练标签的最小值、超过最低值部分的中位数附近实际观测、95%分位数附近实际观测，分段线性插值后四舍五入。
-每个外层测试样本的映射只用该折训练标签拟合。最终全样本映射供后续新样本使用。
-排除overall喜好度后输出49项强度，其中30项为核心香气/风味。
+`7.csv`经核对与作者公开的`Supplementary File S7`逐值一致，是Ratebeer评论文本的TF-IDF权重表，不是品评员评分：`aroma_acetaldehyde`有{int(aro.observed)}个观测但{aro.modal_fraction:.1%}的样本为同一零权重值，与`4.csv`任一目标的最大绝对相关仅{aro.best_absolute_pearson:.3f}；`taste_acetaldehyde`类似（{tas.modal_fraction:.1%}为同一零权重值，最大绝对相关{tas.best_absolute_pearson:.3f}）；`palate_acetaldehyde`全缺失。因此不把它当作乙醛强度标签，详见[乙醛标签核验](题意与数据核验.md)。
 
-这些锚点是未经过人工强度校准的建模假设。附件标签已经标准化，不能据此宣称恢复了原始人工0—6分，也没有可验证的原始等级准确率。
-题目评分卡中没有对应直接训练标签的独立乙醛子项目不补造评分。
-中间等级中文名称是项目用语，不是标准逐级定义的引文。
+## 2. 连续预测（外层5折、内层3折）
 
-- 高端锚点改为90%分位数时，等级改变比例：{scoring['grade_change_fraction_q90']:.4f}。
-- 高端锚点改为99%分位数时，等级改变比例：{scoring['grade_change_fraction_q99']:.4f}。
-- 锚点自助抽样次数：每折{scoring['anchor_bootstrap_repeats_per_fold']}次。
-- 参考研究：[Schreurs等，2024](https://doi.org/10.1038/s41467-024-46346-0)。
+- 输入：250个样本、231个化学/理化特征；连续目标50个感官属性。
+- 50项宏平均R²：{summary['macro_r2']:.6f}；核心30项宏平均R²：{summary['core_macro_r2']:.6f}。
+- MAE：{summary['mae_provided_scale']:.6f}；RMSE：{summary['rmse_provided_scale']:.6f}，均为附件提供的连续标签尺度，不能称为0—6分误差。
+- 相对训练折均值基线的RMSE降低：{summary['rmse_reduction_vs_training_mean']:.4f}。
+- 逐属性可靠性：可用{summary['target_reliability_counts'].get('usable', 0)}项、中等{summary['target_reliability_counts'].get('moderate', 0)}项、弱{summary['target_reliability_counts'].get('weak', 0)}项、低于自身训练均值基线（R²<`baseline_r2`）{summary['target_reliability_counts'].get('below_mean_baseline', 0)}项（阈值见[建模假设与评分公式](建模与评分方法.md)）。
+- 独立区间实验：150训练／50校准／50测试，逐属性90%区间平均覆盖率{summary['split_conformal_90_mean_coverage']:.4f}，不是50项同时覆盖的保证。
 
-## 结果文件
+R²低于0.2的属性（这些项目不应按等级直接解读；`overall`为喜好度，不在强度评分内）：
 
--- `数据表格/七点评分/oof_core_aroma_flavour_grades_0_6.csv`：250×30核心评分表。
-- `数据表格/七点评分/oof_estimated_intensity_grades_0_6.csv`：250×49扩展强度评分表。
-- `数据表格/七点评分/scorecard_beer_1_to_12_estimated_grades.csv`：题目12款啤酒评分。
-- `数据表格/七点评分/reference_candidates_and_assumptions.csv`：候选参照及假设。
-- `数据表格/oof_predictions_continuous.csv`：50项连续感官属性的外层预测。
-- `数据表格/per_target_metrics.csv`、`model_comparison.csv`：逐属性及模型比较。
-- `数据表格/missingness_stress_summary.csv`：缺失压力实验。
-- `模型/question1_model.joblib`：主模型、七点映射及独立区间模型的统一文件。
-- `元数据/audit.json`：输入核对与原始文件哈希。
+| target | 面板用语 | R² | 可靠性档 |
+| --- | --- | --- | --- |
+{weak_table}
 
-相对分位数等级文件仅保留作历史方案对照，当前使用上述七点强度表。
+## 3. 七点评分
 
-![结果概览](绘图/question1_overview.png)
+借鉴QDP参照描述原则与来源研究的七点强度形式，等级0—6。对每个属性先用该外层折训练标签确定三个候选参照：最低观测值→0，高于最低值部分的中位数附近实际观测→3，95%分位数附近实际观测→6，分段线性插值后四舍五入。
+
+- 输出：49项强度整数等级（30核心＋19扩展），另有0—6连续估计分数。
+- 每个外层测试样本的映射只用该折训练标签拟合；全样本映射另存，供新样本使用。
+- 高端锚点改为90%分位数时等级改变比例{scoring['grade_change_fraction_q90']:.4f}；改为99%时{scoring['grade_change_fraction_q99']:.4f}。这是锚点敏感性，不是准确率。
+- 锚点自助抽样每折{scoring['anchor_bootstrap_repeats_per_fold']}次；{scoring['fraction_cells_with_nonzero_anchor_bootstrap_range']:.2%}的评分单元出现非零经验等级范围，平均宽度{scoring['mean_anchor_bootstrap_grade_range']:.3f}级。
+- 附件标签已标准化，锚点未经人工强度校准，因此这些等级是条件于假设的估计，不是恢复的原始人工0—6分；0分不等于实验确认该风味不存在。
+
+## 4. 缺失条件下的表现
+
+两种额外遮蔽方案使用同一外层划分，遮蔽后不重新训练。`0%`仅表示没有追加遮蔽，原始73处缺失仍在。
+
+| 遮蔽方案 | 追加遮蔽比例（列内） | 占全部单元格比例 | 50项宏平均R² | 核心30项宏平均R² | RMSE |
+| --- | --- | --- | --- | --- | --- |
+{scheme_table}
+
+按原始数据是否真的缺失分组（同一样本的外层预测误差，组内比较，不代表缺失的因果效应）：
+
+| 分组 | 范围 | 样本数 | 主模型MAE | 均值基线MAE | MAE相对降低 |
+| --- | --- | --- | --- | --- | --- |
+{group_table}
+
+定向遮蔽只覆盖`1.csv`中实际缺失的9列，属于有针对性的模拟情景；它不能证明真实缺失机制，也不覆盖检测限以下、整类化合物缺失等情形。**横轴是"在各自选定列内"的遮蔽比例，不是全部单元格的缺失量**：随机方案作用于 231 列，定向方案只作用于 9 列，30% 时仅占全部 250×231 个单元格的 {targeted_share*100:.2f}%。因此定向方案曲线平坦说明"补齐这 9 列以外的 222 列仍可用"，不能解释为同等缺失总量下更稳健。
+
+## 5. 图表与论文材料
+
+正文只放2表＋2图：
+
+- 表1（正文）：[代表样本主要维度](../问题结果/数据表格/论文表格/表1_正文_代表样本主要维度.csv)：5 款代表样本 × 10 个主要维度的整数等级。
+- 表1（支撑材料）：[评分卡12款核心评分](../问题结果/数据表格/论文表格/表1_评分卡12款核心评分.csv)：Beer# 1—12 × 30 核心项，版面过宽，不直接放正文。
+- 表2：[模型评价](../问题结果/数据表格/论文表格/表2_模型评价.csv)：均值基线、岭回归、极端随机树、固定等权树融合与主模型；固定树融合总体0.2508、核心0.1982，用于说明主模型的选择取舍。
+- 图1：[逐属性R²](../问题结果/绘图/all_target_r2.png)
+- 图2：[缺失情景—预测误差曲线](../问题结果/绘图/missingness_error_curve.png)
+
+完整评分与清洗核验表作为支撑材料，正文仅使用上述两表两图。
+
+## 6. 结果文件
+
+- `数据表格/七点评分/oof_estimated_intensity_grades_0_6.csv`：250×49强度整数等级。
+- `数据表格/七点评分/oof_estimated_intensity_scores_0_6.csv`：对应的0—6连续估计分数。
+- `数据表格/七点评分/oof_core_aroma_flavour_grades_0_6.csv`：250×30核心等级。
+- `数据表格/七点评分/scorecard_beer_1_to_12_estimated_grades.csv`：Beer# 1—12评分卡样本等级。
+- `数据表格/七点评分/intensity_target_dictionary.csv`：字段字典（含卡名称、单元格、父组、可靠性档）。
+- `数据表格/七点评分/reference_candidates_and_assumptions.csv`、`per_target_mapping_sensitivity.csv`、`anchor_bootstrap_grade_lower.csv`/`upper.csv`：锚点与敏感性。
+- `数据表格/oof_predictions_continuous.csv`：50项连续外层预测。
+- `数据表格/per_target_metrics.csv`、`model_comparison.csv`、`missingness_stress_summary.csv`、`missingness_group_metrics.csv`、`missingness_stress_raw.csv`：评价与缺失实验。
+- `数据表格/数据清洗/scorecard_item_mapping.csv`、`scorecard_summary_reference_errors.csv`、`alternative_acetaldehyde_candidates.csv`：字段核验。
+- `模型/question1_model.joblib`：连续模型、七点映射与区间模型的统一文件。
+- `元数据/audit.json`、`protocol.json`、`summary.json`、`seven_point_summary.json`：输入哈希、实验协议与汇总指标。
+
+## 7. 限制
+
+- 没有原始逐人品评分数与标准化/汇总规则，标准化标签不能唯一反推原始0—6分；等级是条件于锚点假设的估计。
+- 2个乙醛项目无可用标签；`7.csv`的TF-IDF权重不能替代品评强度。
+- {len(weak)}个属性R²低于0.2；其中{below_baseline}个低于各自的训练均值基线（`baseline_r2`，均为负R²），这些项目的等级只能视为弱信号。
+- 评分卡模板的`barnyard`引用错误已证实，但`4.csv`训练标签是否受其影响无法由现有附件判定。
 """
-    (OUT/'结果说明.md').write_text(report, encoding='utf-8')
+
+    (QUESTION_DIR / '问题分析' / '第一问结果分析.md').write_text(report, encoding='utf-8')
 
 
 def combine_models():
@@ -1246,6 +1729,7 @@ def predict_file(source, model_path, output):
     notes = {
         'grade_notice':bundle['grade_notice'],
         'input_notice':bundle['feature_notice'],
+        'hierarchy_notice':'不施加"父组≥描述子项"的层级约束；同一模型的逐属性拟合值可能出现子项高于父组，属于描述性估计，不是原始卡片逻辑',
         'unavailable_feature_columns':sorted(set(bundle['features'])-set(frame)),
         'missing_fraction_above_stress_test_range_rows':np.flatnonzero(np.isnan(X).mean(axis=1)>.30).tolist(),
         'interval_notice':'逐属性90%区间由独立训练/校准模型生成；区间中心见interval_model_point.csv，假设新样本可交换且无分布变化。'}
@@ -1286,10 +1770,12 @@ def main():
     calibrate()
     combine_models()
     plot_results()
+    paper_tables()
     write_report()
     verification = {'single_source_file':True,'model_serialization':'passed',
                     'fold_isolation_and_source_hashes':'passed',
                     'grade_monotonicity_and_bounds':'passed',
+                    'scorecard_mapping_items':52,'scorecard_intensity_targets':49,
                     'elapsed_seconds':round(time.time()-started,2)}
     (INFO/'verification.json').write_text(json.dumps(verification,ensure_ascii=False,indent=2),encoding='utf-8')
     print(f'全部完成：{OUT}，总耗时{verification["elapsed_seconds"]}秒',flush=True)

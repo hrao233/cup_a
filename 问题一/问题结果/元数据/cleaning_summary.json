@@ -49,6 +49,26 @@
   ],
   "scorecards_audited": 12,
   "author_workbook_compared": true,
+  "scorecard_named_items": 52,
+  "scorecard_independent_scale_items": 28,
+  "scorecard_inherited_descriptors": 24,
+  "scorecard_intensity_targets": 49,
+  "scorecard_items_without_training_label": [
+    "Acetaldehyde (green apples, peel)",
+    "Overall",
+    "Acetaldehyde (green apples, peel)"
+  ],
+  "summary_reference_errors": [
+    {
+      "summary_column": "barnyard",
+      "expected_card_cell": "AG90",
+      "actual_card_cell": "AG76",
+      "actual_card_item": "Stale hops (cheesy, roquefort)",
+      "status": "wrong_reference"
+    }
+  ],
+  "alternative_sensory_source": "7.csv matches published Supplementary File S7 (Ratebeer tf-idf text weights)",
+  "alternative_sensory_decision": "not used as a panel intensity label; see problem analysis note",
   "numerical_training_inputs_changed": false,
   "rows_deleted": 0,
   "features_deleted": 0,

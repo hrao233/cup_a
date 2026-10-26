@@ -1,0 +1,4 @@
+﻿column,observed,distinct,modal_value,modal_fraction,maximum,best_panel_target,best_absolute_pearson,claim
+aroma_acetaldehyde,250,11,-0.145066167,0.96,12.00413636,barnyard,0.17849751806646494,标准化文本权重，不是品评员0-6强度；与4.csv目标的相关系数绝对值很小
+taste_acetaldehyde,250,8,-0.092570678,0.972,15.39211335,X4vg,0.14465254298219585,标准化文本权重，不是品评员0-6强度；与4.csv目标的相关系数绝对值很小
+palate_acetaldehyde,0,0,,,,,,全缺失，不能作为标签

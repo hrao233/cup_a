@@ -16,7 +16,7 @@ A_esters_flower,core_aroma_flavour,-0.0310727446980649,0.172,0.196,0.696
 A_esters_fruity,core_aroma_flavour,0.0422443065206917,0.192,0.104,0.356
 F_malt_all,core_aroma_flavour,0.4994594817867153,0.216,0.092,0.636
 F_malt_grain,core_aroma_flavour,0.015759818060428,0.06,0.124,0.408
-F_malt_bread,core_aroma_flavour,0.2144649314181156,0.164,0.132,0.564
+F_malt_bread,core_aroma_flavour,0.2144649314181155,0.164,0.132,0.564
 F_malt_cara,core_aroma_flavour,0.2686010155529704,0.14,0.104,0.532
 F_malt_burn,core_aroma_flavour,0.36662238965889,0.244,0.296,0.7
 F_hops_all,core_aroma_flavour,0.475461092558893,0.172,0.14,0.512
@@ -24,7 +24,7 @@ F_hops_citrus,core_aroma_flavour,0.2099535531800866,0.124,0.196,0.576
 F_hops_tropical,core_aroma_flavour,0.1758074534680331,0.336,0.292,0.712
 F_hops_noble,core_aroma_flavour,0.3755811509447657,0.148,0.14,0.612
 F_hops_woody,core_aroma_flavour,0.1275528645359219,0.136,0.236,0.42
-F_esters_all,core_aroma_flavour,0.3181814713290652,0.192,0.092,0.564
+F_esters_all,core_aroma_flavour,0.3181814713290651,0.192,0.092,0.564
 F_esters_ethac,core_aroma_flavour,0.2460876042569165,0.168,0.112,0.424
 F_esters_isoaa,core_aroma_flavour,0.0876946058777703,0.164,0.26,0.488
 F_esters_flower,core_aroma_flavour,-0.0725342745962687,0.568,0.164,0.916
@@ -33,7 +33,7 @@ acidity,additional_intensity,0.7261719429517585,0.116,0.108,0.284
 bitternes,additional_intensity,0.6307757204886703,0.172,0.156,0.528
 sweetness,additional_intensity,0.3481320647621667,0.184,0.14,0.448
 X4vg,additional_intensity,0.2264822590349642,0.28,0.14,0.532
-diacetyl,additional_intensity,0.0675867513020542,0.32,0.18,0.664
+diacetyl,additional_intensity,0.0675867513020543,0.32,0.18,0.664
 dms,additional_intensity,0.0827666745968987,0.144,0.204,0.596
 metallic,additional_intensity,0.0610352619008682,0.124,0.128,0.604
 stale_hops,additional_intensity,0.0673959015379518,0.204,0.444,0.624
